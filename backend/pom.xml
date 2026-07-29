@@ -15,6 +15,7 @@
 
     <groupId>com.autonomofinancas</groupId>
     <artifactId>backend</artifactId>
+    <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>backend</name>
@@ -39,6 +40,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
         <dependency>
