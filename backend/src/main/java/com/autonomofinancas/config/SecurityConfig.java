@@ -28,7 +28,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+                    )
+
+                    .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> {
+
+                    })
+                );
 
         return http.build();
     }
