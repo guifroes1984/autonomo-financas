@@ -16,6 +16,9 @@ import com.autonomofinancas.config.JwtProperties;
 @Service
 public class JwtService {
 
+    private static final String ISSUER = "autonomo-financas";
+    private static final String CLAIM_USER_ID = "userId";
+
     private final JwtEncoder jwtEncoder;
     private final JwtProperties jwtProperties;
 
@@ -28,6 +31,9 @@ public class JwtService {
     }
 
     public String gerarToken(Authentication authentication) {
+
+        UsuarioDetails usuario = (UsuarioDetails) authentication.getPrincipal();
+
         Instant agora = Instant.now();
 
         Instant expiracao = agora.plus(
@@ -35,10 +41,11 @@ public class JwtService {
                 ChronoUnit.SECONDS);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("autonomo-financas")
+                .issuer(ISSUER)
                 .issuedAt(agora)
                 .expiresAt(expiracao)
-                .subject(authentication.getName())
+                .subject(usuario.getUsername())
+                .claim(CLAIM_USER_ID, usuario.getId())
                 .build();
 
         JwsHeader header = JwsHeader

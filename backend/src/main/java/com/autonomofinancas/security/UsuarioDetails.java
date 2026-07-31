@@ -16,6 +16,14 @@ public class UsuarioDetails implements UserDetails {
         this.usuario = usuario;
     }
 
+    public Long getId() {
+        return usuario.getId();
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
