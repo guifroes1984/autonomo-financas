@@ -1,11 +1,10 @@
 package com.autonomofinancas.service;
 
-import org.springframework.security.core.Authentication;
-
 import com.autonomofinancas.dto.request.LoginRequest;
+import com.autonomofinancas.dto.response.LoginResponse;
 
 public interface LoginService {
     
-    Authentication autenticar(LoginRequest request);
+    LoginResponse autenticar(LoginRequest request);
 
 }
