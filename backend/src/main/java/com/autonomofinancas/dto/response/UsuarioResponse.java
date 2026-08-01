@@ -1,4 +1,4 @@
-package com.autonomofinancas.dto.request;
+package com.autonomofinancas.dto.response;
 
 import java.time.OffsetDateTime;
 

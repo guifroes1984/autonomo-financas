@@ -13,6 +13,7 @@ import com.autonomofinancas.exception.RecursoNaoEncontradoException;
 import com.autonomofinancas.exception.RegraDeNegocioException;
 import com.autonomofinancas.mapper.PlataformaMapper;
 import com.autonomofinancas.repository.PlataformaRepository;
+import com.autonomofinancas.repository.UsuarioRepository;
 import com.autonomofinancas.service.PlataformaService;
 import com.autonomofinancas.service.UsuarioAutenticadoService;
 
@@ -24,21 +25,25 @@ public class PlataformaServiceImpl implements PlataformaService {
     private final PlataformaRepository plataformaRepository;
     private final PlataformaMapper plataformaMapper;
     private final UsuarioAutenticadoService usuarioAutenticadoService;
+    private final UsuarioRepository usuarioRepository;
 
     public PlataformaServiceImpl(
             PlataformaRepository plataformaRepository,
             PlataformaMapper plataformaMapper,
-            UsuarioAutenticadoService usuarioAutenticadoService) {
+            UsuarioAutenticadoService usuarioAutenticadoService, 
+            UsuarioRepository usuarioRepository) {
 
         this.plataformaRepository = plataformaRepository;
         this.plataformaMapper = plataformaMapper;
         this.usuarioAutenticadoService = usuarioAutenticadoService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     @Transactional
     public PlataformaResponse criar(CriarPlataformaRequest request) {
-        Usuario usuario = usuarioAutenticadoService.obterUsuario();
+        Usuario usuario = obterUsuarioAutenticado();
+
         String nomeNormalizado = normalizarNome(request.getNome());
 
         validarNomeDuplicado(usuario.getId(), nomeNormalizado);
@@ -58,7 +63,7 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional(readOnly = true)
     public PlataformaResponse buscarPorId(Long id) {
-        Usuario usuario = usuarioAutenticadoService.obterUsuario();
+        Usuario usuario = obterUsuarioAutenticado();
 
         Plataforma plataforma = buscarPlataformaDoUsuario(id, usuario.getId());
 
@@ -68,7 +73,7 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional(readOnly = true)
     public List<PlataformaResponse> listar() {
-        Usuario usuario = usuarioAutenticadoService.obterUsuario();
+        Usuario usuario = obterUsuarioAutenticado();
 
         return plataformaRepository
                 .findAllByUsuarioId(usuario.getId())
@@ -80,7 +85,7 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional
     public PlataformaResponse atualizar(Long id, AtualizarPlataformaRequest request) {
-        Usuario usuario = usuarioAutenticadoService.obterUsuario();
+        Usuario usuario = obterUsuarioAutenticado();
 
         Plataforma plataforma = buscarPlataformaDoUsuario(id, usuario.getId());
 
@@ -103,7 +108,7 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional
     public void desativar(Long id) {
-        Usuario usuario = usuarioAutenticadoService.obterUsuario();
+        Usuario usuario = obterUsuarioAutenticado();
 
         Plataforma plataforma = buscarPlataformaDoUsuario(id, usuario.getId());
 
@@ -131,7 +136,15 @@ public class PlataformaServiceImpl implements PlataformaService {
     }
 
     private String normalizarNome(String nome) {
-        return nome.trim();
+        return nome.trim().replaceAll("\\s+", " ");
+    }
+
+    private Usuario obterUsuarioAutenticado() {
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
+
+        return usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                    "Usuário autenticado não encontrado."));
     }
     
 }

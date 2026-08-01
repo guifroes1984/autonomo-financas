@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.autonomofinancas.dto.request.CriarUsuarioRequest;
-import com.autonomofinancas.dto.request.UsuarioResponse;
+import com.autonomofinancas.dto.response.UsuarioResponse;
 import com.autonomofinancas.entity.Usuario;
 import com.autonomofinancas.exception.EmailJaCadastradoException;
 import com.autonomofinancas.mapper.UsuarioMapper;

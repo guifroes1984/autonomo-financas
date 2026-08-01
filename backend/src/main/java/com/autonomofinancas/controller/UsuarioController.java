@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autonomofinancas.dto.request.CriarUsuarioRequest;
-import com.autonomofinancas.dto.request.UsuarioResponse;
+import com.autonomofinancas.dto.response.UsuarioResponse;
 import com.autonomofinancas.service.UsuarioService;
 
 import jakarta.validation.Valid;

@@ -3,7 +3,7 @@ package com.autonomofinancas.mapper;
 import org.springframework.stereotype.Component;
 
 import com.autonomofinancas.dto.request.CriarUsuarioRequest;
-import com.autonomofinancas.dto.request.UsuarioResponse;
+import com.autonomofinancas.dto.response.UsuarioResponse;
 import com.autonomofinancas.entity.Usuario;
 
 @Component

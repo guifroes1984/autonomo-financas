@@ -15,46 +15,65 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EmailJaCadastradoException.class)
-    public ResponseEntity<ErroResponse> tratarEmailJaCadastrado(
-            EmailJaCadastradoException exception,
-            HttpServletRequest request) {
+        @ExceptionHandler(EmailJaCadastradoException.class)
+        public ResponseEntity<ErroResponse> tratarEmailJaCadastrado(
+                        EmailJaCadastradoException exception,
+                        HttpServletRequest request) {
 
-        HttpStatus status = HttpStatus.CONFLICT;
+                HttpStatus status = HttpStatus.CONFLICT;
 
-        ErroResponse erro = new ErroResponse(
-                OffsetDateTime.now(),
-                status.value(),
-                status.getReasonPhrase(),
-                exception.getMessage(),
-                request.getRequestURI());
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
 
-        return ResponseEntity.status(status).body(erro);
+                return ResponseEntity.status(status).body(erro);
 
-    }
+        }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErroResponse> tratarErroValidacao(
-            MethodArgumentNotValidException exception,
-            HttpServletRequest request) {
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<ErroResponse> tratarErroValidacao(
+                        MethodArgumentNotValidException exception,
+                        HttpServletRequest request) {
 
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+                HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        String mensagem = exception.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .findFirst()
-                .map(erro -> erro.getDefaultMessage())
-                .orElse("Dados inválidos.");
+                String mensagem = exception.getBindingResult()
+                                .getFieldErrors()
+                                .stream()
+                                .findFirst()
+                                .map(erro -> erro.getDefaultMessage())
+                                .orElse("Dados inválidos.");
 
-        ErroResponse erro = new ErroResponse(
-                OffsetDateTime.now(),
-                status.value(),
-                status.getReasonPhrase(),
-                mensagem,
-                request.getRequestURI());
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                mensagem,
+                                request.getRequestURI());
 
-        return ResponseEntity.status(status).body(erro);
-    }
+                return ResponseEntity.status(status).body(erro);
+        }
+
+        @ExceptionHandler(RegraDeNegocioException.class)
+        public ResponseEntity<ErroResponse> tratarRegraDeNegocio(
+                        RegraDeNegocioException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.CONFLICT;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
 
 }
