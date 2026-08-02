@@ -9,7 +9,7 @@ import com.autonomofinancas.entity.Plataforma;
 
 public interface PlataformaRepository extends JpaRepository<Plataforma, Long> {
 
-    List<Plataforma> findAllByUsuarioId(Long usuarioId);
+    List<Plataforma> findAllByUsuarioIdOrderByNomeAsc(Long usuarioId);
 
     Optional<Plataforma> findByIdAndUsuarioId(Long id, Long usuarioId);
 

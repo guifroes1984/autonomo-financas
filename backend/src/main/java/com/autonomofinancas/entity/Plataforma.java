@@ -30,7 +30,7 @@ public class Plataforma {
     private String nome;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @Column(name = "data_criacao", nullable = false)
     private OffsetDateTime dataCriacao;

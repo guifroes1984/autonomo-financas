@@ -2,19 +2,18 @@ package com.autonomofinancas.service;
 
 import java.util.List;
 
-import com.autonomofinancas.dto.request.AtualizarPlataformaRequest;
-import com.autonomofinancas.dto.request.CriarPlataformaRequest;
+import com.autonomofinancas.dto.request.PlataformaRequest;
 import com.autonomofinancas.dto.response.PlataformaResponse;
 
 public interface PlataformaService {
 
-    PlataformaResponse criar(CriarPlataformaRequest request);
+    PlataformaResponse criar(PlataformaRequest request);
 
     PlataformaResponse buscarPorId(Long id);
 
     List<PlataformaResponse> listar();
 
-    PlataformaResponse atualizar(Long id, AtualizarPlataformaRequest request);
+    PlataformaResponse atualizar(Long id, PlataformaRequest request);
 
     void desativar(Long id);
     

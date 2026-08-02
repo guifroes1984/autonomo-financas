@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.autonomofinancas.dto.request.AtualizarPlataformaRequest;
-import com.autonomofinancas.dto.request.CriarPlataformaRequest;
+import com.autonomofinancas.dto.request.PlataformaRequest;
 import com.autonomofinancas.dto.response.PlataformaResponse;
 import com.autonomofinancas.entity.Plataforma;
 import com.autonomofinancas.entity.Usuario;
@@ -41,7 +40,7 @@ public class PlataformaServiceImpl implements PlataformaService {
 
     @Override
     @Transactional
-    public PlataformaResponse criar(CriarPlataformaRequest request) {
+    public PlataformaResponse criar(PlataformaRequest request) {
         Usuario usuario = obterUsuarioAutenticado();
 
         String nomeNormalizado = normalizarNome(request.getNome());
@@ -63,9 +62,9 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional(readOnly = true)
     public PlataformaResponse buscarPorId(Long id) {
-        Usuario usuario = obterUsuarioAutenticado();
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
-        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuario.getId());
+        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuarioId);
 
         return plataformaMapper.paraResponse(plataforma);
     }
@@ -73,10 +72,10 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional(readOnly = true)
     public List<PlataformaResponse> listar() {
-        Usuario usuario = obterUsuarioAutenticado();
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
         return plataformaRepository
-                .findAllByUsuarioId(usuario.getId())
+                .findAllByUsuarioIdOrderByNomeAsc(usuarioId)
                 .stream()
                 .map(plataformaMapper::paraResponse)
                 .toList();
@@ -84,17 +83,17 @@ public class PlataformaServiceImpl implements PlataformaService {
 
     @Override
     @Transactional
-    public PlataformaResponse atualizar(Long id, AtualizarPlataformaRequest request) {
-        Usuario usuario = obterUsuarioAutenticado();
+    public PlataformaResponse atualizar(Long id, PlataformaRequest request) {
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
-        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuario.getId());
+        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuarioId);
 
         String nomeNormalizado = normalizarNome(request.getNome());
 
         boolean nomeFoiAlterado = !plataforma.getNome().equalsIgnoreCase(nomeNormalizado);
 
         if (nomeFoiAlterado) {
-            validarNomeDuplicado(usuario.getId(), nomeNormalizado);
+            validarNomeDuplicado(usuarioId, nomeNormalizado);
         }
 
         plataformaMapper.atualizarEntidade(request, plataforma);
@@ -108,9 +107,9 @@ public class PlataformaServiceImpl implements PlataformaService {
     @Override
     @Transactional
     public void desativar(Long id) {
-        Usuario usuario = obterUsuarioAutenticado();
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
-        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuario.getId());
+        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuarioId);
 
         if (Boolean.FALSE.equals(plataforma.getAtivo())) {
             throw new RegraDeNegocioException("A plataforma já está desativada.");
@@ -128,9 +127,9 @@ public class PlataformaServiceImpl implements PlataformaService {
     }
 
     private void validarNomeDuplicado(Long usuarioId, String nome) {
-        boolean exite = plataformaRepository.existsByUsuarioIdAndNomeIgnoreCase(usuarioId, nome);
+        boolean existe = plataformaRepository.existsByUsuarioIdAndNomeIgnoreCase(usuarioId, nome);
 
-        if (exite) {
+        if (existe) {
             throw new RegraDeNegocioException("Já existe uma plataforma com esse nome.");
         }
     }
