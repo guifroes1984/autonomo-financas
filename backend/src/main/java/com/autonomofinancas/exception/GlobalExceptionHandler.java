@@ -76,4 +76,23 @@ public class GlobalExceptionHandler {
                                 .body(erro);
         }
 
+        @ExceptionHandler(RecursoNaoEncontradoException.class)
+        public ResponseEntity<ErroResponse> tratarRecursoNaoEncontrado(
+                        RecursoNaoEncontradoException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.NOT_FOUND;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
 }
