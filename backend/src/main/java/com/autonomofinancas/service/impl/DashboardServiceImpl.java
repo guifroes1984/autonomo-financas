@@ -28,23 +28,23 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     @Transactional(readOnly = true)
-    public DashboardResumoResponse obterResumoHoje() {
+    public DashboardResumoResponse obterResumoHoje(LocalDate data) {
 
         Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
-        LocalDate hoje = LocalDate.now();
+        LocalDate dataConsulta = data != null ? data : LocalDate.now();
 
         BigDecimal totalReceitas = 
                 lancamentoRepository.somarValorPorTipoEData(
                     usuarioId, 
                     TipoLancamento.RECEITA, 
-                    hoje);
+                    dataConsulta);
 
         BigDecimal totalDespesas = 
                 lancamentoRepository.somarValorPorTipoEData(
                     usuarioId,
                     TipoLancamento.DESPESA, 
-                    hoje);
+                    dataConsulta);
                     
         BigDecimal saldo = totalReceitas.subtract(totalDespesas);
 
