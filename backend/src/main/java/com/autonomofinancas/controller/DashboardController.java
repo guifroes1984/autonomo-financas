@@ -23,13 +23,12 @@ public class DashboardController {
     }
 
     @GetMapping("/resumo")
-    public ResponseEntity<DashboardResumoResponse> obterResumoHoje(
-            @RequestParam(required = false) 
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate data) {
+    public ResponseEntity<DashboardResumoResponse> obterResumo(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
-        return ResponseEntity.ok(dashboardService.obterResumoHoje(data));
+        return ResponseEntity.ok(dashboardService.obterResumo(inicio, fim));
 
     }
-    
+
 }

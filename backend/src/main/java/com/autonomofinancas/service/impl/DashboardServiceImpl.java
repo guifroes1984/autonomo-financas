@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.autonomofinancas.dto.response.DashboardResumoResponse;
 import com.autonomofinancas.entity.enums.TipoLancamento;
+import com.autonomofinancas.exception.RegraDeNegocioException;
 import com.autonomofinancas.repository.LancamentoRepository;
 import com.autonomofinancas.service.DashboardService;
 import com.autonomofinancas.service.UsuarioAutenticadoService;
@@ -28,28 +29,56 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     @Transactional(readOnly = true)
-    public DashboardResumoResponse obterResumoHoje(LocalDate data) {
+    public DashboardResumoResponse obterResumo(LocalDate inicio, LocalDate fim) {
 
         Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
-        LocalDate dataConsulta = data != null ? data : LocalDate.now();
+        LocalDate dataInicio;
+        LocalDate dataFim;
 
-        BigDecimal totalReceitas = 
-                lancamentoRepository.somarValorPorTipoEData(
-                    usuarioId, 
-                    TipoLancamento.RECEITA, 
-                    dataConsulta);
+        if (inicio == null && fim == null) {
+            dataInicio = LocalDate.now();
+            dataFim = LocalDate.now();
+        } else {
+            validarPeriodo(inicio, fim);
 
-        BigDecimal totalDespesas = 
-                lancamentoRepository.somarValorPorTipoEData(
-                    usuarioId,
-                    TipoLancamento.DESPESA, 
-                    dataConsulta);
-                    
+            dataInicio = inicio;
+            dataFim = fim;
+        }
+
+        BigDecimal totalReceitas = lancamentoRepository.somarValorPorTipoEPeriodo(
+                usuarioId,
+                TipoLancamento.RECEITA,
+                dataInicio,
+                dataFim);
+
+        BigDecimal totalDespesas = lancamentoRepository.somarValorPorTipoEPeriodo(
+                usuarioId,
+                TipoLancamento.DESPESA,
+                dataInicio,
+                dataFim);
+
         BigDecimal saldo = totalReceitas.subtract(totalDespesas);
 
-        return new DashboardResumoResponse(totalReceitas, totalDespesas, saldo);
-        
+        return new DashboardResumoResponse(
+                totalReceitas,
+                totalDespesas,
+                saldo);
     }
-    
+
+    private void validarPeriodo(
+            LocalDate inicio,
+            LocalDate fim) {
+
+        if (inicio == null || fim == null) {
+            throw new RegraDeNegocioException(
+                    "As datas de início e fim devem ser informadas juntas.");
+        }
+
+        if (inicio.isAfter(fim)) {
+            throw new RegraDeNegocioException(
+                    "A data inicial não pode ser posterior à data final.");
+        }
+    }
+
 }

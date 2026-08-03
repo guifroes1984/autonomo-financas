@@ -6,6 +6,6 @@ import com.autonomofinancas.dto.response.DashboardResumoResponse;
 
 public interface DashboardService {
 
-    DashboardResumoResponse obterResumoHoje(LocalDate data);
+    DashboardResumoResponse obterResumo(LocalDate inicio, LocalDate fim);
     
 }

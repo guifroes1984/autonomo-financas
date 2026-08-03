@@ -14,22 +14,35 @@ import com.autonomofinancas.entity.enums.TipoLancamento;
 
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 
-    Optional<Lancamento> findByIdAndUsuarioId(Long id, Long usuarioId);
+        Optional<Lancamento> findByIdAndUsuarioId(Long id, Long usuarioId);
 
-    List<Lancamento> findAllByUsuarioIdOrderByDataLancamentoDescIdDesc(Long usuarioId);
+        List<Lancamento> findAllByUsuarioIdOrderByDataLancamentoDescIdDesc(Long usuarioId);
 
-    List<Lancamento> findAllByUsuarioIdAndDataLancamentoOrderByIdDesc(Long usuarioId, LocalDate dataLancamento);
+        List<Lancamento> findAllByUsuarioIdAndDataLancamentoOrderByIdDesc(Long usuarioId, LocalDate dataLancamento);
 
-    @Query("""
-                SELECT COALESCE(SUM(l.valor), 0)
-                FROM Lancamento l
-                WHERE l.usuario.id = :usuarioId
-                  AND l.tipo = :tipo
-                  AND l.dataLancamento = :data
-            """)
-    BigDecimal somarValorPorTipoEData(
-            @Param("usuarioId") Long usuarioId,
-            @Param("tipo") TipoLancamento tipo,
-            @Param("data") LocalDate data);
+        @Query("""
+                            SELECT COALESCE(SUM(l.valor), 0)
+                            FROM Lancamento l
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.tipo = :tipo
+                              AND l.dataLancamento = :data
+                        """)
+        BigDecimal somarValorPorTipoEData(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("tipo") TipoLancamento tipo,
+                        @Param("data") LocalDate data);
+
+        @Query("""
+                            SELECT COALESCE(SUM(l.valor), 0)
+                            FROM Lancamento l
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.tipo = :tipo
+                              AND l.dataLancamento BETWEEN :inicio AND :fim
+                        """)
+        BigDecimal somarValorPorTipoEPeriodo(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("tipo") TipoLancamento tipo,
+                        @Param("inicio") LocalDate inicio,
+                        @Param("fim") LocalDate fim);
 
 }
