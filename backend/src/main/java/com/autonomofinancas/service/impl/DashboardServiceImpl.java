@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.autonomofinancas.dto.response.DashboardResumoResponse;
+import com.autonomofinancas.dto.response.EvolucaoDiariaResponse;
 import com.autonomofinancas.entity.enums.TipoLancamento;
 import com.autonomofinancas.exception.RegraDeNegocioException;
 import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
@@ -112,6 +113,51 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         return lancamentoRepository.buscarDespesasPorCategoria(usuarioId, dataInicio, dataFim);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<EvolucaoDiariaResponse> obterEvolucaoDiaria(
+            LocalDate inicio,
+            LocalDate fim) {
+
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
+
+        LocalDate dataInicio;
+        LocalDate dataFim;
+
+        if (inicio == null && fim == null) {
+
+            dataInicio = LocalDate.now();
+            dataFim = LocalDate.now();
+
+        } else {
+
+            validarPeriodo(inicio, fim);
+
+            dataInicio = inicio;
+            dataFim = fim;
+        }
+
+        return lancamentoRepository
+                .buscarEvolucaoDiaria(
+                        usuarioId,
+                        dataInicio,
+                        dataFim)
+                .stream()
+                .map(item -> {
+
+                    BigDecimal saldo = item.getTotalReceitas()
+                            .subtract(item.getTotalDespesas());
+
+                    return new EvolucaoDiariaResponse(
+                            item.getData(),
+                            item.getTotalReceitas(),
+                            item.getTotalDespesas(),
+                            saldo);
+
+                })
+                .toList();
     }
 
     private void validarPeriodo(

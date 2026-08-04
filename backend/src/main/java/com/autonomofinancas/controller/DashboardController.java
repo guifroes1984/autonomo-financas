@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autonomofinancas.dto.response.DashboardResumoResponse;
+import com.autonomofinancas.dto.response.EvolucaoDiariaResponse;
 import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
 import com.autonomofinancas.projection.PlataformaReceitaProjection;
 import com.autonomofinancas.service.DashboardService;
@@ -52,6 +53,16 @@ public class DashboardController {
         
         return ResponseEntity.ok(dashboardService.obterDespesasPorCategoria(inicio, fim));
 
-    } 
+    }
+
+    @GetMapping("/evolucao-diaria")
+    public ResponseEntity<List<EvolucaoDiariaResponse>> obterEvolucaoDiaria(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+
+        return ResponseEntity.ok(dashboardService.obterEvolucaoDiaria(inicio, fim));
+
+    }
 
 }

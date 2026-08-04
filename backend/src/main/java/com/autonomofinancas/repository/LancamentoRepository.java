@@ -12,73 +12,102 @@ import org.springframework.data.repository.query.Param;
 import com.autonomofinancas.entity.Lancamento;
 import com.autonomofinancas.entity.enums.TipoLancamento;
 import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
+import com.autonomofinancas.projection.EvolucaoDiariaProjection;
 import com.autonomofinancas.projection.PlataformaReceitaProjection;
 
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 
-    Optional<Lancamento> findByIdAndUsuarioId(Long id, Long usuarioId);
+        Optional<Lancamento> findByIdAndUsuarioId(Long id, Long usuarioId);
 
-    List<Lancamento> findAllByUsuarioIdOrderByDataLancamentoDescIdDesc(Long usuarioId);
+        List<Lancamento> findAllByUsuarioIdOrderByDataLancamentoDescIdDesc(Long usuarioId);
 
-    List<Lancamento> findAllByUsuarioIdAndDataLancamentoOrderByIdDesc(Long usuarioId, LocalDate dataLancamento);
+        List<Lancamento> findAllByUsuarioIdAndDataLancamentoOrderByIdDesc(Long usuarioId, LocalDate dataLancamento);
 
-    @Query("""
-                SELECT COALESCE(SUM(l.valor), 0)
-                FROM Lancamento l
-                WHERE l.usuario.id = :usuarioId
-                  AND l.tipo = :tipo
-                  AND l.dataLancamento = :data
-            """)
-    BigDecimal somarValorPorTipoEData(
-            @Param("usuarioId") Long usuarioId,
-            @Param("tipo") TipoLancamento tipo,
-            @Param("data") LocalDate data);
+        @Query("""
+                            SELECT COALESCE(SUM(l.valor), 0)
+                            FROM Lancamento l
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.tipo = :tipo
+                              AND l.dataLancamento = :data
+                        """)
+        BigDecimal somarValorPorTipoEData(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("tipo") TipoLancamento tipo,
+                        @Param("data") LocalDate data);
 
-    @Query("""
-                SELECT COALESCE(SUM(l.valor), 0)
-                FROM Lancamento l
-                WHERE l.usuario.id = :usuarioId
-                  AND l.tipo = :tipo
-                  AND l.dataLancamento BETWEEN :inicio AND :fim
-            """)
-    BigDecimal somarValorPorTipoEPeriodo(
-            @Param("usuarioId") Long usuarioId,
-            @Param("tipo") TipoLancamento tipo,
-            @Param("inicio") LocalDate inicio,
-            @Param("fim") LocalDate fim);
+        @Query("""
+                            SELECT COALESCE(SUM(l.valor), 0)
+                            FROM Lancamento l
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.tipo = :tipo
+                              AND l.dataLancamento BETWEEN :inicio AND :fim
+                        """)
+        BigDecimal somarValorPorTipoEPeriodo(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("tipo") TipoLancamento tipo,
+                        @Param("inicio") LocalDate inicio,
+                        @Param("fim") LocalDate fim);
 
-    @Query("""
-                SELECT
-                    p.nome AS plataforma,
-                    COALESCE(SUM(l.valor), 0) AS totalReceitas
-                FROM Lancamento l
-                JOIN l.plataforma p
-                WHERE l.usuario.id = :usuarioId
-                  AND l.tipo = com.autonomofinancas.entity.enums.TipoLancamento.RECEITA
-                  AND l.dataLancamento BETWEEN :inicio AND :fim
-                GROUP BY p.nome
-                ORDER BY totalReceitas DESC
-            """)
-    List<PlataformaReceitaProjection> buscarReceitasPorPlataforma(
-            @Param("usuarioId") Long usuarioId,
-            @Param("inicio") LocalDate inicio,
-            @Param("fim") LocalDate fim);
+        @Query("""
+                            SELECT
+                                p.nome AS plataforma,
+                                COALESCE(SUM(l.valor), 0) AS totalReceitas
+                            FROM Lancamento l
+                            JOIN l.plataforma p
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.tipo = com.autonomofinancas.entity.enums.TipoLancamento.RECEITA
+                              AND l.dataLancamento BETWEEN :inicio AND :fim
+                            GROUP BY p.nome
+                            ORDER BY totalReceitas DESC
+                        """)
+        List<PlataformaReceitaProjection> buscarReceitasPorPlataforma(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("inicio") LocalDate inicio,
+                        @Param("fim") LocalDate fim);
 
-    @Query("""
-                SELECT
-                    c.nome AS categoria,
-                    COALESCE(SUM(l.valor), 0) AS totalDespesas
-                FROM Lancamento l
-                JOIN l.categoria c
-                WHERE l.usuario.id = :usuarioId
-                  AND l.tipo = com.autonomofinancas.entity.enums.TipoLancamento.DESPESA
-                  AND l.dataLancamento BETWEEN :inicio AND :fim
-                GROUP BY c.nome
-                ORDER BY totalDespesas DESC
-            """)
-    List<DespesasPorCategoriaProjection> buscarDespesasPorCategoria(
-            @Param("usuarioId") Long usuarioId,
-            @Param("inicio") LocalDate inicio,
-            @Param("fim") LocalDate fim);
+        @Query("""
+                            SELECT
+                                c.nome AS categoria,
+                                COALESCE(SUM(l.valor), 0) AS totalDespesas
+                            FROM Lancamento l
+                            JOIN l.categoria c
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.tipo = com.autonomofinancas.entity.enums.TipoLancamento.DESPESA
+                              AND l.dataLancamento BETWEEN :inicio AND :fim
+                            GROUP BY c.nome
+                            ORDER BY totalDespesas DESC
+                        """)
+        List<DespesasPorCategoriaProjection> buscarDespesasPorCategoria(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("inicio") LocalDate inicio,
+                        @Param("fim") LocalDate fim);
+
+        @Query("""
+                            SELECT
+                                l.dataLancamento AS data,
+                                COALESCE(SUM(
+                                    CASE
+                                        WHEN l.tipo = com.autonomofinancas.entity.enums.TipoLancamento.RECEITA
+                                        THEN l.valor
+                                        ELSE 0
+                                    END
+                                ), 0) AS totalReceitas,
+                                COALESCE(SUM(
+                                    CASE
+                                        WHEN l.tipo = com.autonomofinancas.entity.enums.TipoLancamento.DESPESA
+                                        THEN l.valor
+                                        ELSE 0
+                                    END
+                                ), 0) AS totalDespesas
+                            FROM Lancamento l
+                            WHERE l.usuario.id = :usuarioId
+                              AND l.dataLancamento BETWEEN :inicio AND :fim
+                            GROUP BY l.dataLancamento
+                            ORDER BY l.dataLancamento ASC
+                        """)
+        List<EvolucaoDiariaProjection> buscarEvolucaoDiaria(
+                        @Param("usuarioId") Long usuarioId,
+                        @Param("inicio") LocalDate inicio,
+                        @Param("fim") LocalDate fim);
 
 }
