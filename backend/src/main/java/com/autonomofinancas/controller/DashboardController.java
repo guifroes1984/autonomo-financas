@@ -1,6 +1,7 @@
 package com.autonomofinancas.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autonomofinancas.dto.response.DashboardResumoResponse;
+import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
+import com.autonomofinancas.projection.PlataformaReceitaProjection;
 import com.autonomofinancas.service.DashboardService;
 
 @RestController
@@ -30,5 +33,25 @@ public class DashboardController {
         return ResponseEntity.ok(dashboardService.obterResumo(inicio, fim));
 
     }
+
+    @GetMapping("/receitas-plataformas")
+    public ResponseEntity<List<PlataformaReceitaProjection>> obterReceitasPorPlataforma(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+
+        return ResponseEntity.ok(dashboardService.obterReceitasPorPlataforma(inicio, fim));
+
+    }
+
+    @GetMapping("/despesas-categorias")
+    public ResponseEntity<List<DespesasPorCategoriaProjection>> obterDespesasPorCategoria(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+        
+        return ResponseEntity.ok(dashboardService.obterDespesasPorCategoria(inicio, fim));
+
+    } 
 
 }

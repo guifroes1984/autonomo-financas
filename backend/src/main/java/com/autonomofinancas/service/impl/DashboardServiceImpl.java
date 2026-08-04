@@ -2,6 +2,7 @@ package com.autonomofinancas.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.autonomofinancas.dto.response.DashboardResumoResponse;
 import com.autonomofinancas.entity.enums.TipoLancamento;
 import com.autonomofinancas.exception.RegraDeNegocioException;
+import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
+import com.autonomofinancas.projection.PlataformaReceitaProjection;
 import com.autonomofinancas.repository.LancamentoRepository;
 import com.autonomofinancas.service.DashboardService;
 import com.autonomofinancas.service.UsuarioAutenticadoService;
@@ -64,6 +67,51 @@ public class DashboardServiceImpl implements DashboardService {
                 totalReceitas,
                 totalDespesas,
                 saldo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlataformaReceitaProjection> obterReceitasPorPlataforma(LocalDate inicio, LocalDate fim) {
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
+
+        LocalDate dataInicio;
+        LocalDate dataFim;
+
+        if (inicio == null && fim == null) {
+            dataInicio = LocalDate.now();
+            dataFim = LocalDate.now();
+        } else {
+            validarPeriodo(inicio, fim);
+
+            dataInicio = inicio;
+            dataFim = fim;
+        }
+
+        return lancamentoRepository.buscarReceitasPorPlataforma(usuarioId, dataInicio, dataFim);
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DespesasPorCategoriaProjection> obterDespesasPorCategoria(LocalDate inicio, LocalDate fim) {
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
+
+        LocalDate dataInicio;
+        LocalDate dataFim;
+
+        if (inicio == null && fim == null) {
+            dataInicio = LocalDate.now();
+            dataFim = LocalDate.now();
+        } else {
+
+            validarPeriodo(inicio, fim);
+
+            dataInicio = inicio;
+            dataFim = fim;
+
+        }
+
+        return lancamentoRepository.buscarDespesasPorCategoria(usuarioId, dataInicio, dataFim);
     }
 
     private void validarPeriodo(
