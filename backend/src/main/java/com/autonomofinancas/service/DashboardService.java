@@ -3,6 +3,7 @@ package com.autonomofinancas.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.autonomofinancas.dto.response.DashboardIndicadoresResponse;
 import com.autonomofinancas.dto.response.DashboardResumoResponse;
 import com.autonomofinancas.dto.response.EvolucaoDiariaResponse;
 import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
@@ -17,5 +18,7 @@ public interface DashboardService {
     List<DespesasPorCategoriaProjection> obterDespesasPorCategoria(LocalDate inicio, LocalDate fim);
 
     List<EvolucaoDiariaResponse> obterEvolucaoDiaria(LocalDate inicio, LocalDate fim);
+
+    DashboardIndicadoresResponse obterIndicadores(LocalDate inicio, LocalDate fim);
     
 }
