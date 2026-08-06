@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -44,7 +46,16 @@ public class GlobalExceptionHandler {
                                 .getFieldErrors()
                                 .stream()
                                 .findFirst()
-                                .map(erro -> erro.getDefaultMessage())
+                                .map(erro -> {
+
+                                        if ("typeMismatch".equals(erro.getCode())) {
+                                                return String.format(
+                                                                "O parâmetro '%s' possui um valor inválido.",
+                                                                erro.getField());
+                                        }
+
+                                        return erro.getDefaultMessage();
+                                })
                                 .orElse("Dados inválidos.");
 
                 ErroResponse erro = new ErroResponse(
@@ -54,7 +65,9 @@ public class GlobalExceptionHandler {
                                 mensagem,
                                 request.getRequestURI());
 
-                return ResponseEntity.status(status).body(erro);
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
         }
 
         @ExceptionHandler(RegraDeNegocioException.class)
@@ -88,6 +101,72 @@ public class GlobalExceptionHandler {
                                 status.value(),
                                 status.getReasonPhrase(),
                                 exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
+        @ExceptionHandler(HttpMessageNotReadableException.class)
+        public ResponseEntity<ErroResponse> tratarJsonInvalido(
+                        HttpMessageNotReadableException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.BAD_REQUEST;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                "O corpo da requisição está inválido. Verifique os tipos e valores informados.",
+                                request.getRequestURI());
+
+                return ResponseEntity.status(status).body(erro);
+
+        }
+
+        @ExceptionHandler(BindException.class)
+        public ResponseEntity<ErroResponse> tratarErroDeVinculacao(
+                        BindException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.BAD_REQUEST;
+
+                String campo = exception.getFieldErrors()
+                                .stream()
+                                .findFirst()
+                                .map(erro -> erro.getField())
+                                .orElse("desconhecido");
+
+                String mensagem = String.format(
+                                "O parâmetro '%s' possui um valor inválido.",
+                                campo);
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                mensagem,
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<ErroResponse> tratarErroInesperado(
+                        Exception exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                "Ocorreu um erro interno inesperado.",
                                 request.getRequestURI());
 
                 return ResponseEntity
