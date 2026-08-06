@@ -1,10 +1,11 @@
 package com.autonomofinancas.service.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.autonomofinancas.dto.request.LancamentoFiltroRequest;
 import com.autonomofinancas.dto.request.LancamentoRequest;
 import com.autonomofinancas.dto.response.LancamentoResponse;
 import com.autonomofinancas.entity.Categoria;
@@ -18,8 +19,9 @@ import com.autonomofinancas.repository.CategoriaRepository;
 import com.autonomofinancas.repository.LancamentoRepository;
 import com.autonomofinancas.repository.PlataformaRepository;
 import com.autonomofinancas.repository.UsuarioRepository;
-import com.autonomofinancas.security.LancamentoService;
+import com.autonomofinancas.service.LancamentoService;
 import com.autonomofinancas.service.UsuarioAutenticadoService;
+import com.autonomofinancas.specification.LancamentoSpecification;
 
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
@@ -85,15 +87,15 @@ public class LancamentoServiceImpl implements LancamentoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<LancamentoResponse> listar() {
+    public Page<LancamentoResponse> listar(LancamentoFiltroRequest filtro, Pageable pageable) {
+
         Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 
         return lancamentoRepository
-                .findAllByUsuarioIdOrderByDataLancamentoDescIdDesc(
-                        usuarioId)
-                .stream()
-                .map(lancamentoMapper::paraResponse)
-                .toList();
+                .findAll(
+                    LancamentoSpecification
+                    .comFiltros(usuarioId, filtro), pageable)
+                    .map(lancamentoMapper::paraResponse);
     }
 
     @Override

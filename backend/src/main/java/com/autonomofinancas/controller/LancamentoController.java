@@ -1,7 +1,9 @@
 package com.autonomofinancas.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autonomofinancas.dto.request.LancamentoFiltroRequest;
 import com.autonomofinancas.dto.request.LancamentoRequest;
 import com.autonomofinancas.dto.response.LancamentoResponse;
-import com.autonomofinancas.security.LancamentoService;
+import com.autonomofinancas.service.LancamentoService;
 
 import jakarta.validation.Valid;
 
@@ -45,9 +48,17 @@ public class LancamentoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LancamentoResponse>> listar() {
+    public ResponseEntity<Page<LancamentoResponse>> listar(
 
-        return ResponseEntity.ok(lancamentoService.listar());
+            LancamentoFiltroRequest filtro, 
+            @PageableDefault(
+                size = 20,
+                sort = "dataLancamento",
+                direction = Sort.Direction.DESC
+        )
+        Pageable pageable) {
+
+        return ResponseEntity.ok(lancamentoService.listar(filtro, pageable));
 
     }
 
