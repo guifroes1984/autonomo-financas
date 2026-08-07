@@ -4,18 +4,26 @@ import java.time.LocalDate;
 
 import com.autonomofinancas.entity.enums.TipoLancamento;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class LancamentoFiltroRequest {
 
+    @Schema(description = "Filtra pelo tipo do lançamento.", example = "DESPESA")
     private TipoLancamento tipo;
 
+    @Schema(description = "Filtra pelo identificador da categoria.", example = "1")
     private Long categoriaId;
 
+    @Schema(description = "Filtra pelo identificador da plataforma.", example = "2")
     private Long plataformaId;
 
+    @Schema(description = "Data inicial do período.", example = "2026-08-01")
     private LocalDate inicio;
 
+    @Schema(description = "Data final do período.", example = "2026-08-31")
     private LocalDate fim;
 
+    @Schema(description = "Filtra pela descrição do lançamento.", example = "abastecimento")
     private String descricao;
 
     public LancamentoFiltroRequest() {

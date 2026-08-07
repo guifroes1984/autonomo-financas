@@ -1,10 +1,12 @@
 package com.autonomofinancas.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class PlataformaRequest {
-    
+
+    @Schema(description = "Nome da plataforma.", example = "iFood")
     @NotBlank(message = "O nome é obrigatório.")
     @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres.")
     private String nome;

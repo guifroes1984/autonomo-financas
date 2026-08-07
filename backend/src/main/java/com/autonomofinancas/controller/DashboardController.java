@@ -17,8 +17,16 @@ import com.autonomofinancas.projection.DespesasPorCategoriaProjection;
 import com.autonomofinancas.projection.PlataformaReceitaProjection;
 import com.autonomofinancas.service.DashboardService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/dashboard")
+@Tag(name = "Dashboard", description = "Consultas financeiras, indicadores e dados analíticos do usuário autenticado.")
 public class DashboardController {
 
     private final DashboardService dashboardService;
@@ -27,59 +35,128 @@ public class DashboardController {
         this.dashboardService = dashboardService;
     }
 
+    @Operation(summary = "Obter resumo financeiro", description = """
+            Retorna o total de receitas, despesas e saldo do período.
+
+            Quando as datas não forem informadas, considera a data atual.
+            """)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resumo financeiro obtido com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Parâmetro de período inválido.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Período informado inválido.", content = @Content)
+    })
     @GetMapping("/resumo")
     public ResponseEntity<DashboardResumoResponse> obterResumo(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+            @Parameter(description = "Data inicial do período.", example = "2026-08-01") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-        return ResponseEntity.ok(dashboardService.obterResumo(inicio, fim));
+            @Parameter(description = "Data final do período.", example = "2026-08-31") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
+        return ResponseEntity.ok(
+                dashboardService.obterResumo(inicio, fim));
     }
 
+    @Operation(summary = "Obter receitas por plataforma", description = """
+            Retorna as receitas agrupadas por plataforma e ordenadas
+            do maior para o menor valor.
+
+            Quando as datas não forem informadas, considera a data atual.
+            """)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Receitas por plataforma obtidas com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Parâmetro de período inválido.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Período informado inválido.", content = @Content)
+    })
     @GetMapping("/receitas-plataformas")
     public ResponseEntity<List<PlataformaReceitaProjection>> obterReceitasPorPlataforma(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+            @Parameter(description = "Data inicial do período.", example = "2026-08-01") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-        return ResponseEntity.ok(dashboardService.obterReceitasPorPlataforma(inicio, fim));
+            @Parameter(description = "Data final do período.", example = "2026-08-31") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
+        return ResponseEntity.ok(
+                dashboardService.obterReceitasPorPlataforma(
+                        inicio,
+                        fim));
     }
 
+    @Operation(summary = "Obter despesas por categoria", description = """
+            Retorna as despesas agrupadas por categoria e ordenadas
+            do maior para o menor valor.
+
+            Quando as datas não forem informadas, considera a data atual.
+            """)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Despesas por categoria obtidas com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Parâmetro de período inválido.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Período informado inválido.", content = @Content)
+    })
     @GetMapping("/despesas-categorias")
     public ResponseEntity<List<DespesasPorCategoriaProjection>> obterDespesasPorCategoria(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+            @Parameter(description = "Data inicial do período.", example = "2026-08-01") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-        return ResponseEntity.ok(dashboardService.obterDespesasPorCategoria(inicio, fim));
+            @Parameter(description = "Data final do período.", example = "2026-08-31") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
+        return ResponseEntity.ok(
+                dashboardService.obterDespesasPorCategoria(
+                        inicio,
+                        fim));
     }
 
+    @Operation(summary = "Obter evolução financeira diária", description = """
+            Retorna receitas, despesas e saldo agrupados por dia
+            dentro do período informado.
+
+            Os dados podem ser utilizados na construção de gráficos.
+            Quando as datas não forem informadas, considera a data atual.
+            """)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Evolução diária obtida com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Parâmetro de período inválido.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Período informado inválido.", content = @Content)
+    })
     @GetMapping("/evolucao-diaria")
     public ResponseEntity<List<EvolucaoDiariaResponse>> obterEvolucaoDiaria(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+            @Parameter(description = "Data inicial do período.", example = "2026-08-01") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-        return ResponseEntity.ok(dashboardService.obterEvolucaoDiaria(inicio, fim));
+            @Parameter(description = "Data final do período.", example = "2026-08-31") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
+        return ResponseEntity.ok(
+                dashboardService.obterEvolucaoDiaria(
+                        inicio,
+                        fim));
     }
 
+    @Operation(summary = "Obter indicadores financeiros", description = """
+            Retorna os principais indicadores financeiros do período:
+
+            • Melhor dia
+            • Pior dia
+            • Média diária
+            • Quantidade de dias trabalhados
+            • Plataforma com maior receita
+            • Categoria com maior despesa
+
+            Quando as datas não forem informadas, considera a data atual.
+            """)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Indicadores financeiros obtidos com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Parâmetro de período inválido.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Período informado inválido.", content = @Content)
+    })
     @GetMapping("/indicadores")
     public ResponseEntity<DashboardIndicadoresResponse> obterIndicadores(
-        @RequestParam(required = false)
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate inicio,
+            @Parameter(description = "Data inicial do período.", example = "2026-08-01") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
 
-        @RequestParam(required = false)
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        LocalDate fim) {
+            @Parameter(description = "Data final do período.", example = "2026-08-31") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
-            return ResponseEntity.ok(
-                dashboardService.obterIndicadores(inicio, fim)
-            );
-
+        return ResponseEntity.ok(
+                dashboardService.obterIndicadores(inicio, fim));
     }
-
 }
