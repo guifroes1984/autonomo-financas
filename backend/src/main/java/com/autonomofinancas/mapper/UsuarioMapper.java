@@ -3,6 +3,7 @@ package com.autonomofinancas.mapper;
 import org.springframework.stereotype.Component;
 
 import com.autonomofinancas.dto.request.CriarUsuarioRequest;
+import com.autonomofinancas.dto.response.UsuarioPerfilResponse;
 import com.autonomofinancas.dto.response.UsuarioResponse;
 import com.autonomofinancas.entity.Usuario;
 
@@ -28,6 +29,19 @@ public class UsuarioMapper {
                 usuario.getEmail(),
                 usuario.getAtivo(),
                 usuario.getDataCriacao());
+    }
+
+    public UsuarioPerfilResponse paraPerfilResponse(Usuario usuario) {
+        
+        return new UsuarioPerfilResponse(
+            usuario.getId(), 
+            usuario.getNome(), 
+            usuario.getEmail(), 
+            usuario.getAtivo(), 
+            usuario.getDataCriacao(), 
+            usuario.getDataAtualizacao()
+            
+        );
     }
 
 }

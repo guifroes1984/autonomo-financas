@@ -174,4 +174,22 @@ public class GlobalExceptionHandler {
                                 .body(erro);
         }
 
+        @ExceptionHandler(SenhaInvalidaException.class)
+        public ResponseEntity<ErroResponse> tratarSenhaInvalida(
+                        SenhaInvalidaException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.BAD_REQUEST;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity.status(status).body(erro);
+
+        }
+
 }
