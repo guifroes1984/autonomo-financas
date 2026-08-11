@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -190,6 +191,63 @@ public class GlobalExceptionHandler {
 
                 return ResponseEntity.status(status).body(erro);
 
+        }
+
+        @ExceptionHandler(BadCredentialsException.class)
+        public ResponseEntity<ErroResponse> tratarCredenciaisInvalidas(
+                        BadCredentialsException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.UNAUTHORIZED;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                "E-mail ou senha inválidos.",
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
+        @ExceptionHandler(TokenRecuperacaoExpiradoException.class)
+        public ResponseEntity<ErroResponse> tratarTokenRecuperacaoExpirado(
+                        TokenRecuperacaoExpiradoException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.BAD_REQUEST;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
+        @ExceptionHandler(TokenRecuperacaoInvalidoException.class)
+        public ResponseEntity<ErroResponse> tratarTokenRecuperacaoInvalido(
+                        TokenRecuperacaoInvalidoException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.BAD_REQUEST;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
         }
 
 }
