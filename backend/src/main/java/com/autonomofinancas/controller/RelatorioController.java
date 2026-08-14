@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,7 @@ import com.autonomofinancas.dto.response.RelatorioCategoriaResponse;
 import com.autonomofinancas.dto.response.RelatorioComparativoResponse;
 import com.autonomofinancas.dto.response.RelatorioPlataformaResponse;
 import com.autonomofinancas.dto.response.RelatorioResumoResponse;
-
+import com.autonomofinancas.service.RelatorioExportacaoService;
 import com.autonomofinancas.service.RelatorioService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,11 +32,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class RelatorioController {
 
         private final RelatorioService relatorioService;
+        private final RelatorioExportacaoService relatorioExportacaoService;
 
         public RelatorioController(
-                        RelatorioService relatorioService) {
+                        RelatorioService relatorioService,
+                        RelatorioExportacaoService relatorioExportacaoService) {
 
                 this.relatorioService = relatorioService;
+                this.relatorioExportacaoService = relatorioExportacaoService;
         }
 
         @Operation(summary = "Obter resumo financeiro por período", description = """
@@ -134,6 +139,38 @@ public class RelatorioController {
                                 fim);
 
                 return ResponseEntity.ok(response);
+        }
+
+        @Operation(summary = "Exportar relatório financeiro em PDF", description = """
+                        Gera um relatório financeiro em PDF para o período informado.
+
+                        O documento contém resumo financeiro, indicadores,
+                        receitas por plataforma, despesas por categoria
+                        e comparativo com o período anterior.
+                        """)
+        @ApiResponses({
+                        @ApiResponse(responseCode = "200", description = "Relatório PDF gerado com sucesso."),
+                        @ApiResponse(responseCode = "400", description = "Parâmetros de data inválidos.", content = @Content),
+                        @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+                        @ApiResponse(responseCode = "409", description = "Período informado inválido.", content = @Content)
+        })
+        @GetMapping("/pdf")
+        public ResponseEntity<byte[]> gerarPdf(
+
+                        @Parameter(description = "Data inicial do relatório.", example = "2026-08-01") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+
+                        @Parameter(description = "Data final do relatório.", example = "2026-08-31") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+
+                byte[] pdf = relatorioExportacaoService.gerarPdf(
+                                inicio,
+                                fim);
+
+                return ResponseEntity.ok()
+                                .header(
+                                                HttpHeaders.CONTENT_DISPOSITION,
+                                                "attachment; filename=relatorio-financeiro.pdf")
+                                .contentType(MediaType.APPLICATION_PDF)
+                                .body(pdf);
         }
 
 }

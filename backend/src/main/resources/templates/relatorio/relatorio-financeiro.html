@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <style>
+        @page {
+            size: A4;
+            margin: 25mm 20mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #333333;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .periodo {
+            margin-bottom: 20px;
+        }
+
+        .resumo {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .resumo th,
+        .resumo td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .resumo th {
+            background-color: #f2f2f2;
+        }
+
+        .rodape {
+            margin-top: 30px;
+            font-size: 10px;
+            color: #777777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Autônomo Finanças</h1>
+
+    <div class="periodo">
+        Relatório financeiro<br />
+        Período: {{DATA_INICIO}} até {{DATA_FIM}}
+    </div>
+
+    <h2>Resumo financeiro</h2>
+
+    <table class="resumo">
+        <tr>
+            <th>Receitas</th>
+            <th>Despesas</th>
+            <th>Saldo</th>
+        </tr>
+
+        <tr>
+            <td>{{TOTAL_RECEITAS}}</td>
+            <td>{{TOTAL_DESPESAS}}</td>
+            <td>{{SALDO}}</td>
+        </tr>
+    </table>
+
+    <h2>Indicadores</h2>
+
+    <table class="resumo">
+        <tr>
+            <th>Média diária</th>
+            <th>Dias trabalhados</th>
+            <th>Melhor dia</th>
+            <th>Pior dia</th>
+        </tr>
+
+        <tr>
+            <td>{{MEDIA_DIARIA}}</td>
+            <td>{{DIAS_TRABALHADOS}}</td>
+            <td>{{MELHOR_DIA}}</td>
+            <td>{{PIOR_DIA}}</td>
+        </tr>
+    </table>
+
+    <h2>Receitas por plataforma</h2>
+
+    <table class="resumo">
+        <tr>
+            <th>Plataforma</th>
+            <th>Total</th>
+            <th>Participação</th>
+        </tr>
+
+        {{LINHAS_PLATAFORMAS}}
+    </table>
+
+    <h2>Despesas por categoria</h2>
+
+    <table class="resumo">
+        <tr>
+            <th>Categoria</th>
+            <th>Total</th>
+            <th>Participação</th>
+        </tr>
+
+        {{LINHAS_CATEGORIAS}}
+    </table>
+
+    <h2>Comparativo com período anterior</h2>
+
+    <table class="resumo">
+        <tr>
+            <th>Indicador</th>
+            <th>Período anterior</th>
+            <th>Período atual</th>
+            <th>Variação</th>
+        </tr>
+
+        <tr>
+            <td>Receitas</td>
+            <td>{{RECEITAS_ANTERIOR}}</td>
+            <td>{{RECEITAS_ATUAL}}</td>
+            <td>{{VARIACAO_RECEITAS}}</td>
+        </tr>
+
+        <tr>
+            <td>Despesas</td>
+            <td>{{DESPESAS_ANTERIOR}}</td>
+            <td>{{DESPESAS_ATUAL}}</td>
+            <td>{{VARIACAO_DESPESAS}}</td>
+        </tr>
+
+        <tr>
+            <td>Saldo</td>
+            <td>{{SALDO_ANTERIOR}}</td>
+            <td>{{SALDO_ATUAL}}</td>
+            <td>{{VARIACAO_SALDO}}</td>
+        </tr>
+    </table>
+
+    <div class="rodape">
+        Relatório gerado pelo Autônomo Finanças.
+    </div>
+
+</body>
+
+</html>
