@@ -1,0 +1,26 @@
+<div class="app-layout">
+
+  <app-header (menuClick)="alterarMenu()"></app-header>
+
+  <div class="app-body">
+
+    <app-sidebar class="sidebar-desktop"></app-sidebar>
+
+    @if (menuAberto) {
+
+    <div class="menu-overlay" (click)="fecharMenu()">
+    </div>
+
+    <div class="sidebar-mobile">
+      <app-sidebar
+        (itemSelecionado)="fecharMenu()">
+      </app-sidebar>
+    </div>
+
+    }
+
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>

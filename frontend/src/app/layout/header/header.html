@@ -1,11 +1,22 @@
 <nav class="navbar bg-body-tertiary border-bottom">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">
-            Autônomo Finanças
-        </span>
+
+        <div class="d-flex align-items-center gap-2">
+
+            <button type="button" class="btn btn-outline-secondary d-md-none" aria-label="Abrir menu"
+                (click)="abrirMenu()">
+                ☰
+            </button>
+
+            <span class="navbar-brand mb-0 h1">
+                Autônomo Finanças
+            </span>
+
+        </div>
 
         <button type="button" class="btn btn-outline-danger btn-sm" (click)="sair()">
             Sair
         </button>
+
     </div>
 </nav>
