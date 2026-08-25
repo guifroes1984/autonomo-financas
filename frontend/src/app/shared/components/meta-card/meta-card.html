@@ -1,0 +1,54 @@
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+
+            <div>
+                <span class="text-muted small">
+                    {{ titulo() }}
+                </span>
+
+                <div class="fs-5 fw-semibold">
+                    {{ valorMeta() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <span class="text-muted small">
+                    Progresso
+                </span>
+
+                <div class="fw-semibold">
+                    {{ percentual() | number:'1.0-2':'pt-BR' }}%
+                </div>
+            </div>
+
+        </div>
+
+        <div class="progress" role="progressbar" aria-label="Progresso da meta">
+
+            <div class="progress-bar" [style.width.%]="percentual() > 100 ? 100 : percentual()">
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-3 small">
+
+            <span>
+                Saldo:
+                <strong>
+                    {{ saldo() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </strong>
+            </span>
+
+            <span>
+                Falta:
+                <strong>
+                    {{ valorRestante() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </strong>
+            </span>
+
+        </div>
+
+    </div>
+</div>
