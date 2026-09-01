@@ -1,0 +1,204 @@
+<div class="container-fluid py-3">
+
+    <div class="mb-4">
+        <h1 class="h3 mb-1">
+            Novo lançamento
+        </h1>
+
+        <p class="text-muted mb-0">
+            Cadastre uma nova receita ou despesa
+        </p>
+    </div>
+
+    <form [formGroup]="formulario" (ngSubmit)="salvar()">
+
+        <div class="row g-3">
+
+            <div class="col-12 col-md-3">
+
+                <label class="form-label">
+                    Tipo
+                </label>
+
+                <select class="form-select" formControlName="tipo">
+
+                    <option value="RECEITA">
+                        Receita
+                    </option>
+
+                    <option value="DESPESA">
+                        Despesa
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-12 col-md-4">
+
+                <label class="form-label">
+                    Categoria
+                </label>
+
+                <select class="form-select" formControlName="categoriaId">
+
+                    <option [ngValue]="null">
+                        Selecione
+                    </option>
+
+                    @for (categoria of categoriasFiltradas(); track categoria.id) {
+                    <option [ngValue]="categoria.id">
+                        {{ categoria.nome }}
+                    </option>
+                    }
+
+                </select>
+
+                @if (
+                formulario.controls.categoriaId.touched &&
+                formulario.controls.categoriaId.hasError('required')
+                ) {
+                <div class="text-danger small mt-1">
+                    Selecione uma categoria.
+                </div>
+                }
+
+            </div>
+
+            @if (tipoSelecionado() === 'RECEITA') {
+
+            <div class="col-12 col-md-5">
+
+                <label class="form-label">
+                    Plataforma
+                </label>
+
+                <select class="form-select" formControlName="plataformaId">
+
+                    <option [ngValue]="null">
+                        Nenhuma
+                    </option>
+
+                    @for (plataforma of plataformas(); track plataforma.id) {
+                    <option [ngValue]="plataforma.id">
+                        {{ plataforma.nome }}
+                    </option>
+                    }
+
+                </select>
+
+            </div>
+
+            }
+
+            <div class="col-12 col-md-6">
+
+                <label class="form-label">
+                    Descrição
+                </label>
+
+                <input type="text" class="form-control" formControlName="descricao" placeholder="Ex.: Corridas do dia">
+
+                @if (
+                formulario.controls.descricao.touched &&
+                formulario.controls.descricao.hasError('required')
+                ) {
+                <div class="text-danger small mt-1">
+                    Informe uma descrição.
+                </div>
+                }
+
+                @if (
+                formulario.controls.descricao.touched &&
+                formulario.controls.descricao.hasError('maxlength')
+                ) {
+                <div class="text-danger small mt-1">
+                    A descrição deve ter no máximo 150 caracteres.
+                </div>
+                }
+
+            </div>
+
+            <div class="col-12 col-md-3">
+
+                <label class="form-label">
+                    Valor
+                </label>
+
+                <input type="text" inputmode="decimal" class="form-control" formControlName="valor" appMoeda
+                    placeholder="0,00" autocomplete="off">
+
+                @if (
+                formulario.controls.valor.touched &&
+                formulario.controls.valor.hasError('required')
+                ) {
+                <div class="text-danger small mt-1">
+                    Informe o valor.
+                </div>
+                }
+
+                @if (
+                formulario.controls.valor.touched &&
+                formulario.controls.valor.hasError('min')
+                ) {
+                <div class="text-danger small mt-1">
+                    O valor deve ser maior que zero.
+                </div>
+                }
+
+            </div>
+
+            <div class="col-12 col-md-3">
+
+                <label class="form-label">
+                    Data
+                </label>
+
+                <input type="date" class="form-control" formControlName="dataLancamento">
+
+                @if (
+                formulario.controls.dataLancamento.touched &&
+                formulario.controls.dataLancamento.hasError('required')
+                ) {
+                <div class="text-danger small mt-1">
+                    Informe a data do lançamento.
+                </div>
+                }
+
+            </div>
+
+            <div class="col-12">
+
+                <label class="form-label">
+                    Observação
+                </label>
+
+                <textarea class="form-control observacao-textarea" formControlName="observacao" rows="3"
+                    placeholder="Informações adicionais (opcional)">
+        </textarea>
+
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+
+            <button type="button" class="btn btn-outline-secondary" [disabled]="salvando()" (click)="cancelar()">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="salvando()">
+
+                @if (salvando()) {
+                Salvando...
+                } @else {
+                Salvar lançamento
+                }
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

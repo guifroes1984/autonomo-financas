@@ -1,0 +1,332 @@
+<div class="container-fluid py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="h3 mb-1">
+                Lançamentos
+            </h1>
+
+            <p class="text-muted mb-0">
+                Gerencie suas receitas e despesas
+            </p>
+        </div>
+
+        <button type="button" class="btn btn-primary" routerLink="/lancamentos/novo">
+            Novo lançamento
+        </button>
+
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <form [formGroup]="formularioFiltro">
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-md-4">
+                        <label for="descricao" class="form-label">
+                            Descrição
+                        </label>
+
+                        <input type="text" id="descricao" class="form-control" formControlName="descricao"
+                            placeholder="Ex: iFood, combustível..." />
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <label for="tipo" class="form-label">
+                            Tipo
+                        </label>
+
+                        <select id="tipo" class="form-select" formControlName="tipo">
+
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="RECEITA">
+                                Receita
+                            </option>
+
+                            <option value="DESPESA">
+                                Despesa
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <label for="inicio" class="form-label">
+                            Data inicial
+                        </label>
+
+                        <input type="date" id="inicio" class="form-control" formControlName="inicio" />
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <label for="fim" class="form-label">
+                            Data final
+                        </label>
+
+                        <input type="date" id="fim" class="form-control" formControlName="fim" />
+                    </div>
+
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                        <div class="d-flex gap-2 w-100">
+
+                            <button type="button" class="btn btn-primary flex-fill" (click)="filtrar()">
+                                Filtrar
+                            </button>
+
+                            <button type="button" class="btn btn-outline-secondary flex-fill" (click)="limparFiltros()">
+                                Limpar
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label for="categoriaId" class="form-label">
+                            Categoria
+                        </label>
+
+                        <select id="categoriaId" class="form-select" formControlName="categoriaId">
+
+                            <option [ngValue]="null">
+                                Todas
+                            </option>
+
+                            @for (categoria of categorias(); track categoria.id) {
+                            <option [ngValue]="categoria.id">
+                                {{ categoria.nome }} - {{ categoria.tipo }}
+                            </option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label for="plataformaId" class="form-label">
+                            Plataforma
+                        </label>
+
+                        <select id="plataformaId" class="form-select" formControlName="plataformaId">
+
+                            <option [ngValue]="null">
+                                Todas
+                            </option>
+
+                            @for (plataforma of plataformas(); track plataforma.id) {
+                            <option [ngValue]="plataforma.id">
+                                {{ plataforma.nome }}
+                            </option>
+                            }
+
+                        </select>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    @if (lancamentos().length > 0) {
+    <div class="d-none d-md-block">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Tipo</th>
+                            <th>Categoria</th>
+                            <th>Plataforma</th>
+                            <th class="text-end">
+                                Valor
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @for (
+                        lancamento of lancamentos();
+                        track lancamento.id
+                        ) {
+
+                        <tr>
+
+                            <td>
+                                {{
+                                lancamento.dataLancamento
+                                | date:'dd/MM/yyyy'
+                                }}
+                            </td>
+
+                            <td>
+                                {{ lancamento.descricao }}
+                            </td>
+
+                            <td>
+                                {{ lancamento.tipo }}
+                            </td>
+
+                            <td>
+                                {{ lancamento.categoria.nome }}
+                            </td>
+
+                            <td>
+                                {{
+                                lancamento.plataforma?.nome || '-'
+                                }}
+                            </td>
+
+                            <td class="text-end fw-semibold">
+                                {{
+                                lancamento.valor
+                                | currency:
+                                'BRL':
+                                'symbol':
+                                '1.2-2':
+                                'pt-BR'
+                                }}
+                            </td>
+
+                        </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="d-md-none">
+
+        <div class="d-flex flex-column gap-3">
+
+            @for (
+            lancamento of lancamentos();
+            track lancamento.id
+            ) {
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <div>
+
+                            <div class="fw-semibold">
+                                {{ lancamento.descricao }}
+                            </div>
+
+                            <div class="text-muted small">
+                                {{
+                                lancamento.dataLancamento
+                                | date:'dd/MM/yyyy'
+                                }}
+                            </div>
+
+                        </div>
+
+                        <div class="fw-semibold text-end">
+                            {{
+                            lancamento.valor
+                            | currency:
+                            'BRL':
+                            'symbol':
+                            '1.2-2':
+                            'pt-BR'
+                            }}
+                        </div>
+
+                    </div>
+
+                    <div class="small text-muted">
+
+                        {{ lancamento.tipo }}
+
+                        ·
+
+                        {{ lancamento.categoria.nome }}
+
+                        @if (lancamento.plataforma) {
+                        · {{ lancamento.plataforma.nome }}
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+    <div class="d-flex flex-column flex-md-row
+             justify-content-between align-items-center
+             gap-2 mt-3">
+
+        <div class="text-muted small">
+
+            {{ totalElementos() }} lançamento(s)
+
+            ·
+
+            Página
+            {{ paginaAtual() + 1 }}
+            de
+            {{ totalPaginas() }}
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="paginaAtual() === 0"
+                (click)="paginaAnterior()">
+                Anterior
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="
+            paginaAtual() >= totalPaginas() - 1
+          " (click)="proximaPagina()">
+                Próxima
+            </button>
+
+        </div>
+
+    </div>
+
+    } @else {
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body text-center py-5">
+
+            <p class="text-muted mb-0">
+                Nenhum lançamento encontrado.
+            </p>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>

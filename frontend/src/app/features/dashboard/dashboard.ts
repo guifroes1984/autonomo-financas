@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { DashboardResumo } from '../../core/models/dashboard-resumo';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
@@ -18,8 +18,8 @@ export class Dashboard implements OnInit {
 
   private readonly dashboardService = inject(DashboardService);
 
-  resumo: DashboardResumo | null = null;
-  meta: DashboardMeta | null = null;
+  readonly resumo = signal<DashboardResumo | null>(null);
+  readonly meta = signal<DashboardMeta | null>(null);
 
   ngOnInit(): void {
     this.carregarResumo();
@@ -30,7 +30,7 @@ export class Dashboard implements OnInit {
     this.dashboardService.obterResumo()
       .subscribe({
         next: response => {
-          this.resumo = response;
+          this.resumo.set(response);
         },
         error: erro => {
           console.error('Erro ao carregar resumo do dashboard:', erro);
@@ -42,7 +42,7 @@ export class Dashboard implements OnInit {
     this.dashboardService.obterMetas()
       .subscribe({
         next: response => {
-          this.meta = response;
+          this.meta.set(response);
         },
         error: erro => {
           console.error('Erro ao carregar metas do dashboard:', erro);
