@@ -73,6 +73,7 @@
                     </div>
 
                     <div class="col-12 col-md-2 d-flex align-items-end">
+
                         <div class="d-flex gap-2 w-100">
 
                             <button type="button" class="btn btn-primary flex-fill" (click)="filtrar()">
@@ -84,6 +85,7 @@
                             </button>
 
                         </div>
+
                     </div>
 
                     <div class="col-12 col-md-3">
@@ -97,7 +99,10 @@
                                 Todas
                             </option>
 
-                            @for (categoria of categorias(); track categoria.id) {
+                            @for (
+                            categoria of categorias();
+                            track categoria.id
+                            ) {
                             <option [ngValue]="categoria.id">
                                 {{ categoria.nome }} - {{ categoria.tipo }}
                             </option>
@@ -117,7 +122,10 @@
                                 Todas
                             </option>
 
-                            @for (plataforma of plataformas(); track plataforma.id) {
+                            @for (
+                            plataforma of plataformas();
+                            track plataforma.id
+                            ) {
                             <option [ngValue]="plataforma.id">
                                 {{ plataforma.nome }}
                             </option>
@@ -133,7 +141,13 @@
         </div>
     </div>
 
+
     @if (lancamentos().length > 0) {
+
+    <!-- ============================== -->
+    <!-- DESKTOP -->
+    <!-- ============================== -->
+
     <div class="d-none d-md-block">
 
         <div class="card shadow-sm border-0">
@@ -149,8 +163,13 @@
                             <th>Tipo</th>
                             <th>Categoria</th>
                             <th>Plataforma</th>
+
                             <th class="text-end">
                                 Valor
+                            </th>
+
+                            <th class="text-end">
+                                Ações
                             </th>
                         </tr>
                     </thead>
@@ -200,6 +219,18 @@
                                 }}
                             </td>
 
+                            <td class="text-end">
+
+                                <a class="btn btn-sm btn-outline-primary" [routerLink]="[
+                                                '/lancamentos',
+                                                lancamento.id,
+                                                'editar'
+                                            ]">
+                                    Editar
+                                </a>
+
+                            </td>
+
                         </tr>
 
                         }
@@ -213,6 +244,11 @@
         </div>
 
     </div>
+
+    <!-- ============================== -->
+    <!-- MOBILE -->
+    <!-- ============================== -->
+
     <div class="d-md-none">
 
         <div class="d-flex flex-column gap-3">
@@ -270,6 +306,18 @@
 
                     </div>
 
+                    <div class="d-flex justify-content-end mt-3">
+
+                        <a class="btn btn-sm btn-outline-primary" [routerLink]="[
+                                        '/lancamentos',
+                                        lancamento.id,
+                                        'editar'
+                                    ]">
+                            Editar
+                        </a>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -279,9 +327,10 @@
         </div>
 
     </div>
+
     <div class="d-flex flex-column flex-md-row
-             justify-content-between align-items-center
-             gap-2 mt-3">
+                   justify-content-between align-items-center
+                   gap-2 mt-3">
 
         <div class="text-muted small">
 
@@ -304,8 +353,8 @@
             </button>
 
             <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="
-            paginaAtual() >= totalPaginas() - 1
-          " (click)="proximaPagina()">
+                        paginaAtual() >= totalPaginas() - 1
+                    " (click)="proximaPagina()">
                 Próxima
             </button>
 

@@ -83,4 +83,17 @@ export class LancamentoService {
     return this.http.post<Lancamento>(this.apiUrl, request);
   }
 
+  buscarPorId(id: number): Observable<Lancamento> {
+    return this.http.get<Lancamento>(
+      `${this.apiUrl}/${id}`
+    );
+  }
+
+  atualizar(id: number, request: LancamentoRequest): Observable<Lancamento> {
+    return this.http.put<Lancamento>(
+      `${this.apiUrl}/${id}`, 
+      request
+    );
+  }
+
 }

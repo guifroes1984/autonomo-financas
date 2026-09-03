@@ -36,6 +36,10 @@ export const routes: Routes = [
             {
                 path: 'lancamentos/novo', 
                 component: FormLancamento
+            }, 
+            {
+                path: 'lancamentos/:id/editar', 
+                component: FormLancamento
             }
         ]
     },

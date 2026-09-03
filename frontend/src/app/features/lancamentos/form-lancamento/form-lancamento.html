@@ -2,11 +2,19 @@
 
     <div class="mb-4">
         <h1 class="h3 mb-1">
+            @if (modoEdicao()) {
+            Editar lançamento
+            } @else {
             Novo lançamento
+            }
         </h1>
 
         <p class="text-muted mb-0">
+            @if (modoEdicao()) {
+            Atualize os dados do lançamento
+            } @else {
             Cadastre uma nova receita ou despesa
+            }
         </p>
     </div>
 
@@ -191,6 +199,8 @@
 
                 @if (salvando()) {
                 Salvando...
+                } @else if (modoEdicao()) {
+                Salvar alterações
                 } @else {
                 Salvar lançamento
                 }

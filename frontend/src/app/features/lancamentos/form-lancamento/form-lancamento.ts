@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 
 import { CategoriaService } from '../../../core/services/categoria.service';
@@ -15,7 +15,7 @@ import { Moeda } from '../../../shared/directives/moeda';
 @Component({
   selector: 'app-form-lancamento',
   imports: [
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     Moeda
   ],
   templateUrl: './form-lancamento.html',
@@ -28,10 +28,13 @@ export class FormLancamento implements OnInit {
   private readonly plataformaService = inject(PlataformaService);
   private readonly lancamentoService = inject(LancamentoService);
   private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   readonly categorias = signal<Categoria[]>([]);
   readonly plataformas = signal<Plataforma[]>([]);
   readonly tipoSelecionado = signal<'RECEITA' | 'DESPESA'>('DESPESA');
+  readonly lancamentoId = signal<number | null>(null);
+  readonly modoEdicao = computed(() => this.lancamentoId() !== null);
 
   readonly salvando = signal(false);
 
@@ -71,6 +74,46 @@ export class FormLancamento implements OnInit {
         }
       }
     });
+
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if (idParam) {
+      const id = Number(idParam);
+
+      if (!Number.isNaN(id)) {
+        this.lancamentoId.set(id);
+        this.carregarLancamento(id);
+      }
+    }
+  }
+
+  private carregarLancamento(id: number): void {
+    this.lancamentoService.buscarPorId(id)
+      .subscribe({
+        next: lancamento => {
+          console.log('Lançamento carregado:', lancamento);
+
+          this.tipoSelecionado.set(lancamento.tipo);
+
+          this.formulario.patchValue({
+            tipo: lancamento.tipo,
+            descricao: lancamento.descricao,
+            valor: lancamento.valor,
+            dataLancamento: lancamento.dataLancamento,
+            categoriaId: lancamento.categoria.id,
+            plataformaId: lancamento.plataforma?.id ?? null,
+            observacao: lancamento.observacao ?? ''
+          }, {
+            emitEvent: false
+          });
+        },
+        error: erro => {
+          console.error(
+            'Erro ao carregar lançamento:',
+            erro
+          );
+        }
+      });
   }
 
   private carregarCategorias(): void {
@@ -133,7 +176,13 @@ export class FormLancamento implements OnInit {
 
     this.salvando.set(true);
 
-    this.lancamentoService.criar(request)
+    const id = this.lancamentoId();
+
+    const requisicao = id !== null
+      ? this.lancamentoService.atualizar(id, request)
+      : this.lancamentoService.criar(request);
+
+    requisicao
       .pipe(
         finalize(() => {
           this.salvando.set(false);
@@ -145,7 +194,9 @@ export class FormLancamento implements OnInit {
         },
         error: erro => {
           console.error(
-            'Erro ao cadastrar lançamento:',
+            id !== null
+              ? 'Erro ao atualizar lançamento:'
+              : 'Erro ao cadastrar lançamento:',
             erro
           );
         }
