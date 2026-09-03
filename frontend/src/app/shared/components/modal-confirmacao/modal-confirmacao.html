@@ -1,0 +1,47 @@
+<div class="confirmacao-backdrop" (click)="cancelar.emit()">
+
+    <div class="confirmacao-dialog" role="dialog" aria-modal="true" [attr.aria-label]="titulo()"
+        (click)="$event.stopPropagation()">
+
+        <div class="confirmacao-header">
+
+            <h5 class="confirmacao-titulo">
+                {{ titulo() }}
+            </h5>
+
+            <button type="button" class="btn-close" aria-label="Fechar" [disabled]="processando()"
+                (click)="cancelar.emit()">
+            </button>
+
+        </div>
+
+        <div class="confirmacao-body">
+
+            <p class="mb-0">
+                {{ mensagem() }}
+            </p>
+
+        </div>
+
+        <div class="confirmacao-footer">
+
+            <button type="button" class="btn btn-outline-secondary" [disabled]="processando()"
+                (click)="cancelar.emit()">
+                Cancelar
+            </button>
+
+            <button type="button" class="btn btn-danger" [disabled]="processando()" (click)="confirmar.emit()">
+
+                @if (processando()) {
+                Excluindo...
+                } @else {
+                {{ textoConfirmar() }}
+                }
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

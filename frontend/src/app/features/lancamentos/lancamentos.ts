@@ -8,14 +8,17 @@ import { PlataformaService } from '../../core/services/plataforma.service';
 import { Categoria } from '../../core/models/categoria';
 import { Plataforma } from '../../core/models/plataforma';
 import { RouterLink } from '@angular/router';
+import { ModalConfirmacao } from '../../shared/components/modal-confirmacao/modal-confirmacao';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-lancamentos',
   imports: [
     CurrencyPipe,
     DatePipe,
-    ReactiveFormsModule, 
-    RouterLink
+    ReactiveFormsModule,
+    RouterLink,
+    ModalConfirmacao
   ],
   templateUrl: './lancamentos.html',
   styleUrl: './lancamentos.scss',
@@ -31,6 +34,9 @@ export class Lancamentos implements OnInit {
   readonly categorias = signal<Categoria[]>([]);
   readonly plataformas = signal<Plataforma[]>([]);
 
+  readonly lancamentoParaExcluir = signal<Lancamento | null>(null);
+  readonly excluindo = signal(false);
+
   readonly paginaAtual = signal(0);
   readonly totalPaginas = signal(0);
   readonly totalElementos = signal(0);
@@ -39,7 +45,7 @@ export class Lancamentos implements OnInit {
 
   readonly formularioFiltro = this.formBuilder.group({
     descricao: [''],
-    tipo: [''], 
+    tipo: [''],
     categoriaId: [null as number | null],
     plataformaId: [null as number | null],
     inicio: [''],
@@ -50,6 +56,47 @@ export class Lancamentos implements OnInit {
     this.carregarLancamentos();
     this.carregarCategorias();
     this.carregarPlataformas();
+  }
+
+  excluirLancamento(): void {
+    const lancamento = this.lancamentoParaExcluir();
+
+    if (!lancamento || this.excluindo()) {
+      return;
+    }
+
+    this.excluindo.set(true);
+
+    this.lancamentoService.excluir(lancamento.id)
+      .pipe(
+        finalize(() => {
+          this.excluindo.set(false);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.lancamentoParaExcluir.set(null);
+          this.carregarLancamentos();
+        },
+        error: erro => {
+          console.error(
+            'Erro ao excluir lançamento:',
+            erro
+          );
+        }
+      });
+  }
+
+  confirmarExclusao(lancamento: Lancamento): void {
+    this.lancamentoParaExcluir.set(lancamento);
+  }
+
+  cancelarExclusao(): void {
+    if (this.excluindo()) {
+      return;
+    }
+
+    this.lancamentoParaExcluir.set(null);
   }
 
   private carregarLancamentos(): void {
@@ -110,10 +157,10 @@ export class Lancamentos implements OnInit {
           this.plataformas.set(
             response.filter(plataforma => plataforma.ativo)
           );
-        }, 
+        },
         error: erro => {
           console.error(
-            'Erro ao carregar plataformas.', 
+            'Erro ao carregar plataformas.',
             erro
           );
         }
@@ -128,7 +175,7 @@ export class Lancamentos implements OnInit {
   limparFiltros(): void {
     this.formularioFiltro.reset({
       descricao: '',
-      tipo: '', 
+      tipo: '',
       categoriaId: null,
       plataformaId: null,
       inicio: '',
