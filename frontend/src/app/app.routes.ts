@@ -5,6 +5,8 @@ import { authGuard } from './core/guards/auth-guard';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { Lancamentos } from './features/lancamentos/lancamentos';
 import { FormLancamento } from './features/lancamentos/form-lancamento/form-lancamento';
+import { Categorias } from './features/categorias/categorias';
+import { FormCategoria } from './features/categorias/form-categoria/form-categoria';
 
 export const routes: Routes = [
     {
@@ -40,6 +42,18 @@ export const routes: Routes = [
             {
                 path: 'lancamentos/:id/editar', 
                 component: FormLancamento
+            }, 
+            {
+                path: 'categorias', 
+                component: Categorias
+            }, 
+            {
+                path: 'categorias/novo',
+                component: FormCategoria
+            },
+            {
+                path: 'categorias/:id/editar',
+                component: FormCategoria
             }
         ]
     },

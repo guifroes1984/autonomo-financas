@@ -1,0 +1,112 @@
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h2 class="mb-1">
+            @if (modoEdicao()) {
+            Editar categoria
+            } @else {
+            Nova categoria
+            }
+        </h2>
+
+        <p class="text-muted mb-0">
+            @if (modoEdicao()) {
+            Altere os dados da categoria
+            } @else {
+            Cadastre uma nova categoria de receita ou despesa
+            }
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form [formGroup]="formulario" (ngSubmit)="salvar()">
+
+                <div class="row g-3">
+
+                    <!-- Nome -->
+                    <div class="col-md-6">
+                        <label for="nome" class="form-label">
+                            Nome
+                        </label>
+
+                        <input id="nome" type="text" class="form-control" formControlName="nome" maxlength="100"
+                            placeholder="Ex.: Combustível">
+
+                        @if (
+                        formulario.controls.nome.touched &&
+                        formulario.controls.nome.invalid
+                        ) {
+                        <div class="text-danger small mt-1">
+                            Informe o nome da categoria.
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Tipo -->
+                    <div class="col-md-3">
+                        <label for="tipo" class="form-label">
+                            Tipo
+                        </label>
+
+                        <select id="tipo" class="form-select" formControlName="tipo">
+
+                            <option value="RECEITA">
+                                Receita
+                            </option>
+
+                            <option value="DESPESA">
+                                Despesa
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <!-- Cor -->
+                    <div class="col-md-3">
+                        <label for="cor" class="form-label">
+                            Cor
+                        </label>
+
+                        <input id="cor" type="color" class="form-control form-control-color w-100"
+                            formControlName="cor">
+                    </div>
+
+                </div>
+
+                <!-- Erro retornado pelo backend -->
+                @if (erro(); as mensagem) {
+                <div class="alert alert-danger mt-4 mb-0" role="alert">
+                    {{ mensagem }}
+                </div>
+                }
+
+                <!-- Ações -->
+                <div class="d-flex justify-content-end gap-2 mt-4">
+
+                    <button type="button" class="btn btn-outline-secondary" [disabled]="salvando()"
+                        (click)="cancelar()">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="salvando()">
+
+                        @if (salvando()) {
+                        Salvando...
+                        } @else if (modoEdicao()) {
+                        Salvar alterações
+                        } @else {
+                        Salvar categoria
+                        }
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
