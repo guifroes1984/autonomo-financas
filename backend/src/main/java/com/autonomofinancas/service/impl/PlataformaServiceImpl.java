@@ -119,6 +119,22 @@ public class PlataformaServiceImpl implements PlataformaService {
         plataformaRepository.save(plataforma);
     }
 
+    @Override
+    @Transactional
+    public void ativar(Long id) {
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
+
+        Plataforma plataforma = buscarPlataformaDoUsuario(id, usuarioId);
+
+        if (Boolean.TRUE.equals(plataforma.getAtivo())) {
+            throw new RegraDeNegocioException("A plataforma já está ativada.");
+        }
+
+        plataforma.setAtivo(true);
+        plataformaRepository.save(plataforma);
+
+    }
+
     private Plataforma buscarPlataformaDoUsuario(Long plataformaId, Long usuarioId) {
         return plataformaRepository
                 .findByIdAndUsuarioId(plataformaId, usuarioId)

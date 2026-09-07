@@ -16,5 +16,7 @@ public interface PlataformaService {
     PlataformaResponse atualizar(Long id, PlataformaRequest request);
 
     void desativar(Long id);
+
+    void ativar(Long id);
     
 }

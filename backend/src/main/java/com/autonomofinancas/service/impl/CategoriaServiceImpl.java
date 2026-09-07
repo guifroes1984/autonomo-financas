@@ -126,6 +126,8 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     }
 
+    @Override
+    @Transactional
     public void ativar(Long id) {
         Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 

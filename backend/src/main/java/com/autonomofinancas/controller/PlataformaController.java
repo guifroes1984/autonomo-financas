@@ -101,4 +101,18 @@ public class PlataformaController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Ativar plataforma", description = "Ativa uma plataforma pertencente ao usuário autenticado.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Plataforma ativada com sucesso."),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Plataforma não encontrada.", content = @Content),
+            @ApiResponse(responseCode = "409", description = "A plataforma já está ativa.", content = @Content)
+    })
+    @PatchMapping("/{id}/ativar")
+    public ResponseEntity<Void> ativar(@PathVariable Long id) {
+        plataformaService.ativar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
