@@ -68,14 +68,32 @@
 
                         </td>
 
-                        <td class="text-center">
+                        <td>
+                            <div class="acoes-categoria">
 
-                            <button type="button" 
-                                class="btn btn-sm btn-outline-primary"
-                                [routerLink]="['/categorias',categoria.id,'editar']">
-                                Editar
-                            </button>
+                                <a class="btn btn-sm btn-outline-primary" [routerLink]="[
+        '/categorias',
+        categoria.id,
+        'editar'
+      ]">
+                                    Editar
+                                </a>
 
+                                <div class="espaco-acao">
+                                    @if (categoria.ativa) {
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                        (click)="confirmarDesativacao(categoria)">
+                                        Desativar
+                                    </button>
+                                    } @else {
+                                    <button type="button" class="btn btn-sm btn-outline-success"
+                                        (click)="confirmarAtivacao(categoria)">
+                                        Ativar
+                                    </button>
+                                    }
+                                </div>
+
+                            </div>
                         </td>
 
                     </tr>
@@ -107,3 +125,19 @@
     }
 
 </div>
+
+@if (categoriaParaDesativar(); as categoria) {
+<app-modal-confirmacao titulo="Desativar categoria"
+    [mensagem]="'Deseja realmente desativar a categoria &quot;' + categoria.nome + '&quot;?'" textoConfirmar="Desativar"
+    textoProcessando="Desativando..." [processando]="desativando()" (confirmar)="desativarCategoria()"
+    (cancelar)="cancelarDesativacao()">
+</app-modal-confirmacao>
+}
+
+@if (categoriaParaAtivar(); as categoria) {
+<app-modal-confirmacao titulo="Ativar categoria"
+    [mensagem]="'Deseja realmente ativar a categoria &quot;' + categoria.nome + '&quot;?'" textoConfirmar="Ativar"
+    textoProcessando="Ativando..." [processando]="ativando()" (confirmar)="ativarCategoria()"
+    (cancelar)="cancelarAtivacao()">
+</app-modal-confirmacao>
+}

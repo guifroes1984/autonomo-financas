@@ -12,6 +12,7 @@ export class ModalConfirmacao {
   readonly mensagem = input<string>('Deseja realmente continuar?');
   readonly textoConfirmar = input<string>('Excluir');
   readonly processando = input<boolean>(false);
+  readonly textoProcessando = input<string>('Processando...');
 
   readonly confirmar = output<void>();
   readonly cancelar = output<void>();

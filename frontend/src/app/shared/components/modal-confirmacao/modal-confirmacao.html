@@ -33,7 +33,7 @@
             <button type="button" class="btn btn-danger" [disabled]="processando()" (click)="confirmar.emit()">
 
                 @if (processando()) {
-                Excluindo...
+                {{ textoProcessando() }}
                 } @else {
                 {{ textoConfirmar() }}
                 }

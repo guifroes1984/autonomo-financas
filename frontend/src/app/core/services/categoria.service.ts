@@ -37,6 +37,20 @@ export class CategoriaService {
       `${this.apiUrl}/${id}`, 
       request
     );
-}
+  }
+
+  desativar(id: number): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiUrl}/${id}/desativar`, 
+      null
+    );
+  }
+
+  ativar(id: number): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiUrl}/${id}/ativar`, 
+      null
+    );
+  }
 
 }
