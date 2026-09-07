@@ -7,6 +7,8 @@ import { Lancamentos } from './features/lancamentos/lancamentos';
 import { FormLancamento } from './features/lancamentos/form-lancamento/form-lancamento';
 import { Categorias } from './features/categorias/categorias';
 import { FormCategoria } from './features/categorias/form-categoria/form-categoria';
+import { Plataformas } from './features/plataformas/plataformas';
+import { FormPlataforma } from './features/plataformas/form-plataforma/form-plataforma';
 
 export const routes: Routes = [
     {
@@ -54,6 +56,18 @@ export const routes: Routes = [
             {
                 path: 'categorias/:id/editar',
                 component: FormCategoria
+            }, 
+            {
+                path: 'plataformas', 
+                component: Plataformas
+            }, 
+            {
+                path: 'plataformas/novo',
+                component: FormPlataforma
+            }, 
+            {
+                path: 'plataformas/:id/editar',
+                component: FormPlataforma
             }
         ]
     },
