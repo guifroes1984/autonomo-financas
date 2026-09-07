@@ -126,6 +126,20 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     }
 
+    public void ativar(Long id) {
+        Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
+
+        Categoria categoria = buscarCategoriaDoUsuario(id, usuarioId);
+
+        if (Boolean.TRUE.equals(categoria.getAtiva())) {
+            throw new RegraDeNegocioException("A categoria já está ativa");
+        }
+
+        categoria.setAtiva(true);
+        categoriaRepository.save(categoria);
+
+    }
+
     private Usuario obterUsuarioAutenticado() {
         Long usuarioId = usuarioAutenticadoService.obterUsuarioId();
 

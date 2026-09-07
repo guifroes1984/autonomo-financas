@@ -16,5 +16,7 @@ public interface CategoriaService {
     CategoriaResponse atualizar(Long id, CategoriaRequest request);
 
     void desativar(Long id);
+
+    void ativar(Long id);
     
 }
