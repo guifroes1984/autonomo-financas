@@ -9,6 +9,7 @@ import { Categorias } from './features/categorias/categorias';
 import { FormCategoria } from './features/categorias/form-categoria/form-categoria';
 import { Plataformas } from './features/plataformas/plataformas';
 import { FormPlataforma } from './features/plataformas/form-plataforma/form-plataforma';
+import { Metas } from './features/metas/metas';
 
 export const routes: Routes = [
     {
@@ -68,6 +69,10 @@ export const routes: Routes = [
             {
                 path: 'plataformas/:id/editar',
                 component: FormPlataforma
+            }, 
+            {
+                path: 'metas', 
+                component: Metas
             }
         ]
     },

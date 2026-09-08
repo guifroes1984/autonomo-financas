@@ -1,0 +1,112 @@
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h2 class="mb-1">
+            Metas
+        </h2>
+
+        <p class="text-muted mb-0">
+            Configure suas metas financeiras
+        </p>
+    </div>
+
+    @if (carregando()) {
+
+    <p class="text-muted">
+        Carregando metas...
+    </p>
+
+    } @else {
+
+    <div class="metas-formulario">
+
+        @if (sucesso()) {
+        <div class="alert alert-success" role="alert">
+            {{ sucesso() }}
+        </div>
+        }
+
+        @if (erro()) {
+        <div class="alert alert-danger" role="alert">
+            {{ erro() }}
+        </div>
+        }
+
+        @if (!meta()) {
+        <div class="alert alert-info">
+            Você ainda não possui metas configuradas.
+            Informe os valores abaixo para cadastrar.
+        </div>
+        }
+
+        <div class="card">
+            <div class="card-body">
+
+                <form [formGroup]="formulario" (ngSubmit)="salvar()">
+
+                    <div class="mb-3">
+
+                        <label for="metaDiaria" class="form-label">
+                            Meta diária
+                        </label>
+
+                        <input id="metaDiaria" type="number" class="form-control" formControlName="metaDiaria"
+                            min="0.01" step="0.01">
+
+                        @if (
+                        formulario.controls.metaDiaria.touched &&
+                        formulario.controls.metaDiaria.invalid
+                        ) {
+                        <div class="text-danger small mt-1">
+                            Informe uma meta diária válida.
+                        </div>
+                        }
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="metaMensal" class="form-label">
+                            Meta mensal
+                        </label>
+
+                        <input id="metaMensal" type="number" class="form-control" formControlName="metaMensal"
+                            min="0.01" step="0.01">
+
+                        @if (
+                        formulario.controls.metaMensal.touched &&
+                        formulario.controls.metaMensal.invalid
+                        ) {
+                        <div class="text-danger small mt-1">
+                            Informe uma meta mensal válida.
+                        </div>
+                        }
+
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <button type="submit" class="btn btn-primary" [disabled]="salvando()">
+
+                            @if (salvando()) {
+                            Salvando...
+                            } @else if (meta()) {
+                            Salvar alterações
+                            } @else {
+                            Cadastrar metas
+                            }
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    }
+
+</div>
