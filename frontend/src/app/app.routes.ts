@@ -10,6 +10,7 @@ import { FormCategoria } from './features/categorias/form-categoria/form-categor
 import { Plataformas } from './features/plataformas/plataformas';
 import { FormPlataforma } from './features/plataformas/form-plataforma/form-plataforma';
 import { Metas } from './features/metas/metas';
+import { Relatorios } from './features/relatorios/relatorios';
 
 export const routes: Routes = [
     {
@@ -73,6 +74,10 @@ export const routes: Routes = [
             {
                 path: 'metas', 
                 component: Metas
+            }, 
+            {
+                path: 'relatorios',
+                component: Relatorios
             }
         ]
     },

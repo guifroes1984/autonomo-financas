@@ -1,0 +1,623 @@
+<div class="container-fluid py-4">
+
+    <!-- Cabeçalho -->
+    <div class="mb-4">
+        <h2 class="mb-1">
+            Relatórios
+        </h2>
+
+        <p class="text-muted mb-0">
+            Analise seus resultados financeiros por período
+        </p>
+    </div>
+
+
+    <!-- Filtro por período -->
+    <div class="filtro-relatorio">
+
+        <div class="card">
+            <div class="card-body">
+
+                <form [formGroup]="formulario" (ngSubmit)="gerarRelatorio()">
+
+                    <div class="row g-3">
+
+                        <!-- Data inicial -->
+                        <div class="col-12 col-md-5">
+
+                            <label for="inicio" class="form-label">
+                                Data inicial
+                            </label>
+
+                            <input id="inicio" type="date" class="form-control" formControlName="inicio">
+
+                        </div>
+
+
+                        <!-- Data final -->
+                        <div class="col-12 col-md-5">
+
+                            <label for="fim" class="form-label">
+                                Data final
+                            </label>
+
+                            <input id="fim" type="date" class="form-control" formControlName="fim">
+
+                        </div>
+
+
+                        <!-- Botão gerar -->
+                        <div class="col-12 col-md-2
+                            d-flex align-items-end">
+
+                            <button type="submit" class="btn btn-primary w-100"
+                                [disabled]="carregando() || exportandoPdf()">
+
+                                @if (carregando()) {
+                                Gerando...
+                                } @else {
+                                Gerar
+                                }
+
+                            </button>
+
+                        </div>
+
+                        <div class="col-12 col-md-2 d-flex align-items-end">
+
+                            <button type="button" class="btn btn-outline-secondary w-100"
+                                [disabled]="carregando() || exportandoPdf()" (click)="exportarPdf()">
+
+                                @if (exportandoPdf()) {
+                                Exportando...
+                                } @else {
+                                Exportar PDF
+                                }
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+
+        <!-- Mensagem de erro -->
+        @if (erro()) {
+
+        <div class="alert alert-danger mt-3" role="alert">
+
+            {{ erro() }}
+
+        </div>
+
+        }
+
+    </div>
+
+
+    <!-- Resumo financeiro -->
+    @if (resumo(); as resumo) {
+
+    <div class="mt-4">
+
+        <h5 class="mb-3">
+            Resumo financeiro
+        </h5>
+
+        <div class="row g-3">
+
+
+            <!-- Receitas -->
+            <div class="col-12 col-md-4">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <span class="text-muted small">
+                            Receitas
+                        </span>
+
+                        <h4 class="mb-0 mt-1">
+                            {{ resumo.totalReceitas | currency:'BRL' }}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Despesas -->
+            <div class="col-12 col-md-4">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <span class="text-muted small">
+                            Despesas
+                        </span>
+
+                        <h4 class="mb-0 mt-1">
+                            {{ resumo.totalDespesas | currency:'BRL' }}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Saldo -->
+            <div class="col-12 col-md-4">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <span class="text-muted small">
+                            Saldo
+                        </span>
+
+                        <h4 class="mb-0 mt-1">
+                            {{ resumo.saldo | currency:'BRL' }}
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Média diária -->
+            <div class="col-12 col-md-6">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <span class="text-muted small">
+                            Média diária
+                        </span>
+
+                        <h5 class="mb-0 mt-1">
+                            {{ resumo.mediaDiaria | currency:'BRL' }}
+                        </h5>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Dias trabalhados -->
+            <div class="col-12 col-md-6">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <span class="text-muted small">
+                            Dias trabalhados
+                        </span>
+
+                        <h5 class="mb-0 mt-1">
+                            {{ resumo.diasTrabalhados }}
+                        </h5>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+
+    <!-- Receitas por plataforma -->
+    @if (receitasPorPlataforma().length > 0) {
+
+    <div class="mt-4">
+
+        <h5 class="mb-3">
+            Receitas por plataforma
+        </h5>
+
+        <div class="card">
+
+            <div class="card-body">
+
+                @for (
+                receita of receitasPorPlataforma();
+                track receita.plataforma;
+                let ultimo = $last
+                ) {
+
+                <div [class.mb-4]="!ultimo">
+
+                    <div class="d-flex
+                       justify-content-between
+                       align-items-center
+                       gap-3
+                       mb-2">
+
+                        <span class="fw-semibold">
+                            {{ receita.plataforma }}
+                        </span>
+
+                        <span class="text-end">
+                            {{ receita.total | currency:'BRL' }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="d-flex
+                       align-items-center
+                       gap-3">
+
+                        <div class="progress flex-grow-1" style="height: 8px;">
+
+                            <div class="progress-bar" role="progressbar" [style.width.%]="receita.percentual">
+                            </div>
+
+                        </div>
+
+                        <span class="text-muted small" style="min-width: 55px;">
+
+                            {{ receita.percentual }}%
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+
+    <!-- Despesas por categoria -->
+    @if (despesasPorCategoria().length > 0) {
+
+    <div class="mt-4">
+
+        <h5 class="mb-3">
+            Despesas por categoria
+        </h5>
+
+        <div class="card">
+
+            <div class="card-body">
+
+                @for (
+                despesa of despesasPorCategoria();
+                track despesa.categoria;
+                let ultimo = $last
+                ) {
+
+                <div [class.mb-4]="!ultimo">
+
+                    <div class="d-flex
+                       justify-content-between
+                       align-items-center
+                       gap-3
+                       mb-2">
+
+                        <span class="fw-semibold">
+                            {{ despesa.categoria }}
+                        </span>
+
+                        <span class="text-end">
+                            {{ despesa.total | currency:'BRL' }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="d-flex
+                       align-items-center
+                       gap-3">
+
+                        <div class="progress flex-grow-1" style="height: 8px;">
+
+                            <div class="progress-bar" role="progressbar" [style.width.%]="despesa.percentual">
+                            </div>
+
+                        </div>
+
+                        <span class="text-muted small" style="min-width: 55px;">
+
+                            {{ despesa.percentual }}%
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+    <!-- Comparativo entre períodos -->
+    @if (comparativo(); as comparativo) {
+
+    <div class="mt-4">
+
+        <h5 class="mb-3">
+            Comparativo entre períodos
+        </h5>
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- Períodos comparados -->
+                <div class="row g-3 mb-4">
+
+                    <div class="col-12 col-md-6">
+
+                        <div class="border rounded p-3 h-100">
+
+                            <span class="text-muted small">
+                                Período anterior
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{ comparativo.inicioPeriodoAnterior | date:'dd/MM/yyyy' }}
+                                a
+                                {{ comparativo.fimPeriodoAnterior | date:'dd/MM/yyyy' }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-12 col-md-6">
+
+                        <div class="border rounded p-3 h-100">
+
+                            <span class="text-muted small">
+                                Período atual
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{ comparativo.inicioPeriodoAtual | date:'dd/MM/yyyy' }}
+                                a
+                                {{ comparativo.fimPeriodoAtual | date:'dd/MM/yyyy' }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Receitas -->
+                <div class="comparativo-item">
+
+                    <div class="fw-semibold mb-3">
+                        Receitas
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Período anterior
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{
+                                comparativo.receitasPeriodoAnterior
+                                | currency:'BRL'
+                                }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Período atual
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{
+                                comparativo.receitasPeriodoAtual
+                                | currency:'BRL'
+                                }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Variação
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                @if (comparativo.variacaoReceitas > 0) {
+                                +
+                                }
+
+                                {{ comparativo.variacaoReceitas }}%
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <hr>
+
+
+                <!-- Despesas -->
+                <div class="comparativo-item">
+
+                    <div class="fw-semibold mb-3">
+                        Despesas
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Período anterior
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{
+                                comparativo.despesasPeriodoAnterior
+                                | currency:'BRL'
+                                }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Período atual
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{
+                                comparativo.despesasPeriodoAtual
+                                | currency:'BRL'
+                                }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Variação
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                @if (comparativo.variacaoDespesas > 0) {
+                                +
+                                }
+
+                                {{ comparativo.variacaoDespesas }}%
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <hr>
+
+
+                <!-- Saldo -->
+                <div class="comparativo-item">
+
+                    <div class="fw-semibold mb-3">
+                        Saldo
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Período anterior
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{
+                                comparativo.saldoPeriodoAnterior
+                                | currency:'BRL'
+                                }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Período atual
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                {{
+                                comparativo.saldoPeriodoAtual
+                                | currency:'BRL'
+                                }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+
+                            <span class="text-muted small">
+                                Variação
+                            </span>
+
+                            <div class="fw-semibold mt-1">
+                                @if (comparativo.variacaoSaldo > 0) {
+                                +
+                                }
+
+                                {{ comparativo.variacaoSaldo }}%
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    }
+
+</div>
