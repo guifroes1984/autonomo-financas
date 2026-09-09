@@ -43,23 +43,11 @@ export class Relatorios implements OnInit {
   exportarPdf(): void {
     this.erro.set(null);
 
-    if (this.formulario.invalid) {
-      this.formulario.markAllAsTouched();
-      return;
-    }
+    const resumo = this.resumo();
 
-    const {
-      inicio,
-      fim
-    } = this.formulario.getRawValue();
-
-    if (!inicio || !fim) {
-      return;
-    }
-
-    if (inicio > fim) {
+    if (!resumo) {
       this.erro.set(
-        'A data inicial não pode ser posterior à data final.'
+        'Gere o relatório antes de exportar o PDF.'
       );
 
       return;
@@ -68,7 +56,10 @@ export class Relatorios implements OnInit {
     this.exportandoPdf.set(true);
 
     this.relatorioService
-      .exportarPdf(inicio, fim)
+      .exportarPdf(
+        resumo.inicio,
+        resumo.fim
+      )
       .pipe(
         finalize(() => {
           this.exportandoPdf.set(false);
@@ -81,8 +72,9 @@ export class Relatorios implements OnInit {
           const link = document.createElement('a');
 
           link.href = url;
+
           link.download =
-            `relatorio-${inicio}-a-${fim}.pdf`;
+            `relatorio-${resumo.inicio}-a-${resumo.fim}.pdf`;
 
           document.body.appendChild(link);
 
@@ -131,7 +123,6 @@ export class Relatorios implements OnInit {
       return;
     }
 
-    // Limpa os dados do relatório anterior
     this.resumo.set(null);
     this.receitasPorPlataforma.set([]);
     this.despesasPorCategoria.set([]);
