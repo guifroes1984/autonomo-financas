@@ -5,31 +5,48 @@
         <div class="card-body p-4 p-md-5">
 
             <div class="text-center mb-4">
-                <h1 class="h3 mb-2">Autônomo Finanças</h1>
+                <h1 class="h3 mb-2">
+                    Autônomo Finanças
+                </h1>
+
                 <p class="text-muted mb-0">
                     Acesse sua conta para continuar
                 </p>
             </div>
 
+            @if (erro()) {
+            <div class="alert alert-danger" role="alert">
+                {{ erro() }}
+            </div>
+            }
+
             <form [formGroup]="formulario" (ngSubmit)="enviar()">
 
                 <div class="mb-3">
+
                     <label for="email" class="form-label">
                         E-mail
                     </label>
 
                     <input type="email" id="email" class="form-control" formControlName="email"
-                        placeholder="joao@email.com" />
+                        placeholder="joao@email.com" autocomplete="email" />
 
-                    @if (formulario.controls.email.touched && formulario.controls.email.invalid) {
+                    @if (
+                    formulario.controls.email.touched &&
+                    formulario.controls.email.invalid
+                    ) {
                     <div class="text-danger small mt-1">
 
                         @if (formulario.controls.email.errors?.['required']) {
-                        <span>O e-mail é obrigatório.</span>
+                        <span>
+                            O e-mail é obrigatório.
+                        </span>
                         }
 
                         @if (formulario.controls.email.errors?.['email']) {
-                        <span>Informe um e-mail válido.</span>
+                        <span>
+                            Informe um e-mail válido.
+                        </span>
                         }
 
                     </div>
@@ -38,22 +55,33 @@
                 </div>
 
                 <div class="mb-3">
+
                     <label for="senha" class="form-label">
                         Senha
                     </label>
 
                     <input type="password" id="senha" class="form-control" formControlName="senha"
-                        placeholder="Digite sua senha" />
+                        placeholder="Digite sua senha" autocomplete="current-password" />
 
-                    @if (formulario.controls.senha.touched && formulario.controls.senha.invalid) {
+                    @if (
+                    formulario.controls.senha.touched &&
+                    formulario.controls.senha.invalid
+                    ) {
                     <div class="text-danger small mt-1">
                         A senha é obrigatória.
                     </div>
                     }
+
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100" [disabled]="formulario.invalid">
+                <button type="submit" class="btn btn-primary w-100" [disabled]="formulario.invalid || carregando()">
+
+                    @if (carregando()) {
+                    Entrando...
+                    } @else {
                     Entrar
+                    }
+
                 </button>
 
             </form>
