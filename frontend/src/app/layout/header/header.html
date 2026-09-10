@@ -14,9 +14,58 @@
 
         </div>
 
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="sair()">
-            Sair
-        </button>
+        <div class="usuario-menu">
+
+            <button type="button" class="usuario-avatar" aria-label="Abrir menu do usuário"
+                (click)="alterarMenuUsuario()">
+
+                <span class="usuario-avatar-iniciais">
+                    {{ perfil()?.nome?.charAt(0)?.toUpperCase() || 'U' }}
+                </span>
+
+                <span class="usuario-seta">
+                    ▾
+                </span>
+
+            </button>
+
+            @if (menuUsuarioAberto()) {
+
+            <div class="usuario-dropdown">
+
+                @if (perfil()) {
+
+                <div class="usuario-info">
+
+                    <strong>
+                        {{ perfil()!.nome }}
+                    </strong>
+
+                    <small>
+                        {{ perfil()!.email }}
+                    </small>
+
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                }
+
+                <button type="button" class="usuario-dropdown-item" (click)="abrirPerfil()">
+                    Meu perfil
+                </button>
+
+                <div class="dropdown-divider"></div>
+
+                <button type="button" class="usuario-dropdown-item usuario-sair" (click)="sair()">
+                    Sair
+                </button>
+
+            </div>
+
+            }
+
+        </div>
 
     </div>
 </nav>

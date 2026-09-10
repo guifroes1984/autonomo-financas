@@ -11,6 +11,7 @@ import { Plataformas } from './features/plataformas/plataformas';
 import { FormPlataforma } from './features/plataformas/form-plataforma/form-plataforma';
 import { Metas } from './features/metas/metas';
 import { Relatorios } from './features/relatorios/relatorios';
+import { Perfil } from './features/perfil/perfil';
 
 export const routes: Routes = [
     {
@@ -27,30 +28,26 @@ export const routes: Routes = [
                 component: Dashboard
             },
             {
+                path: '',
+                redirectTo: 'dashboard',
+                pathMatch: 'full'
+            },
+            {
                 path: 'lancamentos',
                 component: Lancamentos
             },
             {
-                path: '',
-                redirectTo: 'dashboard',
-                pathMatch: 'full'
-            }, 
-            {
-                path: 'lancamentos', 
-                component: Lancamentos
-            }, 
-            {
-                path: 'lancamentos/novo', 
+                path: 'lancamentos/novo',
                 component: FormLancamento
-            }, 
+            },
             {
-                path: 'lancamentos/:id/editar', 
+                path: 'lancamentos/:id/editar',
                 component: FormLancamento
-            }, 
+            },
             {
-                path: 'categorias', 
+                path: 'categorias',
                 component: Categorias
-            }, 
+            },
             {
                 path: 'categorias/novo',
                 component: FormCategoria
@@ -58,26 +55,30 @@ export const routes: Routes = [
             {
                 path: 'categorias/:id/editar',
                 component: FormCategoria
-            }, 
+            },
             {
-                path: 'plataformas', 
+                path: 'plataformas',
                 component: Plataformas
-            }, 
+            },
             {
                 path: 'plataformas/novo',
                 component: FormPlataforma
-            }, 
+            },
             {
                 path: 'plataformas/:id/editar',
                 component: FormPlataforma
-            }, 
+            },
             {
-                path: 'metas', 
+                path: 'metas',
                 component: Metas
-            }, 
+            },
             {
                 path: 'relatorios',
                 component: Relatorios
+            }, 
+            {
+                path: 'perfil',
+                component: Perfil
             }
         ]
     },
