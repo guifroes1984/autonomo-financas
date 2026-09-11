@@ -19,19 +19,23 @@ import { RedefinirSenha } from './features/auth/redefinir-senha/redefinir-senha'
 export const routes: Routes = [
     {
         path: 'login',
-        component: Login
+        component: Login, 
+        title: 'Login | Autônomo Finanças'
     },
     {
         path: 'cadastro', 
-        component: Cadastro
+        component: Cadastro, 
+        title: 'Cadastro | Autônomo Finanças'
     },
     {
         path: 'esqueci-senha', 
-        component: EsqueciSenha
+        component: EsqueciSenha, 
+        title: 'Recuperar senha | Autônomo Finanças'
     },
     {
         path: 'redefinir-senha', 
-        component: RedefinirSenha
+        component: RedefinirSenha, 
+        title: 'Redefinir senha | Autônomo Finanças'
     },
     {
         path: '',
@@ -40,7 +44,8 @@ export const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
-                component: Dashboard
+                component: Dashboard, 
+                title: 'Dashboard | Autônomo Finanças'
             },
             {
                 path: '',
@@ -49,51 +54,63 @@ export const routes: Routes = [
             },
             {
                 path: 'lancamentos',
-                component: Lancamentos
+                component: Lancamentos, 
+                title: 'Lançamentos | Autônomo Finanças'
             },
             {
                 path: 'lancamentos/novo',
-                component: FormLancamento
+                component: FormLancamento, 
+                title: 'Novo lançamento | Autônomo Finanças'
             },
             {
                 path: 'lancamentos/:id/editar',
-                component: FormLancamento
+                component: FormLancamento, 
+                title: 'Editar lançamento | Autônomo Finanças'
             },
             {
                 path: 'categorias',
-                component: Categorias
+                component: Categorias, 
+                title: 'Categorias | Autônomo Finanças'
             },
             {
                 path: 'categorias/novo',
-                component: FormCategoria
+                component: FormCategoria, 
+                title: 'Nova categoria | Autônomo Finanças'
             },
             {
                 path: 'categorias/:id/editar',
-                component: FormCategoria
+                component: FormCategoria, 
+                title: 'Editar categoria | Autônomo Finanças'
             },
             {
                 path: 'plataformas',
-                component: Plataformas
+                component: Plataformas, 
+                title: 'Plataformas | Autônomo Finanças'
             },
             {
                 path: 'plataformas/novo',
-                component: FormPlataforma
+                component: FormPlataforma, 
+                title: 'Nova plataforma | Autônomo Finanças'
             },
             {
                 path: 'plataformas/:id/editar',
-                component: FormPlataforma
+                component: FormPlataforma, 
+                title: 'Editar plataforma | Autônomo Finanças'
             },
             {
                 path: 'metas',
-                component: Metas
+                component: Metas, 
+                title: 'Metas | Autônomo Finanças'
             },
             {
                 path: 'relatorios',
-                component: Relatorios
+                component: Relatorios, 
+                title: 'Relatórios | Autônomo Finanças'
             }, 
             {
                 path: 'perfil',
-                component: Perfil
+                component: Perfil, 
+                title: 'Perfil | Autônomo Finanças'
             }
         ]
     },
