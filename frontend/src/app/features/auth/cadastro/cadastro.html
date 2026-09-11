@@ -1,0 +1,258 @@
+<div class="cadastro-page">
+
+    <div class="cadastro-container">
+
+        <div class="marca">
+            <div class="marca-icone">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <h1>Autônomo Finanças</h1>
+
+            <p>
+                Acompanhe seus ganhos, despesas e resultados em um só lugar
+            </p>
+        </div>
+
+        <section class="cadastro-card">
+
+            <div class="card-cabecalho">
+                <h2>Crie sua conta</h2>
+
+                <p>
+                    Preencha seus dados para começar
+                </p>
+            </div>
+
+            @if (sucesso(); as mensagem) {
+
+            <div class="mensagem mensagem-sucesso" role="alert">
+
+                <i class="bi bi-check-circle"></i>
+
+                <div>
+                    <strong>Conta criada!</strong>
+                    <span>{{ mensagem }} Redirecionando para o login...</span>
+                </div>
+
+            </div>
+
+            }
+
+            @if (erro(); as mensagem) {
+
+            <div class="mensagem mensagem-erro" role="alert">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <div>
+                    <strong>Não foi possível criar sua conta</strong>
+                    <span>{{ mensagem }}</span>
+                </div>
+
+            </div>
+
+            }
+
+            <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+
+                <div class="campo">
+
+                    <label for="nome" class="form-label">
+
+                        Nome
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-person"></i>
+
+                        <input id="nome" type="text" class="form-control" formControlName="nome" maxlength="120"
+                            autocomplete="name" placeholder="Digite seu nome">
+
+                    </div>
+
+                    @if (
+                    formulario.controls.nome.touched &&
+                    formulario.controls.nome.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        O nome é obrigatório.
+                    </div>
+
+                    }
+
+                    @if (
+                    formulario.controls.nome.touched &&
+                    formulario.controls.nome.hasError('maxlength')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        O nome deve ter no máximo 120 caracteres.
+                    </div>
+
+                    }
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="email" class="form-label">
+
+                        E-mail
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-envelope"></i>
+
+                        <input id="email" type="email" class="form-control" formControlName="email" autocomplete="email"
+                            placeholder="seu@email.com">
+
+                    </div>
+
+                    @if (
+                    formulario.controls.email.touched &&
+                    formulario.controls.email.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        O e-mail é obrigatório.
+                    </div>
+
+                    }
+
+                    @if (
+                    formulario.controls.email.touched &&
+                    formulario.controls.email.hasError('email')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Informe um e-mail válido.
+                    </div>
+
+                    }
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="senha" class="form-label">
+
+                        Senha
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-lock"></i>
+
+                        <input id="senha" type="password" class="form-control" formControlName="senha"
+                            autocomplete="new-password" placeholder="Crie uma senha">
+
+                    </div>
+
+                    <span class="campo-ajuda">
+                        Use pelo menos 6 caracteres.
+                    </span>
+
+                    @if (
+                    formulario.controls.senha.touched &&
+                    formulario.controls.senha.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        A senha é obrigatória.
+                    </div>
+
+                    }
+
+                    @if (
+                    formulario.controls.senha.touched &&
+                    formulario.controls.senha.hasError('minlength')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        A senha deve possuir pelo menos 6 caracteres.
+                    </div>
+
+                    }
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="confirmarSenha" class="form-label">
+
+                        Confirmar senha
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-shield-lock"></i>
+
+                        <input id="confirmarSenha" type="password" class="form-control" formControlName="confirmarSenha"
+                            autocomplete="new-password" placeholder="Digite a senha novamente">
+
+                    </div>
+
+                    @if (
+                    formulario.controls.confirmarSenha.touched &&
+                    formulario.controls.confirmarSenha.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Confirme sua senha.
+                    </div>
+
+                    }
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-cadastrar" [disabled]="salvando()">
+
+                    @if (salvando()) {
+
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                    </span>
+
+                    Criando conta...
+
+                    } @else {
+
+                    Criar conta
+
+                    <i class="bi bi-arrow-right"></i>
+
+                    }
+
+                </button>
+
+            </form>
+
+            <div class="login-link">
+
+                <span>Já possui uma conta?</span>
+
+                <a routerLink="/login">
+                    Entrar
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>

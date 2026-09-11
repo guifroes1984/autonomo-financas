@@ -1,0 +1,367 @@
+.esqueci-senha-page {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 32px 20px;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(13, 110, 253, 0.08),
+      transparent 38%
+    ),
+    #f6f8fb;
+}
+
+.esqueci-senha-container {
+  width: 100%;
+  max-width: 440px;
+}
+
+.marca {
+  margin-bottom: 24px;
+
+  text-align: center;
+}
+
+.marca-icone {
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 12px;
+
+  background-color: #0d6efd;
+
+  border-radius: 16px;
+
+  color: #ffffff;
+
+  font-size: 24px;
+
+  box-shadow:
+    0 8px 24px rgba(13, 110, 253, 0.2);
+}
+
+.marca h1 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.marca p {
+  max-width: 360px;
+
+  margin: 7px auto 0;
+
+  color: #868e96;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.recuperacao-card {
+  padding: 28px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 18px;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.06);
+}
+
+.card-cabecalho {
+  margin-bottom: 24px;
+
+  text-align: center;
+}
+
+.recuperacao-icone {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 13px;
+
+  background-color: #eef4ff;
+
+  border-radius: 13px;
+
+  color: #0d6efd;
+
+  font-size: 19px;
+}
+
+.card-cabecalho h2,
+.sucesso-conteudo h2 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.card-cabecalho p,
+.sucesso-conteudo > p {
+  margin: 7px auto 0;
+
+  color: #868e96;
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.campo {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  margin-bottom: 6px;
+
+  color: #495057;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.input-com-icone {
+  position: relative;
+}
+
+.input-com-icone > i {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+
+  z-index: 2;
+
+  transform: translateY(-50%);
+
+  color: #adb5bd;
+
+  font-size: 14px;
+
+  pointer-events: none;
+}
+
+.input-com-icone .form-control {
+  min-height: 44px;
+
+  padding-left: 39px;
+
+  border-color: #dee2e6;
+  border-radius: 10px;
+
+  color: #343a40;
+
+  font-size: 13px;
+}
+
+.input-com-icone .form-control::placeholder {
+  color: #adb5bd;
+}
+
+.input-com-icone .form-control:focus {
+  border-color: #86b7fe;
+
+  box-shadow:
+    0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+}
+
+.input-com-icone:focus-within > i {
+  color: #0d6efd;
+}
+
+.campo-erro {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 6px;
+
+  color: #dc3545;
+
+  font-size: 11px;
+}
+
+.mensagem {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  margin-bottom: 18px;
+  padding: 11px 13px;
+
+  border: 1px solid;
+  border-radius: 10px;
+
+  font-size: 12px;
+}
+
+.mensagem > i {
+  margin-top: 1px;
+
+  flex-shrink: 0;
+
+  font-size: 15px;
+}
+
+.mensagem strong,
+.mensagem span {
+  display: block;
+}
+
+.mensagem strong {
+  margin-bottom: 1px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mensagem span {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.mensagem-erro {
+  background-color: #fff1f2;
+
+  border-color: #f5c2c7;
+
+  color: #842029;
+}
+
+.btn-recuperar {
+  width: 100%;
+  min-height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 22px;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sucesso-conteudo {
+  padding: 6px 0 4px;
+
+  text-align: center;
+}
+
+.sucesso-icone {
+  width: 60px;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 16px;
+
+  background-color: #e9f9ef;
+
+  border-radius: 50%;
+
+  color: #198754;
+
+  font-size: 25px;
+}
+
+.sucesso-aviso {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  margin-top: 22px;
+  padding: 11px 12px;
+
+  background-color: #eef4ff;
+
+  border: 1px solid #cfe2ff;
+  border-radius: 10px;
+
+  color: #084298;
+
+  text-align: left;
+
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.sucesso-aviso i {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  font-size: 14px;
+}
+
+.voltar-login {
+  margin-top: 22px;
+  padding-top: 18px;
+
+  border-top: 1px solid #f1f3f5;
+
+  text-align: center;
+}
+
+.voltar-login a {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #0d6efd;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.voltar-login a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 575.98px) {
+
+  .esqueci-senha-page {
+    align-items: flex-start;
+
+    padding: 24px 16px;
+  }
+
+  .recuperacao-card {
+    padding: 22px 18px;
+  }
+
+  .marca h1 {
+    font-size: 22px;
+  }
+
+}

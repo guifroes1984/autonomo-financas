@@ -1,0 +1,161 @@
+<div class="esqueci-senha-page">
+
+    <div class="esqueci-senha-container">
+
+        <div class="marca">
+
+            <div class="marca-icone">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <h1>Autônomo Finanças</h1>
+
+            <p>
+                Acompanhe seus ganhos, despesas e resultados em um só lugar
+            </p>
+
+        </div>
+
+        <section class="recuperacao-card">
+
+            @if (!sucesso()) {
+
+            <div class="card-cabecalho">
+
+                <div class="recuperacao-icone">
+                    <i class="bi bi-key"></i>
+                </div>
+
+                <h2>Esqueceu sua senha?</h2>
+
+                <p>
+                    Informe o e-mail cadastrado na sua conta para receber
+                    as instruções de recuperação.
+                </p>
+
+            </div>
+
+            @if (erro(); as mensagem) {
+
+            <div class="mensagem mensagem-erro" role="alert">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <div>
+                    <strong>Não foi possível continuar</strong>
+                    <span>{{ mensagem }}</span>
+                </div>
+
+            </div>
+
+            }
+
+            <form [formGroup]="formulario" (ngSubmit)="solicitarRecuperacao()">
+
+                <div class="campo">
+
+                    <label for="email" class="form-label">
+
+                        E-mail
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-envelope"></i>
+
+                        <input id="email" type="email" class="form-control" formControlName="email" autocomplete="email"
+                            placeholder="seu@email.com">
+
+                    </div>
+
+                    @if (
+                    formulario.controls.email.touched &&
+                    formulario.controls.email.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        O e-mail é obrigatório.
+                    </div>
+
+                    }
+
+                    @if (
+                    formulario.controls.email.touched &&
+                    formulario.controls.email.hasError('email')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Informe um e-mail válido.
+                    </div>
+
+                    }
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-recuperar" [disabled]="enviando()">
+
+                    @if (enviando()) {
+
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                    </span>
+
+                    Enviando...
+
+                    } @else {
+
+                    Enviar instruções
+
+                    <i class="bi bi-arrow-right"></i>
+
+                    }
+
+                </button>
+
+            </form>
+
+            } @else {
+
+            <div class="sucesso-conteudo">
+
+                <div class="sucesso-icone">
+                    <i class="bi bi-envelope-check"></i>
+                </div>
+
+                <h2>Verifique seu e-mail</h2>
+
+                <p>
+                    Se existir uma conta associada ao e-mail informado,
+                    você receberá as instruções para redefinir sua senha.
+                </p>
+
+                <div class="sucesso-aviso">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    <span>
+                        Verifique também sua caixa de spam ou lixo eletrônico.
+                    </span>
+
+                </div>
+
+            </div>
+
+            }
+
+            <div class="voltar-login">
+
+                <a routerLink="/login">
+                    <i class="bi bi-arrow-left"></i>
+                    Voltar para o login
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>

@@ -12,11 +12,26 @@ import { FormPlataforma } from './features/plataformas/form-plataforma/form-plat
 import { Metas } from './features/metas/metas';
 import { Relatorios } from './features/relatorios/relatorios';
 import { Perfil } from './features/perfil/perfil';
+import { Cadastro } from './features/auth/cadastro/cadastro';
+import { EsqueciSenha } from './features/auth/esqueci-senha/esqueci-senha';
+import { RedefinirSenha } from './features/auth/redefinir-senha/redefinir-senha';
 
 export const routes: Routes = [
     {
         path: 'login',
         component: Login
+    },
+    {
+        path: 'cadastro', 
+        component: Cadastro
+    },
+    {
+        path: 'esqueci-senha', 
+        component: EsqueciSenha
+    },
+    {
+        path: 'redefinir-senha', 
+        component: RedefinirSenha
     },
     {
         path: '',

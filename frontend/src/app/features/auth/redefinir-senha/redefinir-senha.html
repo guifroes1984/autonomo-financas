@@ -1,0 +1,218 @@
+<div class="redefinir-senha-page">
+
+    <div class="redefinir-senha-container">
+
+        <div class="marca">
+
+            <div class="marca-icone">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <h1>Autônomo Finanças</h1>
+
+            <p>
+                Acompanhe seus ganhos, despesas e resultados em um só lugar
+            </p>
+
+        </div>
+
+        <section class="redefinir-card">
+
+            @if (!token()) {
+
+            <div class="estado-link">
+
+                <div class="estado-icone estado-icone-erro">
+                    <i class="bi bi-link-45deg"></i>
+                </div>
+
+                <h2>Link inválido</h2>
+
+                <p>
+                    Este link de recuperação está incompleto ou não possui
+                    um token válido.
+                </p>
+
+                <a routerLink="/esqueci-senha" class="btn btn-primary btn-acao">
+
+                    Solicitar novo link
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+            } @else if (sucesso()) {
+
+            <div class="estado-link">
+
+                <div class="estado-icone estado-icone-sucesso">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+                <h2>Senha redefinida!</h2>
+
+                <p>
+                    Sua nova senha foi cadastrada com sucesso.
+                    Você já pode acessar sua conta.
+                </p>
+
+                <a routerLink="/login" class="btn btn-primary btn-acao">
+
+                    Ir para o login
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+            } @else {
+
+            <div class="card-cabecalho">
+
+                <div class="redefinir-icone">
+                    <i class="bi bi-shield-lock"></i>
+                </div>
+
+                <h2>Crie uma nova senha</h2>
+
+                <p>
+                    Escolha uma nova senha para acessar sua conta.
+                </p>
+
+            </div>
+
+            @if (erro(); as mensagem) {
+
+            <div class="mensagem mensagem-erro" role="alert">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <div>
+                    <strong>Não foi possível redefinir a senha</strong>
+                    <span>{{ mensagem }}</span>
+                </div>
+
+            </div>
+
+            }
+
+            <form [formGroup]="formulario" (ngSubmit)="redefinirSenha()">
+
+                <div class="campo">
+
+                    <label for="novaSenha" class="form-label">
+
+                        Nova senha
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-lock"></i>
+
+                        <input id="novaSenha" type="password" class="form-control" formControlName="novaSenha"
+                            autocomplete="new-password" placeholder="Digite sua nova senha">
+
+                    </div>
+
+                    <span class="campo-ajuda">
+                        Use pelo menos 6 caracteres.
+                    </span>
+
+                    @if (
+                    formulario.controls.novaSenha.touched &&
+                    formulario.controls.novaSenha.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        A nova senha é obrigatória.
+                    </div>
+
+                    }
+
+                    @if (
+                    formulario.controls.novaSenha.touched &&
+                    formulario.controls.novaSenha.hasError('minlength')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        A senha deve possuir pelo menos 6 caracteres.
+                    </div>
+
+                    }
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="confirmarSenha" class="form-label">
+
+                        Confirmar nova senha
+
+                    </label>
+
+                    <div class="input-com-icone">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <input id="confirmarSenha" type="password" class="form-control" formControlName="confirmarSenha"
+                            autocomplete="new-password" placeholder="Digite a nova senha novamente">
+
+                    </div>
+
+                    @if (
+                    formulario.controls.confirmarSenha.touched &&
+                    formulario.controls.confirmarSenha.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Confirme sua nova senha.
+                    </div>
+
+                    }
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-redefinir" [disabled]="redefinindo()">
+
+                    @if (redefinindo()) {
+
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                    </span>
+
+                    Redefinindo...
+
+                    } @else {
+
+                    Redefinir senha
+
+                    <i class="bi bi-arrow-right"></i>
+
+                    }
+
+                </button>
+
+            </form>
+
+            <div class="voltar-login">
+
+                <a routerLink="/login">
+                    <i class="bi bi-arrow-left"></i>
+                    Voltar para o login
+                </a>
+
+            </div>
+
+            }
+
+        </section>
+
+    </div>
+
+</div>
