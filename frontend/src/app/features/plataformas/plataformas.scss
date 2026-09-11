@@ -1,10 +1,328 @@
+.plataformas {
+  width: 100%;
+}
+
+.plataformas-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+}
+
+.plataformas-cabecalho h1 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.plataformas-cabecalho p {
+  margin: 5px 0 0;
+
+  color: #868e96;
+
+  font-size: 14px;
+}
+
+.btn-nova {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  background-color: #0d6efd;
+
+  border: 1px solid #0d6efd;
+  border-radius: 10px;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn-nova:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+
+  transform: translateY(-1px);
+}
+
+.tabela-card,
+.estado-vazio {
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.tabela-card {
+  overflow: hidden;
+}
+
+.tabela-plataformas thead th {
+  padding: 14px 18px;
+
+  background-color: #f8f9fa;
+
+  border-bottom: 1px solid #e9ecef;
+
+  color: #868e96;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.02em;
+}
+
+.tabela-plataformas tbody td {
+  padding: 16px 18px;
+
+  border-color: #f1f3f5;
+
+  color: #495057;
+
+  font-size: 14px;
+}
+
+.tabela-plataformas tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabela-plataformas tbody tr:hover {
+  background-color: #fafbfc;
+}
+
+.plataforma-identificacao {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+.plataforma-icone {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background-color: #eef4ff;
+
+  border-radius: 9px;
+
+  color: #0d6efd;
+
+  font-size: 15px;
+}
+
+.plataforma-nome {
+  color: #343a40;
+
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-ponto {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background-color: currentColor;
+}
+
+.status-ativo {
+  background-color: #e9f9ef;
+
+  color: #198754;
+}
+
+.status-inativo {
+  background-color: #f1f3f5;
+
+  color: #868e96;
+}
+
 .acoes-plataforma {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+
+  gap: 6px;
 }
 
-.espaco-acao {
-  width: 68px;
+.acao-botao {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: transparent;
+
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.acao-editar {
+  color: #0d6efd;
+}
+
+.acao-editar:hover {
+  background-color: #eef4ff;
+  border-color: #cfe2ff;
+
+  color: #0d6efd;
+}
+
+.acao-desativar {
+  color: #dc3545;
+}
+
+.acao-desativar:hover {
+  background-color: #fff1f2;
+  border-color: #f5c2c7;
+
+  color: #dc3545;
+}
+
+.acao-ativar {
+  color: #198754;
+}
+
+.acao-ativar:hover {
+  background-color: #e9f9ef;
+  border-color: #badbcc;
+
+  color: #198754;
+}
+
+.estado-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 56px 24px;
+
+  text-align: center;
+}
+
+.estado-vazio-icone {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  background-color: #eef4ff;
+
+  border-radius: 14px;
+
+  color: #0d6efd;
+
+  font-size: 24px;
+}
+
+.estado-vazio h2 {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.estado-vazio p {
+  max-width: 420px;
+
+  margin: 6px 0 20px;
+
+  color: #868e96;
+
+  font-size: 13px;
+}
+
+.estado-vazio .btn {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  border-radius: 9px;
+}
+
+@media (max-width: 767.98px) {
+
+  .plataformas-cabecalho h1 {
+    font-size: 24px;
+  }
+
+  .tabela-plataformas {
+    min-width: 550px;
+  }
+
+}
+
+@media (max-width: 575.98px) {
+
+  .plataformas-cabecalho {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .btn-nova {
+    width: 100%;
+  }
+
 }

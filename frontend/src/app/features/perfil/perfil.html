@@ -1,221 +1,366 @@
-<div class="container-fluid py-4">
+<div class="perfil">
 
-    <div class="mb-4">
-        <h2 class="mb-1">
-            Meu perfil
-        </h2>
+    <div class="pagina-cabecalho">
+        <h1>Meu perfil</h1>
 
-        <p class="text-muted mb-0">
-            Gerencie seus dados pessoais e sua senha
+        <p>
+            Gerencie seus dados pessoais e a segurança da sua conta
         </p>
     </div>
 
     @if (carregando()) {
 
-    <p class="text-muted">
-        Carregando perfil...
-    </p>
+    <section class="carregando-card">
+
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+
+        <span>Carregando seu perfil...</span>
+
+    </section>
 
     } @else {
 
-    <div class="perfil-formulario">
+    <div class="perfil-conteudo">
 
-        @if (sucesso()) {
-        <div class="alert alert-success" role="alert">
-            {{ sucesso() }}
-        </div>
-        }
+        @if (perfil(); as usuario) {
 
-        @if (erro()) {
-        <div class="alert alert-danger" role="alert">
-            {{ erro() }}
-        </div>
-        }
+        <section class="identidade-card">
 
-        @if (sucessoSenha()) {
-        <div class="alert alert-success" role="alert">
-            {{ sucessoSenha() }}
-        </div>
-        }
-
-        @if (erroSenha()) {
-        <div class="alert alert-danger" role="alert">
-            {{ erroSenha() }}
-        </div>
-        }
-
-        <div class="card">
-            <div class="card-body p-4">
-
-                <div class="perfil-secao">
-
-                    <h5 class="mb-1">
-                        Dados pessoais
-                    </h5>
-
-                    <p class="text-muted small mb-4">
-                        Atualize seu nome e endereço de e-mail
-                    </p>
-
-                    <form [formGroup]="formulario" (ngSubmit)="salvar()">
-
-                        <div class="mb-3">
-
-                            <label for="nome" class="form-label">
-                                Nome
-                            </label>
-
-                            <input id="nome" type="text" class="form-control" formControlName="nome" maxlength="120">
-
-                            @if (
-                            formulario.controls.nome.touched &&
-                            formulario.controls.nome.hasError('required')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                O nome é obrigatório.
-                            </div>
-                            }
-
-                            @if (
-                            formulario.controls.nome.touched &&
-                            formulario.controls.nome.hasError('maxlength')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                O nome deve ter no máximo 120 caracteres.
-                            </div>
-                            }
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label for="email" class="form-label">
-                                E-mail
-                            </label>
-
-                            <input id="email" type="email" class="form-control" formControlName="email">
-
-                            @if (
-                            formulario.controls.email.touched &&
-                            formulario.controls.email.hasError('required')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                O e-mail é obrigatório.
-                            </div>
-                            }
-
-                            @if (
-                            formulario.controls.email.touched &&
-                            formulario.controls.email.hasError('email')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                Informe um e-mail válido.
-                            </div>
-                            }
-
-                        </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-
-                            <button 
-                                type="submit" 
-                                class="btn btn-primary" 
-                                [disabled]="salvando() || formulario.pristine">
-
-                                @if (salvando()) {
-                                Salvando...
-                                } @else {
-                                Salvar alterações
-                                }
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-                <hr class="my-4">
-
-                <div class="perfil-secao">
-
-                    <h5 class="mb-1">
-                        Segurança
-                    </h5>
-
-                    <p class="text-muted small mb-4">
-                        Altere a senha de acesso à sua conta
-                    </p>
-
-                    <form [formGroup]="formularioSenha" (ngSubmit)="alterarSenha()">
-
-                        <div class="mb-3">
-
-                            <label for="senhaAtual" class="form-label">
-                                Senha atual
-                            </label>
-
-                            <input id="senhaAtual" type="password" class="form-control" formControlName="senhaAtual">
-
-                            @if (
-                            formularioSenha.controls.senhaAtual.touched &&
-                            formularioSenha.controls.senhaAtual.hasError('required')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                A senha atual é obrigatória.
-                            </div>
-                            }
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label for="novaSenha" class="form-label">
-                                Nova senha
-                            </label>
-
-                            <input id="novaSenha" type="password" class="form-control" formControlName="novaSenha">
-
-                            @if (
-                            formularioSenha.controls.novaSenha.touched &&
-                            formularioSenha.controls.novaSenha.hasError('required')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                A nova senha é obrigatória.
-                            </div>
-                            }
-
-                            @if (
-                            formularioSenha.controls.novaSenha.touched &&
-                            formularioSenha.controls.novaSenha.hasError('minlength')
-                            ) {
-                            <div class="text-danger small mt-1">
-                                A nova senha deve possuir pelo menos 6 caracteres.
-                            </div>
-                            }
-
-                        </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-
-                            <button type="submit" class="btn btn-outline-primary" [disabled]="alterandoSenha()">
-
-                                @if (alterandoSenha()) {
-                                Alterando...
-                                } @else {
-                                Alterar senha
-                                }
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
+            <div class="avatar-perfil">
+                <i class="bi bi-person"></i>
             </div>
+
+            <div class="identidade-dados">
+                <h2>{{ usuario.nome }}</h2>
+
+                <p>{{ usuario.email }}</p>
+            </div>
+
+            <div class="conta-status">
+                <span class="status-ponto"></span>
+                Conta ativa
+            </div>
+
+        </section>
+
+        }
+
+        @if (sucesso(); as mensagem) {
+
+        <div class="mensagem mensagem-sucesso" role="alert">
+
+            <i class="bi bi-check-circle"></i>
+
+            <div>
+                <strong>Perfil atualizado</strong>
+                <span>{{ mensagem }}</span>
+            </div>
+
+        </div>
+
+        }
+
+        @if (erro(); as mensagem) {
+
+        <div class="mensagem mensagem-erro" role="alert">
+
+            <i class="bi bi-exclamation-circle"></i>
+
+            <div>
+                <strong>Não foi possível atualizar</strong>
+                <span>{{ mensagem }}</span>
+            </div>
+
+        </div>
+
+        }
+
+        <div class="perfil-grid">
+
+            <section class="perfil-card">
+
+                <div class="card-cabecalho">
+
+                    <div class="card-icone dados-icone">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                    <div>
+                        <h2>Dados pessoais</h2>
+
+                        <p>
+                            Atualize as informações da sua conta
+                        </p>
+                    </div>
+
+                </div>
+
+                <form [formGroup]="formulario" (ngSubmit)="salvar()">
+
+                    <div class="campo">
+
+                        <label for="nome" class="form-label">
+
+                            Nome
+
+                        </label>
+
+                        <div class="input-com-icone">
+
+                            <i class="bi bi-person"></i>
+
+                            <input id="nome" type="text" class="form-control" formControlName="nome" maxlength="120"
+                                placeholder="Seu nome">
+
+                        </div>
+
+                        @if (
+                        formulario.controls.nome.touched &&
+                        formulario.controls.nome.hasError('required')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            O nome é obrigatório.
+                        </div>
+
+                        }
+
+                        @if (
+                        formulario.controls.nome.touched &&
+                        formulario.controls.nome.hasError('maxlength')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            O nome deve ter no máximo 120 caracteres.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="email" class="form-label">
+
+                            E-mail
+
+                        </label>
+
+                        <div class="input-com-icone">
+
+                            <i class="bi bi-envelope"></i>
+
+                            <input id="email" type="email" class="form-control" formControlName="email"
+                                placeholder="seu@email.com">
+
+                        </div>
+
+                        @if (
+                        formulario.controls.email.touched &&
+                        formulario.controls.email.hasError('required')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            O e-mail é obrigatório.
+                        </div>
+
+                        }
+
+                        @if (
+                        formulario.controls.email.touched &&
+                        formulario.controls.email.hasError('email')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Informe um e-mail válido.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="card-acoes">
+
+                        <button type="submit" class="btn btn-primary" [disabled]="salvando() || formulario.pristine">
+
+                            @if (salvando()) {
+
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                            </span>
+
+                            Salvando...
+
+                            } @else {
+
+                            <i class="bi bi-check-lg"></i>
+
+                            Salvar alterações
+
+                            }
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+            <section class="perfil-card">
+
+                <div class="card-cabecalho">
+
+                    <div class="card-icone seguranca-icone">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+
+                    <div>
+                        <h2>Segurança</h2>
+
+                        <p>
+                            Altere a senha de acesso à sua conta
+                        </p>
+                    </div>
+
+                </div>
+
+                @if (sucessoSenha(); as mensagem) {
+
+                <div class="mensagem mensagem-sucesso mensagem-interna" role="alert">
+
+                    <i class="bi bi-check-circle"></i>
+
+                    <span>{{ mensagem }}</span>
+
+                </div>
+
+                }
+
+                @if (erroSenha(); as mensagem) {
+
+                <div class="mensagem mensagem-erro mensagem-interna" role="alert">
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <span>{{ mensagem }}</span>
+
+                </div>
+
+                }
+
+                <form [formGroup]="formularioSenha" (ngSubmit)="alterarSenha()">
+
+                    <div class="campo">
+
+                        <label for="senhaAtual" class="form-label">
+
+                            Senha atual
+
+                        </label>
+
+                        <div class="input-com-icone">
+
+                            <i class="bi bi-lock"></i>
+
+                            <input id="senhaAtual" type="password" class="form-control" formControlName="senhaAtual"
+                                placeholder="Digite sua senha atual">
+
+                        </div>
+
+                        @if (
+                        formularioSenha.controls.senhaAtual.touched &&
+                        formularioSenha.controls.senhaAtual.hasError('required')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            A senha atual é obrigatória.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="novaSenha" class="form-label">
+
+                            Nova senha
+
+                        </label>
+
+                        <div class="input-com-icone">
+
+                            <i class="bi bi-key"></i>
+
+                            <input id="novaSenha" type="password" class="form-control" formControlName="novaSenha"
+                                placeholder="Digite a nova senha">
+
+                        </div>
+
+                        <span class="campo-ajuda">
+                            Use pelo menos 6 caracteres.
+                        </span>
+
+                        @if (
+                        formularioSenha.controls.novaSenha.touched &&
+                        formularioSenha.controls.novaSenha.hasError('required')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            A nova senha é obrigatória.
+                        </div>
+
+                        }
+
+                        @if (
+                        formularioSenha.controls.novaSenha.touched &&
+                        formularioSenha.controls.novaSenha.hasError('minlength')
+                        ) {
+
+                        <div class="campo-erro">
+                            <i class="bi bi-exclamation-circle"></i>
+                            A nova senha deve possuir pelo menos 6 caracteres.
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="card-acoes">
+
+                        <button type="submit" class="btn btn-outline-primary" [disabled]="alterandoSenha()">
+
+                            @if (alterandoSenha()) {
+
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                            </span>
+
+                            Alterando...
+
+                            } @else {
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Alterar senha
+
+                            }
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
         </div>
 
     </div>

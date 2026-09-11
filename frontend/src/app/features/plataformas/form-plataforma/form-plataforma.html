@@ -1,16 +1,23 @@
-<div class="container-fluid py-4">
+<div class="form-plataforma">
 
-    <div class="mb-4">
+    <div class="pagina-cabecalho">
 
-        <h2 class="mb-1">
+        <button type="button" class="voltar-link" (click)="cancelar()">
+
+            <i class="bi bi-arrow-left"></i>
+            Plataformas
+
+        </button>
+
+        <h1>
             @if (modoEdicao()) {
             Editar plataforma
             } @else {
             Nova plataforma
             }
-        </h2>
+        </h1>
 
-        <p class="text-muted mb-0">
+        <p>
             @if (modoEdicao()) {
             Altere os dados da plataforma
             } @else {
@@ -20,63 +27,115 @@
 
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <form [formGroup]="formulario" (ngSubmit)="salvar()">
 
-            <form [formGroup]="formulario" (ngSubmit)="salvar()">
+        <section class="form-card">
 
-                <div class="row g-3">
+            <div class="form-card-cabecalho">
 
-                    <div class="col-md-6">
-                        <label for="nome" class="form-label">
-                            Nome
-                        </label>
+                <div class="form-card-icone">
+                    <i class="bi bi-phone"></i>
+                </div>
 
-                        <input id="nome" type="text" class="form-control" formControlName="nome" maxlength="100"
-                            placeholder="Ex.: iFood">
+                <div>
+                    <h2>Dados da plataforma</h2>
+                    <p>Informe o nome da plataforma utilizada</p>
+                </div>
 
-                        @if (
-                        formulario.controls.nome.touched &&
-                        formulario.controls.nome.invalid
-                        ) {
-                        <div class="text-danger small mt-1">
-                            Informe o nome da plataforma.
-                        </div>
-                        }
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-12 col-md-7">
+
+                    <label for="nome" class="form-label">
+
+                        Nome
+
+                    </label>
+
+                    <input id="nome" type="text" class="form-control" formControlName="nome" maxlength="100"
+                        placeholder="Ex.: iFood">
+
+                    @if (
+                    formulario.controls.nome.touched &&
+                    formulario.controls.nome.hasError('required')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Informe o nome da plataforma.
                     </div>
 
+                    }
+
+                    @if (
+                    formulario.controls.nome.touched &&
+                    formulario.controls.nome.hasError('maxlength')
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        O nome deve ter no máximo 100 caracteres.
+                    </div>
+
+                    }
+
                 </div>
 
-                @if (erro(); as mensagem) {
-                <div class="alert alert-danger mt-4 mb-0" role="alert">
-                    {{ mensagem }}
+            </div>
+
+            @if (erro(); as mensagem) {
+
+            <div class="mensagem-erro" role="alert">
+
+                <div class="mensagem-erro-icone">
+                    <i class="bi bi-exclamation-circle"></i>
                 </div>
+
+                <span>
+                    {{ mensagem }}
+                </span>
+
+            </div>
+
+            }
+
+        </section>
+
+        <div class="form-acoes">
+
+            <button type="button" class="btn btn-outline-secondary" [disabled]="salvando()" (click)="cancelar()">
+
+                Cancelar
+
+            </button>
+
+            <button type="submit" class="btn btn-primary btn-salvar" [disabled]="salvando()">
+
+                @if (salvando()) {
+
+                <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                </span>
+
+                Salvando...
+
+                } @else {
+
+                <i class="bi bi-check-lg"></i>
+
+                @if (modoEdicao()) {
+                Salvar alterações
+                } @else {
+                Salvar plataforma
                 }
 
-                <div class="d-flex justify-content-end gap-2 mt-4">
+                }
 
-                    <button type="button" class="btn btn-outline-secondary" [disabled]="salvando()"
-                        (click)="cancelar()">
-                        Cancelar
-                    </button>
-
-                    <button type="submit" class="btn btn-primary" [disabled]="salvando()">
-
-                        @if (salvando()) {
-                        Salvando...
-                        } @else if (modoEdicao()) {
-                        Salvar alterações
-                        } @else {
-                        Salvar plataforma
-                        }
-
-                    </button>
-
-                </div>
-
-            </form>
+            </button>
 
         </div>
-    </div>
+
+    </form>
 
 </div>

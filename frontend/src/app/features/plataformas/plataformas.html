@@ -1,35 +1,38 @@
-<div class="container-fluid py-3">
+<div class="plataformas">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="plataformas-cabecalho">
 
         <div>
-            <h1 class="h3 mb-1">
-                Plataformas
-            </h1>
+            <h1>Plataformas</h1>
 
-            <p class="text-muted mb-0">
+            <p>
                 Gerencie as plataformas utilizadas para registrar receitas
             </p>
         </div>
 
-        <button type="button" class="btn btn-primary" routerLink="/plataformas/novo">
+        <button type="button" class="btn-nova" routerLink="/plataformas/novo">
+
+            <i class="bi bi-plus-lg"></i>
+
             Nova plataforma
+
         </button>
 
     </div>
 
     @if (plataformas().length > 0) {
 
-    <div class="card shadow-sm border-0">
+    <section class="tabela-card">
 
         <div class="table-responsive">
 
-            <table class="table align-middle mb-0">
+            <table class="table tabela-plataformas align-middle mb-0">
 
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>Status</th>
+
                         <th class="text-center">
                             Ações
                         </th>
@@ -46,46 +49,83 @@
                     <tr>
 
                         <td>
-                            {{ plataforma.nome }}
-                        </td>
 
-                        <td>
-                            @if (plataforma.ativo) {
-                            <span class="badge text-bg-success">
-                                Ativa
-                            </span>
-                            } @else {
-                            <span class="badge text-bg-secondary">
-                                Inativa
-                            </span>
-                            }
-                        </td>
+                            <div class="plataforma-identificacao">
 
-                        <td>
-                            <div class="acoes-plataforma">
-
-                                <a class="btn btn-sm btn-outline-primary"
-                                    [routerLink]="['/plataformas', plataforma.id, 'editar']">
-                                    Editar
-                                </a>
-
-                                <div class="espaco-acao">
-
-                                    @if (plataforma.ativo) {
-                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                        (click)="solicitarDesativacao(plataforma)">
-                                        Desativar
-                                    </button>
-                                    } @else {
-                                    <button type="button" class="btn btn-sm btn-outline-success"
-                                        (click)="solicitarAtivacao(plataforma)">
-                                        Ativar
-                                    </button>
-                                    }
-
+                                <div class="plataforma-icone">
+                                    <i class="bi bi-phone"></i>
                                 </div>
 
+                                <span class="plataforma-nome">
+                                    {{ plataforma.nome }}
+                                </span>
+
                             </div>
+
+                        </td>
+
+                        <td>
+
+                            @if (plataforma.ativo) {
+
+                            <span class="status-badge status-ativo">
+
+                                <span class="status-ponto"></span>
+
+                                Ativa
+
+                            </span>
+
+                            } @else {
+
+                            <span class="status-badge status-inativo">
+
+                                <span class="status-ponto"></span>
+
+                                Inativa
+
+                            </span>
+
+                            }
+
+                        </td>
+
+                        <td>
+
+                            <div class="acoes-plataforma">
+
+                                <a class="acao-botao acao-editar" title="Editar plataforma" [routerLink]="[
+                        '/plataformas',
+                        plataforma.id,
+                        'editar'
+                      ]">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                </a>
+
+                                @if (plataforma.ativo) {
+
+                                <button type="button" class="acao-botao acao-desativar" title="Desativar plataforma"
+                                    (click)="solicitarDesativacao(plataforma)">
+
+                                    <i class="bi bi-pause-circle"></i>
+
+                                </button>
+
+                                } @else {
+
+                                <button type="button" class="acao-botao acao-ativar" title="Ativar plataforma"
+                                    (click)="solicitarAtivacao(plataforma)">
+
+                                    <i class="bi bi-check-circle"></i>
+
+                                </button>
+
+                                }
+
+                            </div>
+
                         </td>
 
                     </tr>
@@ -98,54 +138,58 @@
 
         </div>
 
-    </div>
+    </section>
 
     } @else {
 
-    <div class="card shadow-sm border-0">
+    <section class="estado-vazio">
 
-        <div class="card-body text-center py-5">
-
-            <p class="text-muted mb-0">
-                Nenhuma plataforma encontrada.
-            </p>
-
+        <div class="estado-vazio-icone">
+            <i class="bi bi-phone"></i>
         </div>
 
-    </div>
+        <h2>
+            Nenhuma plataforma encontrada
+        </h2>
+
+        <p>
+            Cadastre uma plataforma para identificar a origem das suas receitas.
+        </p>
+
+        <button type="button" class="btn btn-primary" routerLink="/plataformas/novo">
+
+            <i class="bi bi-plus-lg"></i>
+
+            Nova plataforma
+
+        </button>
+
+    </section>
 
     }
 
 </div>
 
 @if (plataformaParaDesativar(); as plataforma) {
-  <app-modal-confirmacao
-    titulo="Desativar plataforma"
-    [mensagem]="
+
+<app-modal-confirmacao titulo="Desativar plataforma" [mensagem]="
       'Deseja realmente desativar a plataforma &quot;' +
       plataforma.nome +
       '&quot;?'
-    "
-    textoConfirmar="Desativar"
-    textoProcessando="Desativando..."
-    [processando]="desativando()"
-    (confirmar)="desativarPlataforma()"
-    (cancelar)="cancelarDesativacao()">
-  </app-modal-confirmacao>
+    " textoConfirmar="Desativar" textoProcessando="Desativando..." [processando]="desativando()"
+    (confirmar)="desativarPlataforma()" (cancelar)="cancelarDesativacao()">
+</app-modal-confirmacao>
+
 }
 
 @if (plataformaParaAtivar(); as plataforma) {
-  <app-modal-confirmacao
-    titulo="Ativar plataforma"
-    [mensagem]="
+
+<app-modal-confirmacao titulo="Ativar plataforma" [mensagem]="
       'Deseja realmente ativar a plataforma &quot;' +
       plataforma.nome +
       '&quot;?'
-    "
-    textoConfirmar="Ativar"
-    textoProcessando="Ativando..."
-    [processando]="ativando()"
-    (confirmar)="ativarPlataforma()"
-    (cancelar)="cancelarAtivacao()">
-  </app-modal-confirmacao>
+    " textoConfirmar="Ativar" textoProcessando="Ativando..." [processando]="ativando()"
+    (confirmar)="ativarPlataforma()" (cancelar)="cancelarAtivacao()">
+</app-modal-confirmacao>
+
 }

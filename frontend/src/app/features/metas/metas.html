@@ -1,109 +1,243 @@
-<div class="container-fluid py-4">
+<div class="metas">
 
-    <div class="mb-4">
-        <h2 class="mb-1">
-            Metas
-        </h2>
+    <div class="pagina-cabecalho">
 
-        <p class="text-muted mb-0">
-            Configure suas metas financeiras
+        <h1>Metas</h1>
+
+        <p>
+            Configure suas metas financeiras e acompanhe seus objetivos
         </p>
+
     </div>
 
     @if (carregando()) {
 
-    <p class="text-muted">
-        Carregando metas...
-    </p>
+    <section class="carregando-card">
+
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+
+        <span>Carregando suas metas...</span>
+
+    </section>
 
     } @else {
 
-    <div class="metas-formulario">
+    <div class="metas-conteudo">
 
-        @if (sucesso()) {
-        <div class="alert alert-success" role="alert">
-            {{ sucesso() }}
+        @if (sucesso(); as mensagem) {
+
+        <div class="mensagem mensagem-sucesso" role="alert">
+
+            <div class="mensagem-icone">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div>
+                <strong>Pronto!</strong>
+                <span>{{ mensagem }}</span>
+            </div>
+
         </div>
+
         }
 
-        @if (erro()) {
-        <div class="alert alert-danger" role="alert">
-            {{ erro() }}
+        @if (erro(); as mensagem) {
+
+        <div class="mensagem mensagem-erro" role="alert">
+
+            <div class="mensagem-icone">
+                <i class="bi bi-exclamation-circle"></i>
+            </div>
+
+            <div>
+                <strong>Não foi possível concluir</strong>
+                <span>{{ mensagem }}</span>
+            </div>
+
         </div>
+
         }
 
         @if (!meta()) {
-        <div class="alert alert-info">
-            Você ainda não possui metas configuradas.
-            Informe os valores abaixo para cadastrar.
+
+        <div class="mensagem mensagem-info">
+
+            <div class="mensagem-icone">
+                <i class="bi bi-info-circle"></i>
+            </div>
+
+            <div>
+                <strong>Configure suas primeiras metas</strong>
+
+                <span>
+                    Informe quanto deseja alcançar por dia e por mês.
+                </span>
+            </div>
+
         </div>
+
         }
 
-        <div class="card">
-            <div class="card-body">
+        <form [formGroup]="formulario" (ngSubmit)="salvar()">
 
-                <form [formGroup]="formulario" (ngSubmit)="salvar()">
+            <section class="form-card">
 
-                    <div class="mb-3">
+                <div class="form-card-cabecalho">
 
-                        <label for="metaDiaria" class="form-label">
-                            Meta diária
-                        </label>
-
-                        <input id="metaDiaria" type="number" class="form-control" formControlName="metaDiaria"
-                            min="0.01" step="0.01">
-
-                        @if (
-                        formulario.controls.metaDiaria.touched &&
-                        formulario.controls.metaDiaria.invalid
-                        ) {
-                        <div class="text-danger small mt-1">
-                            Informe uma meta diária válida.
-                        </div>
-                        }
-
+                    <div class="form-card-icone">
+                        <i class="bi bi-bullseye"></i>
                     </div>
 
-                    <div class="mb-3">
+                    <div>
+                        <h2>Objetivos financeiros</h2>
 
-                        <label for="metaMensal" class="form-label">
-                            Meta mensal
-                        </label>
-
-                        <input id="metaMensal" type="number" class="form-control" formControlName="metaMensal"
-                            min="0.01" step="0.01">
-
-                        @if (
-                        formulario.controls.metaMensal.touched &&
-                        formulario.controls.metaMensal.invalid
-                        ) {
-                        <div class="text-danger small mt-1">
-                            Informe uma meta mensal válida.
-                        </div>
-                        }
-
+                        <p>
+                            Defina os valores que deseja alcançar
+                        </p>
                     </div>
 
-                    <div class="d-flex justify-content-end mt-4">
+                </div>
 
-                        <button type="submit" class="btn btn-primary" [disabled]="salvando()">
+                <div class="row g-4">
 
-                            @if (salvando()) {
-                            Salvando...
-                            } @else if (meta()) {
-                            Salvar alterações
-                            } @else {
-                            Cadastrar metas
+                    <div class="col-12 col-md-6">
+
+                        <div class="meta-campo">
+
+                            <div class="meta-campo-titulo">
+
+                                <div class="meta-tipo-icone meta-diaria-icone">
+                                    <i class="bi bi-calendar-day"></i>
+                                </div>
+
+                                <div>
+                                    <label for="metaDiaria">
+                                        Meta diária
+                                    </label>
+
+                                    <span>
+                                        Objetivo de receita por dia
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="valor-campo">
+
+                                <span class="valor-prefixo">
+                                    R$
+                                </span>
+
+                                <input id="metaDiaria" type="number" class="form-control" formControlName="metaDiaria"
+                                    min="0.01" step="0.01" placeholder="0,00">
+
+                            </div>
+
+                            @if (
+                            formulario.controls.metaDiaria.touched &&
+                            formulario.controls.metaDiaria.invalid
+                            ) {
+
+                            <div class="campo-erro">
+
+                                <i class="bi bi-exclamation-circle"></i>
+
+                                Informe uma meta diária válida.
+
+                            </div>
+
                             }
 
-                        </button>
+                        </div>
 
                     </div>
 
-                </form>
+                    <div class="col-12 col-md-6">
+
+                        <div class="meta-campo">
+
+                            <div class="meta-campo-titulo">
+
+                                <div class="meta-tipo-icone meta-mensal-icone">
+                                    <i class="bi bi-calendar3"></i>
+                                </div>
+
+                                <div>
+                                    <label for="metaMensal">
+                                        Meta mensal
+                                    </label>
+
+                                    <span>
+                                        Objetivo de receita por mês
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="valor-campo">
+
+                                <span class="valor-prefixo">
+                                    R$
+                                </span>
+
+                                <input id="metaMensal" type="number" class="form-control" formControlName="metaMensal"
+                                    min="0.01" step="0.01" placeholder="0,00">
+
+                            </div>
+
+                            @if (
+                            formulario.controls.metaMensal.touched &&
+                            formulario.controls.metaMensal.invalid
+                            ) {
+
+                            <div class="campo-erro">
+
+                                <i class="bi bi-exclamation-circle"></i>
+
+                                Informe uma meta mensal válida.
+
+                            </div>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="form-acoes">
+
+                <button type="submit" class="btn btn-primary btn-salvar" [disabled]="salvando()">
+
+                    @if (salvando()) {
+
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                    </span>
+
+                    Salvando...
+
+                    } @else {
+
+                    <i class="bi bi-check-lg"></i>
+
+                    @if (meta()) {
+                    Salvar alterações
+                    } @else {
+                    Cadastrar metas
+                    }
+
+                    }
+
+                </button>
 
             </div>
-        </div>
+
+        </form>
 
     </div>
 

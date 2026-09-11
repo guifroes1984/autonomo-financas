@@ -105,7 +105,6 @@ export class FormPlataforma implements OnInit {
         }
       });
   }
-  
 
   cancelar(): void {
     this.router.navigate(['/plataformas']);

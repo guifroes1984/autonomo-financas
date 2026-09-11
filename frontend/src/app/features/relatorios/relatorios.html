@@ -1,590 +1,584 @@
-<div class="container-fluid py-4">
+<div class="relatorios">
 
-    <div class="mb-4">
-        <h2 class="mb-1">
-            Relatórios
-        </h2>
+    <div class="pagina-cabecalho">
+        <h1>Relatórios</h1>
 
-        <p class="text-muted mb-0">
+        <p>
             Analise seus resultados financeiros por período
         </p>
     </div>
 
-    <div class="filtro-relatorio">
+    <section class="filtro-card">
 
-        <div class="card">
-            <div class="card-body">
+        <div class="filtro-cabecalho">
 
-                <form [formGroup]="formulario" (ngSubmit)="gerarRelatorio()">
+            <div class="filtro-icone">
+                <i class="bi bi-calendar-range"></i>
+            </div>
 
-                    <div class="row g-3">
+            <div>
+                <h2>Período do relatório</h2>
+                <p>Selecione o intervalo que deseja analisar</p>
+            </div>
 
-                        <div class="col-12 col-md-5">
+        </div>
 
-                            <label for="inicio" class="form-label">
-                                Data inicial
-                            </label>
+        <form [formGroup]="formulario" (ngSubmit)="gerarRelatorio()">
 
-                            <input id="inicio" type="date" class="form-control" formControlName="inicio">
+            <div class="row g-3 align-items-end">
 
-                        </div>
+                <div class="col-12 col-md-4">
 
-                        <div class="col-12 col-md-5">
+                    <label for="inicio" class="form-label">
 
-                            <label for="fim" class="form-label">
-                                Data final
-                            </label>
+                        Data inicial
 
-                            <input id="fim" type="date" class="form-control" formControlName="fim">
+                    </label>
 
-                        </div>
+                    <input id="inicio" type="date" class="form-control" formControlName="inicio">
 
-                        <div class="col-12 col-md-2
-                            d-flex align-items-end">
+                    @if (
+                    formulario.controls.inicio.touched &&
+                    formulario.controls.inicio.invalid
+                    ) {
 
-                            <button type="submit" class="btn btn-primary w-100"
-                                [disabled]=
-                                    "carregando() || 
-                                    exportandoPdf()">
-
-                                @if (carregando()) {
-                                Gerando...
-                                } @else {
-                                Gerar
-                                }
-
-                            </button>
-
-                        </div>
-
-                        <div class="col-12 col-md-2 d-flex align-items-end">
-
-                            <button type="button" class="btn btn-outline-secondary w-100"
-                                [disabled]="carregando() || exportandoPdf()" (click)="exportarPdf()">
-
-                                @if (exportandoPdf()) {
-                                Exportando...
-                                } @else {
-                                Exportar PDF
-                                }
-
-                            </button>
-
-                        </div>
-
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Informe a data inicial.
                     </div>
 
-                </form>
+                    }
+
+                </div>
+
+                <div class="col-12 col-md-4">
+
+                    <label for="fim" class="form-label">
+
+                        Data final
+
+                    </label>
+
+                    <input id="fim" type="date" class="form-control" formControlName="fim">
+
+                    @if (
+                    formulario.controls.fim.touched &&
+                    formulario.controls.fim.invalid
+                    ) {
+
+                    <div class="campo-erro">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Informe a data final.
+                    </div>
+
+                    }
+
+                </div>
+
+                <div class="col-12 col-md-2">
+
+                    <button type="submit" class="btn btn-primary botao-relatorio"
+                        [disabled]="carregando() || exportandoPdf()">
+
+                        @if (carregando()) {
+
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                        </span>
+
+                        Gerando...
+
+                        } @else {
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                        Gerar
+
+                        }
+
+                    </button>
+
+                </div>
+
+                <div class="col-12 col-md-2">
+
+                    <button type="button" class="btn btn-outline-secondary botao-relatorio"
+                        [disabled]="carregando() || exportandoPdf()" (click)="exportarPdf()">
+
+                        @if (exportandoPdf()) {
+
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true">
+                        </span>
+
+                        Exportando...
+
+                        } @else {
+
+                        <i class="bi bi-file-earmark-pdf"></i>
+
+                        PDF
+
+                        }
+
+                    </button>
+
+                </div>
 
             </div>
-        </div>
 
-        @if (erro()) {
+        </form>
 
-        <div class="alert alert-danger mt-3" role="alert">
+    </section>
 
-            {{ erro() }}
+    @if (erro(); as mensagem) {
 
-        </div>
+    <div class="mensagem-erro" role="alert">
 
-        }
+        <i class="bi bi-exclamation-circle"></i>
+
+        <span>
+            {{ mensagem }}
+        </span>
 
     </div>
+
+    }
 
     @if (resumo(); as resumo) {
 
-    <div class="mt-4">
+    <section class="secao-relatorio">
 
-        <h5 class="mb-3">
-            Resumo financeiro
-        </h5>
+        <div class="secao-cabecalho">
+            <div>
+                <h2>Resumo financeiro</h2>
 
-        <div class="row g-3">
+                <p>
+                    Visão geral dos resultados do período selecionado
+                </p>
+            </div>
+        </div>
 
-            <div class="col-12 col-md-4">
+        <div class="resumo-grid">
 
-                <div class="card h-100">
+            <article class="resumo-card">
 
-                    <div class="card-body">
+                <div class="resumo-card-topo">
 
-                        <span class="text-muted small">
-                            Receitas
-                        </span>
-
-                        <h4 class="mb-0 mt-1">
-                            {{ resumo.totalReceitas | currency:'BRL' }}
-                        </h4>
-
+                    <div class="resumo-icone receita">
+                        <i class="bi bi-arrow-up-right"></i>
                     </div>
+
+                    <span>Receitas</span>
 
                 </div>
 
-            </div>
+                <strong class="valor-receita">
+                    {{ resumo.totalReceitas | currency:'BRL' }}
+                </strong>
 
-            <div class="col-12 col-md-4">
+            </article>
 
-                <div class="card h-100">
+            <article class="resumo-card">
 
-                    <div class="card-body">
+                <div class="resumo-card-topo">
 
-                        <span class="text-muted small">
-                            Despesas
-                        </span>
-
-                        <h4 class="mb-0 mt-1">
-                            {{ resumo.totalDespesas | currency:'BRL' }}
-                        </h4>
-
+                    <div class="resumo-icone despesa">
+                        <i class="bi bi-arrow-down-right"></i>
                     </div>
+
+                    <span>Despesas</span>
 
                 </div>
 
-            </div>
+                <strong class="valor-despesa">
+                    {{ resumo.totalDespesas | currency:'BRL' }}
+                </strong>
 
-            <div class="col-12 col-md-4">
+            </article>
 
-                <div class="card h-100">
+            <article class="resumo-card">
 
-                    <div class="card-body">
+                <div class="resumo-card-topo">
 
-                        <span class="text-muted small">
-                            Saldo
-                        </span>
-
-                        <h4 class="mb-0 mt-1">
-                            {{ resumo.saldo | currency:'BRL' }}
-                        </h4>
-
+                    <div class="resumo-icone saldo">
+                        <i class="bi bi-wallet2"></i>
                     </div>
+
+                    <span>Saldo</span>
 
                 </div>
 
-            </div>
+                <strong>
+                    {{ resumo.saldo | currency:'BRL' }}
+                </strong>
 
-            <div class="col-12 col-md-6">
+            </article>
 
-                <div class="card h-100">
+            <article class="resumo-card resumo-card-secundario">
 
-                    <div class="card-body">
+                <div class="resumo-card-topo">
 
-                        <span class="text-muted small">
-                            Média diária
-                        </span>
-
-                        <h5 class="mb-0 mt-1">
-                            {{ resumo.mediaDiaria | currency:'BRL' }}
-                        </h5>
-
+                    <div class="resumo-icone media">
+                        <i class="bi bi-graph-up"></i>
                     </div>
+
+                    <span>Média diária</span>
 
                 </div>
 
-            </div>
+                <strong>
+                    {{ resumo.mediaDiaria | currency:'BRL' }}
+                </strong>
 
-            <div class="col-12 col-md-6">
+            </article>
 
-                <div class="card h-100">
+            <article class="resumo-card resumo-card-secundario">
 
-                    <div class="card-body">
+                <div class="resumo-card-topo">
 
-                        <span class="text-muted small">
-                            Dias trabalhados
-                        </span>
-
-                        <h5 class="mb-0 mt-1">
-                            {{ resumo.diasTrabalhados }}
-                        </h5>
-
+                    <div class="resumo-icone dias">
+                        <i class="bi bi-calendar-check"></i>
                     </div>
+
+                    <span>Dias trabalhados</span>
 
                 </div>
 
-            </div>
+                <strong>
+                    {{ resumo.diasTrabalhados }}
+                </strong>
+
+            </article>
 
         </div>
 
-    </div>
+    </section>
 
     }
 
-    @if (receitasPorPlataforma().length > 0) {
+    @if (
+    receitasPorPlataforma().length > 0 ||
+    despesasPorCategoria().length > 0
+    ) {
 
-    <div class="mt-4">
+    <section class="secao-relatorio">
 
-        <h5 class="mb-3">
-            Receitas por plataforma
-        </h5>
+        <div class="secao-cabecalho">
+            <div>
+                <h2>Distribuição financeira</h2>
 
-        <div class="card">
+                <p>
+                    Veja de onde vieram suas receitas e onde ocorreram suas despesas
+                </p>
+            </div>
+        </div>
 
-            <div class="card-body">
+        <div class="distribuicao-grid">
 
-                @for (
-                receita of receitasPorPlataforma();
-                track receita.plataforma;
-                let ultimo = $last
-                ) {
+            @if (receitasPorPlataforma().length > 0) {
 
-                <div [class.mb-4]="!ultimo">
+            <article class="analise-card">
 
-                    <div class="d-flex
-                       justify-content-between
-                       align-items-center
-                       gap-3
-                       mb-2">
+                <div class="analise-card-cabecalho">
 
-                        <span class="fw-semibold">
-                            {{ receita.plataforma }}
-                        </span>
+                    <div class="analise-titulo">
 
-                        <span class="text-end">
-                            {{ receita.total | currency:'BRL' }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="d-flex
-                       align-items-center
-                       gap-3">
-
-                        <div class="progress flex-grow-1" style="height: 8px;">
-
-                            <div class="progress-bar" role="progressbar" [style.width.%]="receita.percentual">
-                            </div>
-
+                        <div class="analise-icone receita">
+                            <i class="bi bi-phone"></i>
                         </div>
 
-                        <span class="text-muted small" style="min-width: 55px;">
-
-                            {{ receita.percentual }}%
-
-                        </span>
+                        <div>
+                            <h3>Receitas por plataforma</h3>
+                            <p>Participação de cada plataforma</p>
+                        </div>
 
                     </div>
 
                 </div>
 
-                }
+                <div class="analise-lista">
 
-            </div>
+                    @for (
+                    receita of receitasPorPlataforma();
+                    track receita.plataforma
+                    ) {
 
-        </div>
+                    <div class="analise-item">
 
-    </div>
+                        <div class="analise-item-topo">
 
-    }
+                            <span class="analise-nome">
+                                {{ receita.plataforma }}
+                            </span>
 
-    @if (despesasPorCategoria().length > 0) {
-
-    <div class="mt-4">
-
-        <h5 class="mb-3">
-            Despesas por categoria
-        </h5>
-
-        <div class="card">
-
-            <div class="card-body">
-
-                @for (
-                despesa of despesasPorCategoria();
-                track despesa.categoria;
-                let ultimo = $last
-                ) {
-
-                <div [class.mb-4]="!ultimo">
-
-                    <div class="d-flex
-                       justify-content-between
-                       align-items-center
-                       gap-3
-                       mb-2">
-
-                        <span class="fw-semibold">
-                            {{ despesa.categoria }}
-                        </span>
-
-                        <span class="text-end">
-                            {{ despesa.total | currency:'BRL' }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="d-flex
-                       align-items-center
-                       gap-3">
-
-                        <div class="progress flex-grow-1" style="height: 8px;">
-
-                            <div class="progress-bar" role="progressbar" [style.width.%]="despesa.percentual">
-                            </div>
+                            <strong class="valor-receita">
+                                {{ receita.total | currency:'BRL' }}
+                            </strong>
 
                         </div>
 
-                        <span class="text-muted small" style="min-width: 55px;">
+                        <div class="analise-progresso">
 
-                            {{ despesa.percentual }}%
+                            <div class="progress">
 
-                        </span>
+                                <div class="progress-bar progresso-receita" role="progressbar"
+                                    [style.width.%]="receita.percentual">
+                                </div>
+
+                            </div>
+
+                            <span>
+                                {{ receita.percentual }}%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    }
+
+                </div>
+
+            </article>
+
+            }
+
+            @if (despesasPorCategoria().length > 0) {
+
+            <article class="analise-card">
+
+                <div class="analise-card-cabecalho">
+
+                    <div class="analise-titulo">
+
+                        <div class="analise-icone despesa">
+                            <i class="bi bi-tags"></i>
+                        </div>
+
+                        <div>
+                            <h3>Despesas por categoria</h3>
+                            <p>Distribuição dos seus gastos</p>
+                        </div>
 
                     </div>
 
                 </div>
 
-                }
+                <div class="analise-lista">
 
-            </div>
+                    @for (
+                    despesa of despesasPorCategoria();
+                    track despesa.categoria
+                    ) {
+
+                    <div class="analise-item">
+
+                        <div class="analise-item-topo">
+
+                            <span class="analise-nome">
+                                {{ despesa.categoria }}
+                            </span>
+
+                            <strong class="valor-despesa">
+                                {{ despesa.total | currency:'BRL' }}
+                            </strong>
+
+                        </div>
+
+                        <div class="analise-progresso">
+
+                            <div class="progress">
+
+                                <div class="progress-bar progresso-despesa" role="progressbar"
+                                    [style.width.%]="despesa.percentual">
+                                </div>
+
+                            </div>
+
+                            <span>
+                                {{ despesa.percentual }}%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    }
+
+                </div>
+
+            </article>
+
+            }
 
         </div>
 
-    </div>
+    </section>
 
     }
 
     @if (comparativo(); as comparativo) {
 
-    <div class="mt-4">
+    <section class="secao-relatorio">
 
-        <h5 class="mb-3">
-            Comparativo entre períodos
-        </h5>
+        <div class="secao-cabecalho">
+            <div>
+                <h2>Comparativo entre períodos</h2>
 
-        <div class="card">
-            <div class="card-body">
+                <p>
+                    Compare o desempenho atual com o período anterior
+                </p>
+            </div>
+        </div>
 
-                <div class="row g-3 mb-4">
+        <article class="comparativo-card">
 
-                    <div class="col-12 col-md-6">
+            <div class="periodos-grid">
 
-                        <div class="border rounded p-3 h-100">
+                <div class="periodo-card">
 
-                            <span class="text-muted small">
-                                Período anterior
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{ comparativo.inicioPeriodoAnterior | date:'dd/MM/yyyy' }}
-                                a
-                                {{ comparativo.fimPeriodoAnterior | date:'dd/MM/yyyy' }}
-                            </div>
-
-                        </div>
-
+                    <div class="periodo-icone">
+                        <i class="bi bi-clock-history"></i>
                     </div>
 
+                    <div>
+                        <span>Período anterior</span>
 
-                    <div class="col-12 col-md-6">
-
-                        <div class="border rounded p-3 h-100">
-
-                            <span class="text-muted small">
-                                Período atual
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{ comparativo.inicioPeriodoAtual | date:'dd/MM/yyyy' }}
-                                a
-                                {{ comparativo.fimPeriodoAtual | date:'dd/MM/yyyy' }}
-                            </div>
-
-                        </div>
-
+                        <strong>
+                            {{ comparativo.inicioPeriodoAnterior | date:'dd/MM/yyyy' }}
+                            a
+                            {{ comparativo.fimPeriodoAnterior | date:'dd/MM/yyyy' }}
+                        </strong>
                     </div>
 
                 </div>
 
-                <div class="comparativo-item">
+                <div class="periodo-card periodo-atual">
 
-                    <div class="fw-semibold mb-3">
-                        Receitas
+                    <div class="periodo-icone">
+                        <i class="bi bi-calendar-check"></i>
                     </div>
 
-                    <div class="row g-3">
+                    <div>
+                        <span>Período atual</span>
 
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Período anterior
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{
-                                comparativo.receitasPeriodoAnterior
-                                | currency:'BRL'
-                                }}
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Período atual
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{
-                                comparativo.receitasPeriodoAtual
-                                | currency:'BRL'
-                                }}
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Variação
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                @if (comparativo.variacaoReceitas > 0) {
-                                +
-                                }
-
-                                {{ comparativo.variacaoReceitas }}%
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <hr>
-
-                <div class="comparativo-item">
-
-                    <div class="fw-semibold mb-3">
-                        Despesas
-                    </div>
-
-                    <div class="row g-3">
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Período anterior
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{
-                                comparativo.despesasPeriodoAnterior
-                                | currency:'BRL'
-                                }}
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Período atual
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{
-                                comparativo.despesasPeriodoAtual
-                                | currency:'BRL'
-                                }}
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Variação
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                @if (comparativo.variacaoDespesas > 0) {
-                                +
-                                }
-
-                                {{ comparativo.variacaoDespesas }}%
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <hr>
-
-                <div class="comparativo-item">
-
-                    <div class="fw-semibold mb-3">
-                        Saldo
-                    </div>
-
-                    <div class="row g-3">
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Período anterior
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{
-                                comparativo.saldoPeriodoAnterior
-                                | currency:'BRL'
-                                }}
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Período atual
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                {{
-                                comparativo.saldoPeriodoAtual
-                                | currency:'BRL'
-                                }}
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-12 col-md-4">
-
-                            <span class="text-muted small">
-                                Variação
-                            </span>
-
-                            <div class="fw-semibold mt-1">
-                                @if (comparativo.variacaoSaldo > 0) {
-                                +
-                                }
-
-                                {{ comparativo.variacaoSaldo }}%
-                            </div>
-
-                        </div>
-
+                        <strong>
+                            {{ comparativo.inicioPeriodoAtual | date:'dd/MM/yyyy' }}
+                            a
+                            {{ comparativo.fimPeriodoAtual | date:'dd/MM/yyyy' }}
+                        </strong>
                     </div>
 
                 </div>
 
             </div>
-        </div>
 
-    </div>
+            <div class="comparativo-tabela">
+
+                <div class="comparativo-linha comparativo-cabecalho">
+                    <span>Indicador</span>
+                    <span>Anterior</span>
+                    <span>Atual</span>
+                    <span>Variação</span>
+                </div>
+
+                <div class="comparativo-linha">
+
+                    <div class="comparativo-indicador">
+                        <div class="comparativo-icone receita">
+                            <i class="bi bi-arrow-up-right"></i>
+                        </div>
+
+                        <span>Receitas</span>
+                    </div>
+
+                    <span>
+                        {{ comparativo.receitasPeriodoAnterior | currency:'BRL' }}
+                    </span>
+
+                    <strong>
+                        {{ comparativo.receitasPeriodoAtual | currency:'BRL' }}
+                    </strong>
+
+                    <span class="variacao" [class.variacao-positiva]="comparativo.variacaoReceitas > 0"
+                        [class.variacao-negativa]="comparativo.variacaoReceitas < 0">
+
+                        @if (comparativo.variacaoReceitas > 0) {
+                        +
+                        }
+
+                        {{ comparativo.variacaoReceitas }}%
+
+                    </span>
+
+                </div>
+
+                <div class="comparativo-linha">
+
+                    <div class="comparativo-indicador">
+                        <div class="comparativo-icone despesa">
+                            <i class="bi bi-arrow-down-right"></i>
+                        </div>
+
+                        <span>Despesas</span>
+                    </div>
+
+                    <span>
+                        {{ comparativo.despesasPeriodoAnterior | currency:'BRL' }}
+                    </span>
+
+                    <strong>
+                        {{ comparativo.despesasPeriodoAtual | currency:'BRL' }}
+                    </strong>
+
+                    <span class="variacao" [class.variacao-positiva]="comparativo.variacaoDespesas > 0"
+                        [class.variacao-negativa]="comparativo.variacaoDespesas < 0">
+
+                        @if (comparativo.variacaoDespesas > 0) {
+                        +
+                        }
+
+                        {{ comparativo.variacaoDespesas }}%
+
+                    </span>
+
+                </div>
+
+                <div class="comparativo-linha">
+
+                    <div class="comparativo-indicador">
+                        <div class="comparativo-icone saldo">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+
+                        <span>Saldo</span>
+                    </div>
+
+                    <span>
+                        {{ comparativo.saldoPeriodoAnterior | currency:'BRL' }}
+                    </span>
+
+                    <strong>
+                        {{ comparativo.saldoPeriodoAtual | currency:'BRL' }}
+                    </strong>
+
+                    <span class="variacao" [class.variacao-positiva]="comparativo.variacaoSaldo > 0"
+                        [class.variacao-negativa]="comparativo.variacaoSaldo < 0">
+
+                        @if (comparativo.variacaoSaldo > 0) {
+                        +
+                        }
+
+                        {{ comparativo.variacaoSaldo }}%
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
 
     }
 

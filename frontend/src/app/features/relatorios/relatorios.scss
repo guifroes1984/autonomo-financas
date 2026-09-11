@@ -1,13 +1,627 @@
-.filtro-relatorio {
+.relatorios {
   width: 100%;
-  max-width: 900px;
 }
 
-.filtro-relatorio {
-  width: 100%;
-  max-width: 900px;
+.pagina-cabecalho {
+  margin-bottom: 24px;
 }
 
-.comparativo-item {
-  padding: 0.25rem 0;
+.pagina-cabecalho h1 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.pagina-cabecalho p {
+  margin: 5px 0 0;
+
+  color: #868e96;
+
+  font-size: 14px;
+}
+
+.filtro-card,
+.resumo-card,
+.analise-card,
+.comparativo-card {
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.filtro-card {
+  max-width: 1000px;
+
+  padding: 24px;
+}
+
+.filtro-cabecalho {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.filtro-icone {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background-color: #eef4ff;
+
+  border-radius: 11px;
+
+  color: #0d6efd;
+
+  font-size: 18px;
+}
+
+.filtro-cabecalho h2 {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.filtro-cabecalho p {
+  margin: 3px 0 0;
+
+  color: #868e96;
+
+  font-size: 13px;
+}
+
+.form-label {
+  color: #495057;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-control {
+  min-height: 42px;
+
+  border-color: #dee2e6;
+  border-radius: 9px;
+
+  color: #343a40;
+
+  font-size: 13px;
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+
+  box-shadow:
+    0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+}
+
+.botao-relatorio {
+  width: 100%;
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.campo-erro {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 6px;
+
+  color: #dc3545;
+
+  font-size: 12px;
+}
+
+.mensagem-erro {
+  max-width: 1000px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 16px;
+  padding: 12px 14px;
+
+  background-color: #fff1f2;
+
+  border: 1px solid #f5c2c7;
+  border-radius: 10px;
+
+  color: #842029;
+
+  font-size: 13px;
+}
+
+.secao-relatorio {
+  margin-top: 30px;
+}
+
+.secao-cabecalho {
+  margin-bottom: 14px;
+}
+
+.secao-cabecalho h2 {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.secao-cabecalho p {
+  margin: 4px 0 0;
+
+  color: #868e96;
+
+  font-size: 13px;
+}
+
+.resumo-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.resumo-card {
+  grid-column: span 2;
+
+  padding: 18px;
+}
+
+.resumo-card-secundario {
+  grid-column: span 3;
+}
+
+.resumo-card-topo {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 14px;
+}
+
+.resumo-card-topo > span {
+  color: #868e96;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.resumo-card strong {
+  display: block;
+
+  color: #343a40;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.resumo-icone,
+.analise-icone,
+.comparativo-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+}
+
+.resumo-icone {
+  width: 34px;
+  height: 34px;
+
+  font-size: 14px;
+}
+
+.receita {
+  background-color: #e9f9ef;
+
+  color: #198754;
+}
+
+.despesa {
+  background-color: #fff1f2;
+
+  color: #dc3545;
+}
+
+.saldo {
+  background-color: #eef4ff;
+
+  color: #0d6efd;
+}
+
+.media {
+  background-color: #f3efff;
+
+  color: #6f42c1;
+}
+
+.dias {
+  background-color: #fff7e6;
+
+  color: #d97706;
+}
+
+.valor-receita {
+  color: #198754 !important;
+}
+
+.valor-despesa {
+  color: #dc3545 !important;
+}
+
+.distribuicao-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.analise-card {
+  padding: 20px;
+}
+
+.analise-card-cabecalho {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.analise-titulo {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.analise-icone {
+  width: 38px;
+  height: 38px;
+
+  font-size: 15px;
+}
+
+.analise-titulo h3 {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.analise-titulo p {
+  margin: 2px 0 0;
+
+  color: #868e96;
+
+  font-size: 11px;
+}
+
+.analise-lista {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.analise-item-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 7px;
+}
+
+.analise-nome {
+  color: #495057;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.analise-item-topo strong {
+  font-size: 13px;
+}
+
+.analise-progresso {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.analise-progresso .progress {
+  flex: 1;
+
+  height: 7px;
+
+  background-color: #f1f3f5;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.progresso-receita {
+  background-color: #198754;
+}
+
+.progresso-despesa {
+  background-color: #dc3545;
+}
+
+.analise-progresso > span {
+  min-width: 42px;
+
+  color: #868e96;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-align: right;
+}
+
+.comparativo-card {
+  padding: 22px;
+}
+
+.periodos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-bottom: 22px;
+}
+
+.periodo-card {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 14px;
+
+  background-color: #f8f9fa;
+
+  border: 1px solid #e9ecef;
+  border-radius: 11px;
+}
+
+.periodo-atual {
+  background-color: #eef4ff;
+
+  border-color: #cfe2ff;
+}
+
+.periodo-icone {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background-color: #ffffff;
+
+  border-radius: 9px;
+
+  color: #0d6efd;
+
+  font-size: 14px;
+}
+
+.periodo-card span {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #868e96;
+
+  font-size: 11px;
+}
+
+.periodo-card strong {
+  display: block;
+
+  color: #343a40;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.comparativo-tabela {
+  overflow: hidden;
+
+  border: 1px solid #e9ecef;
+  border-radius: 11px;
+}
+
+.comparativo-linha {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr 0.7fr;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 58px;
+
+  padding: 10px 14px;
+
+  border-bottom: 1px solid #f1f3f5;
+
+  color: #495057;
+
+  font-size: 12px;
+}
+
+.comparativo-linha:last-child {
+  border-bottom: 0;
+}
+
+.comparativo-cabecalho {
+  min-height: 42px;
+
+  background-color: #f8f9fa;
+
+  color: #868e96;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+.comparativo-indicador {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-weight: 600;
+}
+
+.comparativo-icone {
+  width: 30px;
+  height: 30px;
+
+  font-size: 12px;
+}
+
+.variacao {
+  display: inline-flex;
+  justify-content: center;
+
+  width: fit-content;
+
+  padding: 4px 7px;
+
+  background-color: #f1f3f5;
+
+  border-radius: 20px;
+
+  color: #6c757d;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.variacao-positiva {
+  background-color: #e9f9ef;
+
+  color: #198754;
+}
+
+.variacao-negativa {
+  background-color: #fff1f2;
+
+  color: #dc3545;
+}
+
+@media (max-width: 991.98px) {
+
+  .resumo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .resumo-card,
+  .resumo-card-secundario {
+    grid-column: span 1;
+  }
+
+  .resumo-card:last-child {
+    grid-column: span 2;
+  }
+
+}
+
+@media (max-width: 767.98px) {
+
+  .pagina-cabecalho h1 {
+    font-size: 24px;
+  }
+
+  .filtro-card {
+    padding: 18px;
+  }
+
+  .distribuicao-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .periodos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparativo-tabela {
+    overflow-x: auto;
+  }
+
+  .comparativo-linha {
+    min-width: 650px;
+  }
+
+}
+
+@media (max-width: 575.98px) {
+
+  .resumo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-card,
+  .resumo-card-secundario,
+  .resumo-card:last-child {
+    grid-column: span 1;
+  }
+
+  .resumo-card strong {
+    font-size: 18px;
+  }
+
 }
