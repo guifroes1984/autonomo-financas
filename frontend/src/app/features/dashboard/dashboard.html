@@ -1,74 +1,114 @@
-<div class="container-fluid py-3">
+<div class="dashboard">
 
-  <div class="mb-4">
-    <h1 class="h3 mb-1">Dashboard</h1>
+  <div class="dashboard-cabecalho">
 
-    <p class="text-muted mb-0">
-      Resumo financeiro do dia
-    </p>
+    <div>
+      <h1>Dashboard</h1>
+
+      <p>
+        Acompanhe o resumo das suas finanças
+      </p>
+    </div>
+
   </div>
 
   @if (resumo(); as resumo) {
 
-    <div class="row g-3 mb-3">
+    <section class="resumo-grid">
 
-      <div class="col-12 col-md-4">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body">
+      <article class="resumo-card resumo-receitas">
 
-            <span class="text-muted small">
-              Receitas
-            </span>
+        <div class="resumo-card-topo">
 
-            <div class="fs-4 fw-semibold mt-1">
-              {{ resumo.totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-            </div>
-
+          <div class="resumo-icone">
+            <i class="bi bi-arrow-up-right"></i>
           </div>
+
+          <span class="resumo-label">
+            Receitas
+          </span>
+
         </div>
-      </div>
 
-      <div class="col-12 col-md-4">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body">
+        <div class="resumo-valor">
+          {{ resumo.totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </div>
 
-            <span class="text-muted small">
-              Despesas
-            </span>
+        <span class="resumo-descricao">
+          Total recebido hoje
+        </span>
 
-            <div class="fs-4 fw-semibold mt-1">
-              {{ resumo.totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-            </div>
+      </article>
 
+      <article class="resumo-card resumo-despesas">
+
+        <div class="resumo-card-topo">
+
+          <div class="resumo-icone">
+            <i class="bi bi-arrow-down-right"></i>
           </div>
+
+          <span class="resumo-label">
+            Despesas
+          </span>
+
         </div>
-      </div>
 
-      <div class="col-12 col-md-4">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body">
+        <div class="resumo-valor">
+          {{ resumo.totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </div>
 
-            <span class="text-muted small">
-              Saldo
-            </span>
+        <span class="resumo-descricao">
+          Total gasto hoje
+        </span>
 
-            <div class="fs-4 fw-semibold mt-1">
-              {{ resumo.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-            </div>
+      </article>
 
+      <article class="resumo-card resumo-saldo">
+
+        <div class="resumo-card-topo">
+
+          <div class="resumo-icone">
+            <i class="bi bi-wallet2"></i>
           </div>
-        </div>
-      </div>
 
-    </div>
+          <span class="resumo-label">
+            Saldo
+          </span>
+
+        </div>
+
+        <div class="resumo-valor">
+          {{ resumo.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </div>
+
+        <span class="resumo-descricao">
+          Resultado do dia
+        </span>
+
+      </article>
+
+    </section>
 
   }
 
   @if (meta(); as meta) {
 
-    <div class="row g-3">
+    <section class="metas-secao">
 
-      <div class="col-12">
+      <div class="secao-cabecalho">
+
+        <div>
+          <h2>Metas</h2>
+
+          <p>
+            Veja o seu progresso financeiro
+          </p>
+        </div>
+
+      </div>
+
+      <div class="metas-grid">
 
         <app-meta-card
           titulo="Meta diária"
@@ -78,10 +118,6 @@
           [valorRestante]="meta.valorRestanteMetaDiaria"
           [metaAtingida]="meta.metaDiariaAlcancada">
         </app-meta-card>
-
-      </div>
-
-      <div class="col-12">
 
         <app-meta-card
           titulo="Meta mensal"
@@ -94,7 +130,7 @@
 
       </div>
 
-    </div>
+    </section>
 
   }
 

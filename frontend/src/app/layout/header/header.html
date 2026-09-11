@@ -1,16 +1,25 @@
-<nav class="navbar bg-body-tertiary border-bottom">
-    <div class="container-fluid">
+<nav class="app-header">
+    <div class="container-fluid header-conteudo">
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="header-esquerda">
 
-            <button type="button" class="btn btn-outline-secondary d-md-none" aria-label="Abrir menu"
-                (click)="abrirMenu()">
-                ☰
+            <button type="button" class="menu-toggle" aria-label="Abrir ou recolher menu" (click)="abrirMenu()">
+
+                <i class="bi bi-list"></i>
+
             </button>
 
-            <span class="navbar-brand mb-0 h1">
-                Autônomo Finanças
-            </span>
+            <div class="header-marca">
+
+                <span class="header-titulo">
+                    Autônomo Finanças
+                </span>
+
+                <span class="header-subtitulo">
+                    Controle financeiro
+                </span>
+
+            </div>
 
         </div>
 
@@ -23,9 +32,17 @@
                     {{ perfil()?.nome?.charAt(0)?.toUpperCase() || 'U' }}
                 </span>
 
-                <span class="usuario-seta">
-                    ▾
+                <span class="usuario-dados">
+                    <strong>
+                        {{ perfil()?.nome || 'Usuário' }}
+                    </strong>
+
+                    <small>
+                        Minha conta
+                    </small>
                 </span>
+
+                <i class="bi bi-chevron-down usuario-seta"></i>
 
             </button>
 
@@ -52,13 +69,19 @@
                 }
 
                 <button type="button" class="usuario-dropdown-item" (click)="abrirPerfil()">
+
+                    <i class="bi bi-person"></i>
                     Meu perfil
+
                 </button>
 
                 <div class="dropdown-divider"></div>
 
                 <button type="button" class="usuario-dropdown-item usuario-sair" (click)="sair()">
+
+                    <i class="bi bi-box-arrow-right"></i>
                     Sair
+
                 </button>
 
             </div>

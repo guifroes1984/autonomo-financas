@@ -1,5 +1,6 @@
 .app-layout {
   min-height: 100vh;
+  background-color: #f6f8fb;
 }
 
 .app-body {
@@ -9,12 +10,12 @@
 .app-content {
   flex: 1;
   min-width: 0;
-  padding: 1rem;
-}
 
-.sidebar-mobile,
-.menu-overlay {
-  display: none;
+  min-height: calc(100vh - 64px);
+
+  padding: 24px;
+
+  background-color: #f6f8fb;
 }
 
 @media (max-width: 767.98px) {
@@ -45,4 +46,14 @@
     background: #ffffff;
     z-index: 1050;
   }
+
+}
+
+@media (max-width: 767.98px) {
+
+  .app-content {
+    min-height: calc(100vh - 57px);
+    padding: 16px;
+  }
+
 }

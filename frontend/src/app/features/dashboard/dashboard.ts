@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { DashboardResumo } from '../../core/models/dashboard-resumo';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { DashboardMeta } from '../../core/models/dashboard-meta';
 import { MetaCard } from '../../shared/components/meta-card/meta-card';
 

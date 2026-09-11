@@ -1,54 +1,107 @@
-<div class="card shadow-sm border-0">
-    <div class="card-body">
+<article class="meta-card" [class.meta-atingida]="metaAtingida()">
 
-        <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="meta-topo">
+
+        <div class="meta-identificacao">
+
+            <div class="meta-icone">
+                <i class="bi bi-bullseye"></i>
+            </div>
 
             <div>
-                <span class="text-muted small">
+                <span class="meta-titulo">
                     {{ titulo() }}
                 </span>
 
-                <div class="fs-5 fw-semibold">
+                <div class="meta-valor">
                     {{ valorMeta() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-                </div>
-            </div>
-
-            <div class="text-end">
-                <span class="text-muted small">
-                    Progresso
-                </span>
-
-                <div class="fw-semibold">
-                    {{ percentual() | number:'1.0-2':'pt-BR' }}%
                 </div>
             </div>
 
         </div>
 
-        <div class="progress" role="progressbar" aria-label="Progresso da meta">
+        <div class="meta-percentual">
+
+            @if (metaAtingida()) {
+
+            <span class="meta-status meta-status-sucesso">
+                <i class="bi bi-check-circle"></i>
+                Atingida
+            </span>
+
+            } @else {
+
+            <span class="meta-status">
+                {{ percentual() | number:'1.0-2':'pt-BR' }}%
+            </span>
+
+            }
+
+        </div>
+
+    </div>
+
+    <div class="meta-progresso">
+
+        <div class="meta-progresso-info">
+
+            <span>Progresso</span>
+
+            <strong>
+                {{ percentual() | number:'1.0-2':'pt-BR' }}%
+            </strong>
+
+        </div>
+
+        <div class="progress meta-progress-bar" role="progressbar" aria-label="Progresso da meta">
 
             <div class="progress-bar" [style.width.%]="percentual() > 100 ? 100 : percentual()">
             </div>
 
         </div>
 
-        <div class="d-flex justify-content-between mt-3 small">
+    </div>
+
+    <div class="meta-detalhes">
+
+        <div class="meta-detalhe">
 
             <span>
-                Saldo:
-                <strong>
-                    {{ saldo() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-                </strong>
+                Saldo atual
             </span>
 
+            <strong>
+                {{ saldo() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </strong>
+
+        </div>
+
+        <div class="meta-detalhe meta-detalhe-direita">
+
+            @if (metaAtingida()) {
+
             <span>
-                Falta:
-                <strong>
-                    {{ valorRestante() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-                </strong>
+                Resultado
             </span>
+
+            <strong class="texto-sucesso">
+                Meta alcançada
+            </strong>
+
+            } @else {
+
+            <span>
+                Falta
+            </span>
+
+            <strong>
+                {{ valorRestante() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </strong>
+
+            }
 
         </div>
 
     </div>
-</div>
+
+</article>

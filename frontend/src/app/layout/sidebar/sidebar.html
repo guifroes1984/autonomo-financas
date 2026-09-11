@@ -1,55 +1,82 @@
-<aside class="sidebar border-end bg-white h-100">
-    <div class="p-3">
+<aside class="sidebar border-end bg-white h-100" [class.sidebar-recolhida]="recolhida()">
+
+    <div class="sidebar-conteudo">
 
         <nav class="nav flex-column gap-2">
 
-            <a 
-                routerLink="/dashboard" 
-                routerLinkActive="active" 
-                class="nav-link"
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" title="Dashboard"
                 (click)="selecionarItem()">
-                Dashboard
+
+                <i class="bi bi-house nav-icon" aria-hidden="true">
+                </i>
+
+                <span class="nav-texto">
+                    Dashboard
+                </span>
+
             </a>
 
-            <a 
-                routerLink="/lancamentos" 
-                routerLinkActive="active" 
-                class="nav-link"
+            <a routerLink="/lancamentos" routerLinkActive="active" class="nav-link" title="Lançamentos"
                 (click)="selecionarItem()">
-                Lançamentos
+
+                <i class="bi bi-arrow-down-up nav-icon" aria-hidden="true">
+                </i>
+
+                <span class="nav-texto">
+                    Lançamentos
+                </span>
+
             </a>
 
-            <a
-                routerLink="/categorias"
-                routerLinkActive="active"
-                class="nav-link">
-                Categorias
-            </a>
-
-            <a
-                routerLink="/plataformas"
-                routerLinkActive="active"
-                class="nav-link">
-                Plataformas
-            </a>
-
-            <a 
-                routerLink="/metas" 
-                routerLinkActive="active" 
-                class="nav-link"
+            <a routerLink="/categorias" routerLinkActive="active" class="nav-link" title="Categorias"
                 (click)="selecionarItem()">
-                Metas
+
+                <i class="bi bi-grid nav-icon" aria-hidden="true">
+                </i>
+
+                <span class="nav-texto">
+                    Categorias
+                </span>
+
             </a>
 
-            <a 
-                routerLink="/relatorios" 
-                routerLinkActive="active" 
-                class="nav-link"
+            <a routerLink="/plataformas" routerLinkActive="active" class="nav-link" title="Plataformas"
                 (click)="selecionarItem()">
-                Relatórios
+
+                <i class="bi bi-phone nav-icon" aria-hidden="true">
+                </i>
+
+                <span class="nav-texto">
+                    Plataformas
+                </span>
+
+            </a>
+
+            <a routerLink="/metas" routerLinkActive="active" class="nav-link" title="Metas" (click)="selecionarItem()">
+
+                <i class="bi bi-bullseye nav-icon" aria-hidden="true">
+                </i>
+
+                <span class="nav-texto">
+                    Metas
+                </span>
+
+            </a>
+
+            <a routerLink="/relatorios" routerLinkActive="active" class="nav-link" title="Relatórios"
+                (click)="selecionarItem()">
+
+                <i class="bi bi-bar-chart nav-icon" aria-hidden="true">
+                </i>
+
+                <span class="nav-texto">
+                    Relatórios
+                </span>
+
             </a>
 
         </nav>
 
     </div>
+
 </aside>

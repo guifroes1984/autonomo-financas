@@ -1,3 +1,78 @@
+.app-header {
+  position: relative;
+  z-index: 1100;
+
+  min-height: 64px;
+
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.header-conteudo {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.menu-toggle {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+
+  color: #495057;
+  font-size: 22px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background-color: #eef4ff;
+  border-color: #cfe2ff;
+  color: #0d6efd;
+}
+
+.header-marca {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-titulo {
+  color: #212529;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.header-subtitulo {
+  margin-top: 2px;
+
+  color: #868e96;
+  font-size: 12px;
+}
+
 .usuario-menu {
   position: relative;
 }
@@ -5,56 +80,131 @@
 .usuario-avatar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+
+  min-height: 44px;
 
   background: transparent;
-  border: 1px solid #dee2e6;
-  border-radius: 50px;
+  border: 1px solid transparent;
+  border-radius: 12px;
 
-  padding: 5px 10px;
+  padding: 5px 8px;
 
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .usuario-avatar:hover {
   background-color: #f8f9fa;
+  border-color: #e9ecef;
 }
 
-.usuario-avatar-icone {
-  font-size: 20px;
-  line-height: 1;
+.usuario-avatar-iniciais {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: #0d6efd;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.usuario-dados {
+  display: flex;
+  flex-direction: column;
+
+  text-align: left;
+}
+
+.usuario-dados strong {
+  max-width: 160px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: #343a40;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.usuario-dados small {
+  color: #868e96;
+  font-size: 11px;
 }
 
 .usuario-seta {
+  color: #868e96;
   font-size: 12px;
 }
 
 .usuario-dropdown {
   position: absolute;
+
   top: calc(100% + 8px);
   right: 0;
 
-  width: 180px;
+  width: 220px;
 
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
 
   padding: 6px;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 
-  z-index: 1000;
+  z-index: 1200;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px;
+}
+
+.usuario-info strong {
+  color: #343a40;
+  font-size: 14px;
+}
+
+.usuario-info small {
+  margin-top: 2px;
+
+  color: #868e96;
+  font-size: 12px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .usuario-dropdown-item {
   width: 100%;
 
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
   background: transparent;
   border: 0;
-  border-radius: 5px;
+  border-radius: 8px;
 
-  padding: 8px 10px;
+  padding: 9px 10px;
+
+  color: #495057;
 
   text-align: left;
 
@@ -71,38 +221,34 @@
 
 .dropdown-divider {
   height: 1px;
-  background-color: #dee2e6;
+
   margin: 5px 0;
+
+  background-color: #e9ecef;
 }
 
-.usuario-avatar-iniciais {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 767.98px) {
 
-  width: 32px;
-  height: 32px;
+  .app-header,
+  .header-conteudo {
+    min-height: 57px;
+  }
 
-  border-radius: 50%;
+  .header-subtitulo,
+  .usuario-dados {
+    display: none;
+  }
 
-  background-color: #0d6efd;
-  color: #fff;
+  .header-titulo {
+    font-size: 16px;
+  }
 
-  font-weight: 600;
-}
+  .usuario-avatar {
+    gap: 5px;
+  }
 
-.usuario-info {
-  display: flex;
-  flex-direction: column;
+  .usuario-seta {
+    display: none;
+  }
 
-  padding: 8px 10px;
-}
-
-.usuario-info strong {
-  font-size: 14px;
-}
-
-.usuario-info small {
-  color: #6c757d;
-  font-size: 12px;
 }

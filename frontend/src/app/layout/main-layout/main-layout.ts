@@ -1,24 +1,31 @@
 import { Component } from '@angular/core';
-import { Header } from '../../layout/header/header';
 import { RouterOutlet } from '@angular/router';
+
+import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-main-layout',
   imports: [
-    Header, 
-    Sidebar, 
-    RouterOutlet
+    RouterOutlet,
+    Header,
+    Sidebar
   ],
   templateUrl: './main-layout.html',
-  styleUrl: './main-layout.scss',
+  styleUrl: './main-layout.scss'
 })
 export class MainLayout {
 
   menuAberto = false;
+  sidebarRecolhida = false;
 
   alterarMenu(): void {
-    this.menuAberto = !this.menuAberto;
+    if (window.innerWidth < 768) {
+      this.menuAberto = !this.menuAberto;
+      return;
+    }
+
+    this.sidebarRecolhida = !this.sidebarRecolhida;
   }
 
   fecharMenu(): void {

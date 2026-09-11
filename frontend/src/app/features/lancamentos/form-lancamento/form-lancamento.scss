@@ -1,3 +1,272 @@
+.form-lancamento {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.pagina-cabecalho {
+  margin-bottom: 24px;
+}
+
+.voltar-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 12px;
+  padding: 0;
+
+  background: transparent;
+  border: 0;
+
+  color: #6c757d;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.voltar-link:hover {
+  color: #0d6efd;
+}
+
+.pagina-cabecalho h1 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.pagina-cabecalho p {
+  margin: 5px 0 0;
+
+  color: #868e96;
+
+  font-size: 14px;
+}
+
+.form-card {
+  padding: 24px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.form-card-cabecalho {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.form-card-icone {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background-color: #eef4ff;
+
+  border-radius: 11px;
+
+  color: #0d6efd;
+
+  font-size: 19px;
+}
+
+.form-card-cabecalho h2 {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.form-card-cabecalho p {
+  margin: 3px 0 0;
+
+  color: #868e96;
+
+  font-size: 13px;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #495057;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.campo-opcional {
+  padding: 2px 6px;
+
+  background-color: #f1f3f5;
+
+  border-radius: 10px;
+
+  color: #868e96;
+
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  min-height: 44px;
+
+  border-color: #dee2e6;
+  border-radius: 9px;
+
+  color: #343a40;
+
+  font-size: 14px;
+}
+
+.form-control::placeholder {
+  color: #adb5bd;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #86b7fe;
+
+  box-shadow:
+    0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+}
+
+.valor-input {
+  position: relative;
+}
+
+.valor-prefixo {
+  position: absolute;
+
+  top: 50%;
+  left: 13px;
+
+  z-index: 2;
+
+  transform: translateY(-50%);
+
+  color: #868e96;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  pointer-events: none;
+}
+
+.valor-input .form-control {
+  padding-left: 38px;
+}
+
 .observacao-textarea {
+  min-height: 105px;
+
   resize: none;
+}
+
+.campo-erro {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 6px;
+
+  color: #dc3545;
+
+  font-size: 12px;
+}
+
+.campo-erro i {
+  font-size: 12px;
+}
+
+.form-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.form-acoes .btn {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding-left: 16px;
+  padding-right: 16px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-salvar {
+  min-width: 155px;
+}
+
+@media (max-width: 767.98px) {
+
+  .pagina-cabecalho h1 {
+    font-size: 24px;
+  }
+
+  .form-card {
+    padding: 18px;
+  }
+
+  .form-card-cabecalho {
+    margin-bottom: 22px;
+  }
+
+}
+
+@media (max-width: 575.98px) {
+
+  .form-acoes {
+    flex-direction: column-reverse;
+  }
+
+  .form-acoes .btn {
+    width: 100%;
+  }
+
+  .btn-salvar {
+    min-width: 0;
+  }
+
 }

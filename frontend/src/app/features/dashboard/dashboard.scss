@@ -1,0 +1,191 @@
+.dashboard {
+  width: 100%;
+}
+
+.dashboard-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+}
+
+.dashboard-cabecalho h1 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.dashboard-cabecalho p {
+  margin: 5px 0 0;
+
+  color: #868e96;
+
+  font-size: 14px;
+}
+
+.resumo-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-bottom: 32px;
+}
+
+.resumo-card {
+  position: relative;
+
+  min-height: 160px;
+
+  padding: 22px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.resumo-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+}
+
+.resumo-card-topo {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 18px;
+}
+
+.resumo-icone {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  font-size: 18px;
+}
+
+.resumo-label {
+  color: #6c757d;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.resumo-valor {
+  margin-bottom: 5px;
+
+  color: #212529;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.resumo-descricao {
+  color: #adb5bd;
+
+  font-size: 13px;
+}
+
+.resumo-receitas .resumo-icone {
+  background-color: #e9f9ef;
+  color: #198754;
+}
+
+.resumo-despesas .resumo-icone {
+  background-color: #fff1f2;
+  color: #dc3545;
+}
+
+.resumo-saldo .resumo-icone {
+  background-color: #eef4ff;
+  color: #0d6efd;
+}
+
+.metas-secao {
+  margin-top: 8px;
+}
+
+.secao-cabecalho {
+  margin-bottom: 16px;
+}
+
+.secao-cabecalho h2 {
+  margin: 0;
+
+  color: #212529;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.secao-cabecalho p {
+  margin: 4px 0 0;
+
+  color: #868e96;
+
+  font-size: 14px;
+}
+
+.metas-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+@media (max-width: 991.98px) {
+
+  .resumo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metas-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 767.98px) {
+
+  .dashboard-cabecalho {
+    margin-bottom: 20px;
+  }
+
+  .dashboard-cabecalho h1 {
+    font-size: 24px;
+  }
+
+  .resumo-card {
+    min-height: auto;
+
+    padding: 18px;
+  }
+
+  .resumo-valor {
+    font-size: 23px;
+  }
+
+}

@@ -1,412 +1,576 @@
-<div class="container-fluid py-3">
+<div class="lancamentos">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="lancamentos-cabecalho">
 
-        <div>
-            <h1 class="h3 mb-1">
-                Lançamentos
-            </h1>
+    <div>
+      <h1>Lançamentos</h1>
 
-            <p class="text-muted mb-0">
-                Gerencie suas receitas e despesas
-            </p>
-        </div>
+      <p>
+        Gerencie suas receitas e despesas
+      </p>
+    </div>
 
-        <button type="button" class="btn btn-primary" routerLink="/lancamentos/novo">
-            Novo lançamento
-        </button>
+    <button
+      type="button"
+      class="btn-novo"
+      routerLink="/lancamentos/novo">
+
+      <i class="bi bi-plus-lg"></i>
+
+      Novo lançamento
+
+    </button>
+
+  </div>
+
+  <section class="filtros-card">
+
+    <div class="filtros-titulo">
+
+      <div class="filtros-icone">
+        <i class="bi bi-funnel"></i>
+      </div>
+
+      <div>
+        <h2>Filtros</h2>
+
+        <p>
+          Encontre lançamentos específicos
+        </p>
+      </div>
 
     </div>
 
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body">
+    <form [formGroup]="formularioFiltro">
 
-            <form [formGroup]="formularioFiltro">
+      <div class="row g-3">
 
-                <div class="row g-3">
+        <div class="col-12 col-md-4">
 
-                    <div class="col-12 col-md-4">
-                        <label for="descricao" class="form-label">
-                            Descrição
-                        </label>
+          <label
+            for="descricao"
+            class="form-label">
 
-                        <input type="text" id="descricao" class="form-control" formControlName="descricao"
-                            placeholder="Ex: iFood, combustível..." />
-                    </div>
+            Descrição
 
-                    <div class="col-12 col-md-2">
-                        <label for="tipo" class="form-label">
-                            Tipo
-                        </label>
+          </label>
 
-                        <select id="tipo" class="form-select" formControlName="tipo">
-
-                            <option value="">
-                                Todos
-                            </option>
-
-                            <option value="RECEITA">
-                                Receita
-                            </option>
-
-                            <option value="DESPESA">
-                                Despesa
-                            </option>
-
-                        </select>
-                    </div>
-
-                    <div class="col-12 col-md-2">
-                        <label for="inicio" class="form-label">
-                            Data inicial
-                        </label>
-
-                        <input type="date" id="inicio" class="form-control" formControlName="inicio" />
-                    </div>
-
-                    <div class="col-12 col-md-2">
-                        <label for="fim" class="form-label">
-                            Data final
-                        </label>
-
-                        <input type="date" id="fim" class="form-control" formControlName="fim" />
-                    </div>
-
-                    <div class="col-12 col-md-2 d-flex align-items-end">
-
-                        <div class="d-flex gap-2 w-100">
-
-                            <button type="button" class="btn btn-primary flex-fill" (click)="filtrar()">
-                                Filtrar
-                            </button>
-
-                            <button type="button" class="btn btn-outline-secondary flex-fill" (click)="limparFiltros()">
-                                Limpar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-12 col-md-3">
-                        <label for="categoriaId" class="form-label">
-                            Categoria
-                        </label>
-
-                        <select id="categoriaId" class="form-select" formControlName="categoriaId">
-
-                            <option [ngValue]="null">
-                                Todas
-                            </option>
-
-                            @for (
-                            categoria of categorias();
-                            track categoria.id
-                            ) {
-                            <option [ngValue]="categoria.id">
-                                {{ categoria.nome }} - {{ categoria.tipo }}
-                            </option>
-                            }
-
-                        </select>
-                    </div>
-
-                    <div class="col-12 col-md-3">
-                        <label for="plataformaId" class="form-label">
-                            Plataforma
-                        </label>
-
-                        <select id="plataformaId" class="form-select" formControlName="plataformaId">
-
-                            <option [ngValue]="null">
-                                Todas
-                            </option>
-
-                            @for (
-                            plataforma of plataformas();
-                            track plataforma.id
-                            ) {
-                            <option [ngValue]="plataforma.id">
-                                {{ plataforma.nome }}
-                            </option>
-                            }
-
-                        </select>
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-    </div>
-
-
-    @if (lancamentos().length > 0) {
-
-    <!-- ============================== -->
-    <!-- DESKTOP -->
-    <!-- ============================== -->
-
-    <div class="d-none d-md-block">
-
-        <div class="card shadow-sm border-0">
-
-            <div class="table-responsive">
-
-                <table class="table align-middle mb-0">
-
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Tipo</th>
-                            <th>Categoria</th>
-                            <th>Plataforma</th>
-
-                            <th class="text-end">
-                                Valor
-                            </th>
-
-                            <th class="text-center">
-                                Ações
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @for (
-                        lancamento of lancamentos();
-                        track lancamento.id
-                        ) {
-
-                        <tr>
-
-                            <td>
-                                {{
-                                lancamento.dataLancamento
-                                | date:'dd/MM/yyyy'
-                                }}
-                            </td>
-
-                            <td>
-                                {{ lancamento.descricao }}
-                            </td>
-
-                            <td>
-                                {{ lancamento.tipo }}
-                            </td>
-
-                            <td>
-                                {{ lancamento.categoria.nome }}
-                            </td>
-
-                            <td>
-                                {{
-                                lancamento.plataforma?.nome || '-'
-                                }}
-                            </td>
-
-                            <td class="text-end fw-semibold">
-                                {{
-                                lancamento.valor
-                                | currency:
-                                'BRL':
-                                'symbol':
-                                '1.2-2':
-                                'pt-BR'
-                                }}
-                            </td>
-
-                            <td class="text-center">
-
-                                <div class="d-flex justify-content-center gap-3">
-
-                                    <a class="btn btn-sm btn-outline-primary" [routerLink]="[
-                '/lancamentos',
-                lancamento.id,
-                'editar'
-            ]">
-                                        Editar
-                                    </a>
-
-                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                        (click)="confirmarExclusao(lancamento)">
-                                        Excluir
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
+          <input
+            type="text"
+            id="descricao"
+            class="form-control"
+            formControlName="descricao"
+            placeholder="Ex: iFood, combustível..." />
 
         </div>
 
-    </div>
+        <div class="col-12 col-md-2">
 
-    <!-- ============================== -->
-    <!-- MOBILE -->
-    <!-- ============================== -->
+          <label
+            for="tipo"
+            class="form-label">
 
-    <div class="d-md-none">
+            Tipo
 
-        <div class="d-flex flex-column gap-3">
+          </label>
+
+          <select
+            id="tipo"
+            class="form-select"
+            formControlName="tipo">
+
+            <option value="">
+              Todos
+            </option>
+
+            <option value="RECEITA">
+              Receita
+            </option>
+
+            <option value="DESPESA">
+              Despesa
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="col-12 col-md-2">
+
+          <label
+            for="inicio"
+            class="form-label">
+
+            Data inicial
+
+          </label>
+
+          <input
+            type="date"
+            id="inicio"
+            class="form-control"
+            formControlName="inicio" />
+
+        </div>
+
+        <div class="col-12 col-md-2">
+
+          <label
+            for="fim"
+            class="form-label">
+
+            Data final
+
+          </label>
+
+          <input
+            type="date"
+            id="fim"
+            class="form-control"
+            formControlName="fim" />
+
+        </div>
+
+        <div class="col-12 col-md-2 d-flex align-items-end">
+
+          <div class="filtros-acoes">
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="filtrar()">
+
+              <i class="bi bi-search"></i>
+
+              Filtrar
+
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="limparFiltros()">
+
+              Limpar
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="col-12 col-md-3">
+
+          <label
+            for="categoriaId"
+            class="form-label">
+
+            Categoria
+
+          </label>
+
+          <select
+            id="categoriaId"
+            class="form-select"
+            formControlName="categoriaId">
+
+            <option [ngValue]="null">
+              Todas
+            </option>
 
             @for (
-            lancamento of lancamentos();
-            track lancamento.id
+              categoria of categorias();
+              track categoria.id
             ) {
 
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between mb-2">
-
-                        <div>
-
-                            <div class="fw-semibold">
-                                {{ lancamento.descricao }}
-                            </div>
-
-                            <div class="text-muted small">
-                                {{
-                                lancamento.dataLancamento
-                                | date:'dd/MM/yyyy'
-                                }}
-                            </div>
-
-                        </div>
-
-                        <div class="fw-semibold text-end">
-                            {{
-                            lancamento.valor
-                            | currency:
-                            'BRL':
-                            'symbol':
-                            '1.2-2':
-                            'pt-BR'
-                            }}
-                        </div>
-
-                    </div>
-
-                    <div class="small text-muted">
-
-                        {{ lancamento.tipo }}
-
-                        ·
-
-                        {{ lancamento.categoria.nome }}
-
-                        @if (lancamento.plataforma) {
-                        · {{ lancamento.plataforma.nome }}
-                        }
-
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-3 mt-3">
-
-                        <a class="btn btn-sm btn-outline-primary" [routerLink]="[
-                                        '/lancamentos',
-                                        lancamento.id,
-                                        'editar'
-                                    ]">
-                            Editar
-                        </a>
-
-                        <button type="button" class="btn btn-sm btn-outline-danger"
-                            (click)="confirmarExclusao(lancamento)">
-                            Excluir
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
+              <option [ngValue]="categoria.id">
+                {{ categoria.nome }} - {{ categoria.tipo }}
+              </option>
 
             }
 
+          </select>
+
         </div>
+
+        <div class="col-12 col-md-3">
+
+          <label
+            for="plataformaId"
+            class="form-label">
+
+            Plataforma
+
+          </label>
+
+          <select
+            id="plataformaId"
+            class="form-select"
+            formControlName="plataformaId">
+
+            <option [ngValue]="null">
+              Todas
+            </option>
+
+            @for (
+              plataforma of plataformas();
+              track plataforma.id
+            ) {
+
+              <option [ngValue]="plataforma.id">
+                {{ plataforma.nome }}
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  @if (lancamentos().length > 0) {
+
+    <div class="d-none d-md-block">
+
+      <section class="tabela-card">
+
+        <div class="table-responsive">
+
+          <table class="table tabela-lancamentos align-middle mb-0">
+
+            <thead>
+
+              <tr>
+                <th>Data</th>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Plataforma</th>
+
+                <th class="text-end">
+                  Valor
+                </th>
+
+                <th class="text-center">
+                  Ações
+                </th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              @for (
+                lancamento of lancamentos();
+                track lancamento.id
+              ) {
+
+                <tr>
+
+                  <td class="data-lancamento">
+                    {{
+                      lancamento.dataLancamento
+                        | date:'dd/MM/yyyy'
+                    }}
+                  </td>
+
+                  <td class="descricao-lancamento">
+                    {{ lancamento.descricao }}
+                  </td>
+
+                  <td>
+
+                    <span
+                      class="tipo-badge"
+                      [class.tipo-receita]="lancamento.tipo === 'RECEITA'"
+                      [class.tipo-despesa]="lancamento.tipo === 'DESPESA'">
+
+                      @if (lancamento.tipo === 'RECEITA') {
+                        <i class="bi bi-arrow-up-right"></i>
+                        Receita
+                      } @else {
+                        <i class="bi bi-arrow-down-right"></i>
+                        Despesa
+                      }
+
+                    </span>
+
+                  </td>
+
+                  <td>
+                    {{ lancamento.categoria.nome }}
+                  </td>
+
+                  <td>
+                    {{ lancamento.plataforma?.nome || '-' }}
+                  </td>
+
+                  <td
+                    class="valor-lancamento"
+                    [class.valor-receita]="lancamento.tipo === 'RECEITA'"
+                    [class.valor-despesa]="lancamento.tipo === 'DESPESA'">
+
+                    {{
+                      lancamento.valor
+                        | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                    }}
+
+                  </td>
+
+                  <td class="text-center">
+
+                    <div class="acoes-lancamento">
+
+                      <a
+                        class="acao-botao acao-editar"
+                        title="Editar lançamento"
+                        [routerLink]="[
+                          '/lancamentos',
+                          lancamento.id,
+                          'editar'
+                        ]">
+
+                        <i class="bi bi-pencil"></i>
+
+                      </a>
+
+                      <button
+                        type="button"
+                        class="acao-botao acao-excluir"
+                        title="Excluir lançamento"
+                        (click)="confirmarExclusao(lancamento)">
+
+                        <i class="bi bi-trash"></i>
+
+                      </button>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
 
     </div>
 
-    <div class="d-flex flex-column flex-md-row
-                   justify-content-between align-items-center
-                   gap-2 mt-3">
+    <div class="d-md-none">
 
-        <div class="text-muted small">
+      <div class="lancamentos-mobile">
 
-            {{ totalElementos() }} lançamento(s)
+        @for (
+          lancamento of lancamentos();
+          track lancamento.id
+        ) {
 
-            ·
+          <article class="lancamento-mobile-card">
 
-            Página
-            {{ paginaAtual() + 1 }}
-            de
-            {{ totalPaginas() }}
+            <div class="mobile-card-topo">
 
-        </div>
+              <div>
 
-        <div class="d-flex gap-2">
+                <div class="mobile-descricao">
+                  {{ lancamento.descricao }}
+                </div>
 
-            <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="paginaAtual() === 0"
-                (click)="paginaAnterior()">
-                Anterior
-            </button>
+                <div class="mobile-data">
+                  {{
+                    lancamento.dataLancamento
+                      | date:'dd/MM/yyyy'
+                  }}
+                </div>
 
-            <button type="button" class="btn btn-outline-secondary btn-sm" [disabled]="
-                        paginaAtual() >= totalPaginas() - 1
-                    " (click)="proximaPagina()">
-                Próxima
-            </button>
+              </div>
 
-        </div>
+              <div
+                class="mobile-valor"
+                [class.valor-receita]="lancamento.tipo === 'RECEITA'"
+                [class.valor-despesa]="lancamento.tipo === 'DESPESA'">
+
+                {{
+                  lancamento.valor
+                    | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+                }}
+
+              </div>
+
+            </div>
+
+            <div class="mobile-info">
+
+              <span
+                class="tipo-badge"
+                [class.tipo-receita]="lancamento.tipo === 'RECEITA'"
+                [class.tipo-despesa]="lancamento.tipo === 'DESPESA'">
+
+                @if (lancamento.tipo === 'RECEITA') {
+                  Receita
+                } @else {
+                  Despesa
+                }
+
+              </span>
+
+              <span>
+                {{ lancamento.categoria.nome }}
+              </span>
+
+              @if (lancamento.plataforma) {
+
+                <span>
+                  {{ lancamento.plataforma.nome }}
+                </span>
+
+              }
+
+            </div>
+
+            <div class="mobile-acoes">
+
+              <a
+                class="btn btn-outline-primary btn-sm"
+                [routerLink]="[
+                  '/lancamentos',
+                  lancamento.id,
+                  'editar'
+                ]">
+
+                <i class="bi bi-pencil"></i>
+
+                Editar
+
+              </a>
+
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                (click)="confirmarExclusao(lancamento)">
+
+                <i class="bi bi-trash"></i>
+
+                Excluir
+
+              </button>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
 
     </div>
 
-    } @else {
+    <div class="paginacao">
 
-    <div class="card shadow-sm border-0">
+      <div class="paginacao-info">
 
-        <div class="card-body text-center py-5">
+        <span>
+          {{ totalElementos() }} lançamento(s)
+        </span>
 
-            <p class="text-muted mb-0">
-                Nenhum lançamento encontrado.
-            </p>
+        <span class="paginacao-separador">
+          •
+        </span>
 
-        </div>
+        <span>
+          Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}
+        </span>
+
+      </div>
+
+      <div class="paginacao-acoes">
+
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          [disabled]="paginaAtual() === 0"
+          (click)="paginaAnterior()">
+
+          <i class="bi bi-chevron-left"></i>
+
+          Anterior
+
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          [disabled]="
+            paginaAtual() >= totalPaginas() - 1
+          "
+          (click)="proximaPagina()">
+
+          Próxima
+
+          <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+      </div>
 
     </div>
 
-    }
+  } @else {
+
+    <section class="estado-vazio">
+
+      <div class="estado-vazio-icone">
+        <i class="bi bi-receipt"></i>
+      </div>
+
+      <h2>
+        Nenhum lançamento encontrado
+      </h2>
+
+      <p>
+        Tente ajustar os filtros ou registre um novo lançamento.
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        routerLink="/lancamentos/novo">
+
+        <i class="bi bi-plus-lg"></i>
+
+        Novo lançamento
+
+      </button>
+
+    </section>
+
+  }
 
 </div>
 
 @if (lancamentoParaExcluir(); as lancamento) {
 
-    <app-modal-confirmacao
-        titulo="Excluir lançamento"
-        [mensagem]="
-            'Deseja realmente excluir o lançamento &quot;' +
-            lancamento.descricao +
-            '&quot;?'
-        "
-        textoConfirmar="Excluir"
-        [processando]="excluindo()"
-        (confirmar)="excluirLancamento()"
-        (cancelar)="cancelarExclusao()">
-    </app-modal-confirmacao>
+  <app-modal-confirmacao
+    titulo="Excluir lançamento"
+    [mensagem]="
+      'Deseja realmente excluir o lançamento &quot;' +
+      lancamento.descricao +
+      '&quot;?'
+    "
+    textoConfirmar="Excluir"
+    [processando]="excluindo()"
+    (confirmar)="excluirLancamento()"
+    (cancelar)="cancelarExclusao()">
+  </app-modal-confirmacao>
 
 }
