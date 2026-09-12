@@ -1,7 +1,6 @@
 <div class="dashboard">
 
   <div class="dashboard-cabecalho">
-
     <div>
       <h1>Dashboard</h1>
 
@@ -9,128 +8,471 @@
         Acompanhe o resumo das suas finanças
       </p>
     </div>
-
   </div>
 
   @if (resumo(); as resumo) {
 
-    <section class="resumo-grid">
+  <section class="resumo-grid">
 
-      <article class="resumo-card resumo-receitas">
+    <article class="resumo-card resumo-receitas">
 
-        <div class="resumo-card-topo">
+      <div class="resumo-card-topo">
 
-          <div class="resumo-icone">
-            <i class="bi bi-arrow-up-right"></i>
-          </div>
-
-          <span class="resumo-label">
-            Receitas
-          </span>
-
+        <div class="resumo-icone">
+          <i class="bi bi-arrow-up-right"></i>
         </div>
 
-        <div class="resumo-valor">
-          {{ resumo.totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-        </div>
-
-        <span class="resumo-descricao">
-          Total recebido hoje
+        <span class="resumo-label">
+          Receitas
         </span>
 
-      </article>
+      </div>
 
-      <article class="resumo-card resumo-despesas">
+      <div class="resumo-valor">
+        {{ resumo.totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </div>
 
-        <div class="resumo-card-topo">
+      <span class="resumo-descricao">
+        Total recebido hoje
+      </span>
 
-          <div class="resumo-icone">
-            <i class="bi bi-arrow-down-right"></i>
-          </div>
+    </article>
 
-          <span class="resumo-label">
-            Despesas
-          </span>
+    <article class="resumo-card resumo-despesas">
 
+      <div class="resumo-card-topo">
+
+        <div class="resumo-icone">
+          <i class="bi bi-arrow-down-right"></i>
         </div>
 
-        <div class="resumo-valor">
-          {{ resumo.totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-        </div>
-
-        <span class="resumo-descricao">
-          Total gasto hoje
+        <span class="resumo-label">
+          Despesas
         </span>
 
-      </article>
+      </div>
 
-      <article class="resumo-card resumo-saldo">
+      <div class="resumo-valor">
+        {{ resumo.totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </div>
 
-        <div class="resumo-card-topo">
+      <span class="resumo-descricao">
+        Total gasto hoje
+      </span>
 
-          <div class="resumo-icone">
-            <i class="bi bi-wallet2"></i>
-          </div>
+    </article>
 
-          <span class="resumo-label">
-            Saldo
-          </span>
+    <article class="resumo-card resumo-saldo">
 
+      <div class="resumo-card-topo">
+
+        <div class="resumo-icone">
+          <i class="bi bi-wallet2"></i>
         </div>
 
-        <div class="resumo-valor">
-          {{ resumo.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-        </div>
-
-        <span class="resumo-descricao">
-          Resultado do dia
+        <span class="resumo-label">
+          Saldo
         </span>
 
-      </article>
+      </div>
 
-    </section>
+      <div class="resumo-valor">
+        {{ resumo.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </div>
+
+      <span class="resumo-descricao">
+        Resultado do dia
+      </span>
+
+    </article>
+
+  </section>
 
   }
 
   @if (meta(); as meta) {
 
-    <section class="metas-secao">
+  <section class="metas-secao">
 
-      <div class="secao-cabecalho">
+    <div class="secao-cabecalho">
+      <div>
+        <h2>Metas</h2>
 
-        <div>
-          <h2>Metas</h2>
+        <p>
+          Veja o seu progresso financeiro
+        </p>
+      </div>
+    </div>
 
-          <p>
-            Veja o seu progresso financeiro
-          </p>
+    <div class="metas-grid">
+
+      <app-meta-card titulo="Meta diária" [valorMeta]="meta.metaDiaria" [saldo]="meta.saldoHoje"
+        [percentual]="meta.percentualMetaDiaria" [valorRestante]="meta.valorRestanteMetaDiaria"
+        [metaAtingida]="meta.metaDiariaAlcancada">
+      </app-meta-card>
+
+      <app-meta-card titulo="Meta mensal" [valorMeta]="meta.metaMensal" [saldo]="meta.saldoMes"
+        [percentual]="meta.percentualMetaMensal" [valorRestante]="meta.valorRestanteMetaMensal"
+        [metaAtingida]="meta.metaMensalAtingida">
+      </app-meta-card>
+
+    </div>
+
+  </section>
+
+  }
+
+  @if (
+  receitasPorPlataforma().length > 0 ||
+  despesasPorCategoria().length > 0
+  ) {
+
+  <section class="analises-secao">
+
+    <div class="secao-cabecalho">
+      <div>
+        <h2>Resumo do dia</h2>
+
+        <p>
+          Veja a distribuição das suas receitas e despesas
+        </p>
+      </div>
+    </div>
+
+    <div class="analises-grid">
+
+      @if (receitasPorPlataforma().length > 0) {
+
+      <article class="analise-card">
+
+        <div class="analise-card-cabecalho">
+
+          <div class="analise-card-icone receita">
+            <i class="bi bi-arrow-up-right"></i>
+          </div>
+
+          <div>
+            <h3>
+              Receitas por plataforma
+            </h3>
+
+            <span>
+              Ganhos registrados hoje
+            </span>
+          </div>
+
         </div>
 
+        <div class="analise-lista">
+
+          @for (
+          item of receitasPorPlataforma();
+          track item.plataforma
+          ) {
+
+          <div class="analise-item">
+
+            <div class="analise-item-info">
+
+              <strong>
+                {{ item.plataforma }}
+              </strong>
+
+              <span>
+                Receita do dia
+              </span>
+
+            </div>
+
+            <div class="analise-valor receita">
+              {{ item.totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </div>
+
+          </div>
+
+          }
+
+        </div>
+
+      </article>
+
+      }
+
+      @if (despesasPorCategoria().length > 0) {
+
+      <article class="analise-card">
+
+        <div class="analise-card-cabecalho">
+
+          <div class="analise-card-icone despesa">
+            <i class="bi bi-arrow-down-right"></i>
+          </div>
+
+          <div>
+            <h3>
+              Despesas por categoria
+            </h3>
+
+            <span>
+              Gastos registrados hoje
+            </span>
+          </div>
+
+        </div>
+
+        <div class="analise-lista">
+
+          @for (
+          item of despesasPorCategoria();
+          track item.categoria
+          ) {
+
+          <div class="analise-item">
+
+            <div class="analise-item-info">
+
+              <strong>
+                {{ item.categoria }}
+              </strong>
+
+              <span>
+                Despesa do dia
+              </span>
+
+            </div>
+
+            <div class="analise-valor despesa">
+              {{ item.totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </div>
+
+          </div>
+
+          }
+
+        </div>
+
+      </article>
+
+      }
+
+    </div>
+
+  </section>
+
+  }
+
+  @if (evolucaoDiaria().length > 0) {
+
+  <section class="grafico-secao">
+
+    <div class="secao-cabecalho">
+      <div>
+        <h2>Evolução financeira</h2>
+
+        <p>
+          Acompanhe receitas, despesas e saldo ao longo do mês
+        </p>
+      </div>
+    </div>
+
+    <div class="grafico-card">
+
+      <div class="grafico-container">
+
+        <canvas baseChart [type]="tipoGrafico" [data]="dadosGrafico()" [options]="opcoesGrafico">
+        </canvas>
+
       </div>
 
-      <div class="metas-grid">
+    </div>
 
-        <app-meta-card
-          titulo="Meta diária"
-          [valorMeta]="meta.metaDiaria"
-          [saldo]="meta.saldoHoje"
-          [percentual]="meta.percentualMetaDiaria"
-          [valorRestante]="meta.valorRestanteMetaDiaria"
-          [metaAtingida]="meta.metaDiariaAlcancada">
-        </app-meta-card>
+  </section>
 
-        <app-meta-card
-          titulo="Meta mensal"
-          [valorMeta]="meta.metaMensal"
-          [saldo]="meta.saldoMes"
-          [percentual]="meta.percentualMetaMensal"
-          [valorRestante]="meta.valorRestanteMetaMensal"
-          [metaAtingida]="meta.metaMensalAtingida">
-        </app-meta-card>
+  }
 
+  @if (indicadores(); as indicadores) {
+
+  <section class="indicadores-secao">
+
+    <div class="secao-cabecalho">
+      <div>
+        <h2>Indicadores do mês</h2>
+
+        <p>
+          Acompanhe os principais destaques do período
+        </p>
       </div>
+    </div>
 
-    </section>
+    <div class="indicadores-grid">
+
+      <article class="indicador-card">
+
+        <div class="indicador-icone positivo">
+          <i class="bi bi-graph-up-arrow"></i>
+        </div>
+
+        <div class="indicador-conteudo">
+
+          <span class="indicador-label">
+            Melhor dia
+          </span>
+
+          @if (indicadores.melhorDia) {
+
+          <strong>
+            {{ indicadores.melhorDia.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+
+          <small>
+            {{ formatarDataExibicao(indicadores.melhorDia.data) }}
+          </small>
+
+          } @else {
+
+          <strong>
+            Sem dados
+          </strong>
+
+          }
+
+        </div>
+
+      </article>
+
+      <article class="indicador-card">
+
+        <div class="indicador-icone negativo">
+          <i class="bi bi-graph-down-arrow"></i>
+        </div>
+
+        <div class="indicador-conteudo">
+
+          <span class="indicador-label">
+            Pior dia
+          </span>
+
+          @if (indicadores.piorDia) {
+
+          <strong>
+            {{ indicadores.piorDia.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+
+          <small>
+            {{ formatarDataExibicao(indicadores.piorDia.data) }}
+          </small>
+
+          } @else {
+
+          <strong>
+            Sem dados
+          </strong>
+
+          }
+
+        </div>
+
+      </article>
+
+      <article class="indicador-card">
+
+        <div class="indicador-icone primario">
+          <i class="bi bi-calculator"></i>
+        </div>
+
+        <div class="indicador-conteudo">
+
+          <span class="indicador-label">
+            Média diária
+          </span>
+
+          <strong>
+            {{ indicadores.mediaDiaria | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+
+          <small>
+            Saldo médio por dia
+          </small>
+
+        </div>
+
+      </article>
+
+      <article class="indicador-card">
+
+        <div class="indicador-icone primario">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+
+        <div class="indicador-conteudo">
+
+          <span class="indicador-label">
+            Dias trabalhados
+          </span>
+
+          <strong>
+            {{ indicadores.diasTrabalhados }}
+          </strong>
+
+          <small>
+            Dias com movimentação
+          </small>
+
+        </div>
+
+      </article>
+
+      <article class="indicador-card">
+
+        <div class="indicador-icone positivo">
+          <i class="bi bi-phone"></i>
+        </div>
+
+        <div class="indicador-conteudo">
+
+          <span class="indicador-label">
+            Melhor plataforma
+          </span>
+
+          <strong>
+            {{ indicadores.melhorPlataforma || 'Sem dados' }}
+          </strong>
+
+          <small>
+            Maior receita no período
+          </small>
+
+        </div>
+
+      </article>
+
+      <article class="indicador-card">
+
+        <div class="indicador-icone negativo">
+          <i class="bi bi-tags"></i>
+        </div>
+
+        <div class="indicador-conteudo">
+
+          <span class="indicador-label">
+            Maior categoria de despesa
+          </span>
+
+          <strong>
+            {{ indicadores.maiorCategoriaDespesa || 'Sem dados' }}
+          </strong>
+
+          <small>
+            Categoria com maior gasto
+          </small>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
 
   }
 

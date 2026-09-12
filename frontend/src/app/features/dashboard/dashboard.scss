@@ -156,6 +156,267 @@
   gap: 16px;
 }
 
+.analises-secao {
+  margin-top: 32px;
+}
+
+.analises-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.analise-card {
+  padding: 20px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.analise-card-cabecalho {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.analise-card-icone {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  font-size: 18px;
+}
+
+.analise-card-icone.receita {
+  background-color: #e9f9ef;
+  color: #198754;
+}
+
+.analise-card-icone.despesa {
+  background-color: #fff1f2;
+  color: #dc3545;
+}
+
+.analise-card-cabecalho h3 {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.analise-card-cabecalho span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #adb5bd;
+
+  font-size: 12px;
+}
+
+.analise-lista {
+  border-top: 1px solid #f1f3f5;
+}
+
+.analise-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.analise-item:last-child {
+  border-bottom: 0;
+}
+
+.analise-item-info {
+  min-width: 0;
+}
+
+.analise-item-info strong,
+.analise-item-info span {
+  display: block;
+}
+
+.analise-item-info strong {
+  color: #343a40;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.analise-item-info span {
+  margin-top: 2px;
+
+  color: #adb5bd;
+
+  font-size: 12px;
+}
+
+.analise-valor {
+  flex-shrink: 0;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.analise-valor.receita {
+  color: #198754;
+}
+
+.analise-valor.despesa {
+  color: #dc3545;
+}
+
+.grafico-secao {
+  margin-top: 32px;
+}
+
+.grafico-card {
+  padding: 20px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.grafico-container {
+  position: relative;
+
+  width: 100%;
+  height: 360px;
+}
+
+.indicadores-secao {
+  margin-top: 32px;
+}
+
+.indicadores-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.indicador-card {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  padding: 18px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.indicador-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+}
+
+.indicador-icone {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  font-size: 18px;
+}
+
+.indicador-icone.positivo {
+  background-color: #e9f9ef;
+  color: #198754;
+}
+
+.indicador-icone.negativo {
+  background-color: #fff1f2;
+  color: #dc3545;
+}
+
+.indicador-icone.primario {
+  background-color: #eef4ff;
+  color: #0d6efd;
+}
+
+.indicador-conteudo {
+  min-width: 0;
+}
+
+.indicador-label,
+.indicador-conteudo strong,
+.indicador-conteudo small {
+  display: block;
+}
+
+.indicador-label {
+  margin-bottom: 5px;
+
+  color: #868e96;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.indicador-conteudo strong {
+  color: #212529;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  word-break: break-word;
+}
+
+.indicador-conteudo small {
+  margin-top: 4px;
+
+  color: #adb5bd;
+
+  font-size: 12px;
+}
+
 @media (max-width: 991.98px) {
 
   .resumo-grid {
@@ -164,6 +425,14 @@
 
   .metas-grid {
     grid-template-columns: 1fr;
+  }
+
+  .analises-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .indicadores-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 }
@@ -186,6 +455,30 @@
 
   .resumo-valor {
     font-size: 23px;
+  }
+
+  .analise-card {
+    padding: 16px;
+  }
+
+  .analise-item {
+    padding: 12px 0;
+  }
+
+  .grafico-card {
+    padding: 16px;
+  }
+
+  .grafico-container {
+    height: 300px;
+  }
+
+  .indicadores-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .indicador-card {
+    padding: 16px;
   }
 
 }
