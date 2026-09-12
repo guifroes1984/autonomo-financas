@@ -39,8 +39,22 @@ export class Header implements OnInit {
   }
 
   sair(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this.authService.logout()
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/login']);
+        },
+
+        error: erro => {
+          console.error(
+            'Erro ao realizar logout:',
+            erro
+          );
+
+          this.authService.limparTokens();
+          this.router.navigate(['/login']);
+        }
+      });
   }
 
   private carregarPerfil(): void {
