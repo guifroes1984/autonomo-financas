@@ -250,4 +250,42 @@ public class GlobalExceptionHandler {
                                 .body(erro);
         }
 
+        @ExceptionHandler(RefreshTokenInvalidoException.class)
+        public ResponseEntity<ErroResponse> tratarRefreshTokenInvalido(
+                        RefreshTokenInvalidoException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.UNAUTHORIZED;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
+        @ExceptionHandler(RefreshTokenExpiradoException.class)
+        public ResponseEntity<ErroResponse> tratarRefreshTokenExpirado(
+                        RefreshTokenExpiradoException exception,
+                        HttpServletRequest request) {
+
+                HttpStatus status = HttpStatus.UNAUTHORIZED;
+
+                ErroResponse erro = new ErroResponse(
+                                OffsetDateTime.now(),
+                                status.value(),
+                                status.getReasonPhrase(),
+                                exception.getMessage(),
+                                request.getRequestURI());
+
+                return ResponseEntity
+                                .status(status)
+                                .body(erro);
+        }
+
 }

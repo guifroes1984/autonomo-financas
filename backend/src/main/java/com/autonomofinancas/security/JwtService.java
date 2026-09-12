@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import com.autonomofinancas.config.JwtProperties;
+import com.autonomofinancas.entity.Usuario;
 
 @Service
 public class JwtService {
@@ -32,7 +33,13 @@ public class JwtService {
 
     public String gerarToken(Authentication authentication) {
 
-        UsuarioDetails usuario = (UsuarioDetails) authentication.getPrincipal();
+        UsuarioDetails usuarioDetails =
+                (UsuarioDetails) authentication.getPrincipal();
+
+        return gerarToken(usuarioDetails.getUsuario());
+    }
+
+    public String gerarToken(Usuario usuario) {
 
         Instant agora = Instant.now();
 
@@ -44,7 +51,7 @@ public class JwtService {
                 .issuer(ISSUER)
                 .issuedAt(agora)
                 .expiresAt(expiracao)
-                .subject(usuario.getUsername())
+                .subject(usuario.getEmail())
                 .claim(CLAIM_USER_ID, usuario.getId())
                 .build();
 

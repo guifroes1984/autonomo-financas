@@ -1,8 +1,8 @@
 package com.autonomofinancas.dto.response;
 
-public record LoginResponse(
+public record RefreshTokenResponse(
+
         String accessToken,
-        String refreshToken,
         String tokenType,
         long expiresIn) {
 }

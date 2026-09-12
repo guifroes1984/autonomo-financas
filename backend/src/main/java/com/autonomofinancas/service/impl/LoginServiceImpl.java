@@ -9,7 +9,9 @@ import com.autonomofinancas.config.JwtProperties;
 import com.autonomofinancas.dto.request.LoginRequest;
 import com.autonomofinancas.dto.response.LoginResponse;
 import com.autonomofinancas.security.JwtService;
+import com.autonomofinancas.security.UsuarioDetails;
 import com.autonomofinancas.service.LoginService;
+import com.autonomofinancas.service.RefreshTokenService;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -17,19 +19,23 @@ public class LoginServiceImpl implements LoginService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final JwtProperties jwtProperties;
+    private final RefreshTokenService refreshTokenService;
 
     public LoginServiceImpl(
             AuthenticationManager authenticationManager,
             JwtService jwtService,
-            JwtProperties jwtProperties) {
+            JwtProperties jwtProperties,
+            RefreshTokenService refreshTokenService) {
 
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.jwtProperties = jwtProperties;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @Override
     public LoginResponse autenticar(LoginRequest request) {
+
         UsernamePasswordAuthenticationToken credenciais = new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getSenha());
@@ -38,8 +44,14 @@ public class LoginServiceImpl implements LoginService {
 
         String accessToken = jwtService.gerarToken(authentication);
 
+        UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
+
+        String refreshToken = refreshTokenService.criar(
+                usuarioDetails.getUsuario());
+
         return new LoginResponse(
                 accessToken,
+                refreshToken,
                 "Bearer",
                 jwtProperties.expiration());
     }
