@@ -206,6 +206,10 @@ public class RelatorioTemplateServiceImpl implements RelatorioTemplateService {
 
         private String formatarPercentual(BigDecimal valor) {
 
+                if (valor == null) {
+                        return "Novo";
+                }
+
                 NumberFormat formato = NumberFormat.getNumberInstance(
                                 new Locale("pt", "BR"));
 

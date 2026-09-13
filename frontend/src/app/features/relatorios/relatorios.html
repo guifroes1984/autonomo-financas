@@ -148,13 +148,17 @@
     <section class="secao-relatorio">
 
         <div class="secao-cabecalho">
+
             <div>
+
                 <h2>Resumo financeiro</h2>
 
                 <p>
                     Visão geral dos resultados do período selecionado
                 </p>
+
             </div>
+
         </div>
 
         <div class="resumo-grid">
@@ -263,13 +267,17 @@
     <section class="secao-relatorio">
 
         <div class="secao-cabecalho">
+
             <div>
+
                 <h2>Distribuição financeira</h2>
 
                 <p>
                     Veja de onde vieram suas receitas e onde ocorreram suas despesas
                 </p>
+
             </div>
+
         </div>
 
         <div class="distribuicao-grid">
@@ -287,8 +295,13 @@
                         </div>
 
                         <div>
+
                             <h3>Receitas por plataforma</h3>
-                            <p>Participação de cada plataforma</p>
+
+                            <p>
+                                Participação de cada plataforma
+                            </p>
+
                         </div>
 
                     </div>
@@ -355,8 +368,13 @@
                         </div>
 
                         <div>
+
                             <h3>Despesas por categoria</h3>
-                            <p>Distribuição dos seus gastos</p>
+
+                            <p>
+                                Distribuição dos seus gastos
+                            </p>
+
                         </div>
 
                     </div>
@@ -421,13 +439,17 @@
     <section class="secao-relatorio">
 
         <div class="secao-cabecalho">
+
             <div>
+
                 <h2>Comparativo entre períodos</h2>
 
                 <p>
                     Compare o desempenho atual com o período anterior
                 </p>
+
             </div>
+
         </div>
 
         <article class="comparativo-card">
@@ -441,6 +463,7 @@
                     </div>
 
                     <div>
+
                         <span>Período anterior</span>
 
                         <strong>
@@ -448,6 +471,7 @@
                             a
                             {{ comparativo.fimPeriodoAnterior | date:'dd/MM/yyyy' }}
                         </strong>
+
                     </div>
 
                 </div>
@@ -459,6 +483,7 @@
                     </div>
 
                     <div>
+
                         <span>Período atual</span>
 
                         <strong>
@@ -466,6 +491,7 @@
                             a
                             {{ comparativo.fimPeriodoAtual | date:'dd/MM/yyyy' }}
                         </strong>
+
                     </div>
 
                 </div>
@@ -484,11 +510,13 @@
                 <div class="comparativo-linha">
 
                     <div class="comparativo-indicador">
+
                         <div class="comparativo-icone receita">
                             <i class="bi bi-arrow-up-right"></i>
                         </div>
 
                         <span>Receitas</span>
+
                     </div>
 
                     <span>
@@ -498,6 +526,14 @@
                     <strong>
                         {{ comparativo.receitasPeriodoAtual | currency:'BRL' }}
                     </strong>
+
+                    @if (comparativo.variacaoReceitas === null) {
+
+                    <span class="variacao variacao-positiva">
+                        Novo
+                    </span>
+
+                    } @else {
 
                     <span class="variacao" [class.variacao-positiva]="comparativo.variacaoReceitas > 0"
                         [class.variacao-negativa]="comparativo.variacaoReceitas < 0">
@@ -510,16 +546,20 @@
 
                     </span>
 
+                    }
+
                 </div>
 
                 <div class="comparativo-linha">
 
                     <div class="comparativo-indicador">
+
                         <div class="comparativo-icone despesa">
                             <i class="bi bi-arrow-down-right"></i>
                         </div>
 
                         <span>Despesas</span>
+
                     </div>
 
                     <span>
@@ -530,8 +570,16 @@
                         {{ comparativo.despesasPeriodoAtual | currency:'BRL' }}
                     </strong>
 
-                    <span class="variacao" [class.variacao-positiva]="comparativo.variacaoDespesas > 0"
-                        [class.variacao-negativa]="comparativo.variacaoDespesas < 0">
+                    @if (comparativo.variacaoDespesas === null) {
+
+                    <span class="variacao">
+                        Novo
+                    </span>
+
+                    } @else {
+
+                    <span class="variacao" [class.variacao-positiva]="comparativo.variacaoDespesas < 0"
+                        [class.variacao-negativa]="comparativo.variacaoDespesas > 0">
 
                         @if (comparativo.variacaoDespesas > 0) {
                         +
@@ -541,16 +589,20 @@
 
                     </span>
 
+                    }
+
                 </div>
 
                 <div class="comparativo-linha">
 
                     <div class="comparativo-indicador">
+
                         <div class="comparativo-icone saldo">
                             <i class="bi bi-wallet2"></i>
                         </div>
 
                         <span>Saldo</span>
+
                     </div>
 
                     <span>
@@ -560,6 +612,14 @@
                     <strong>
                         {{ comparativo.saldoPeriodoAtual | currency:'BRL' }}
                     </strong>
+
+                    @if (comparativo.variacaoSaldo === null) {
+
+                    <span class="variacao variacao-positiva">
+                        Novo
+                    </span>
+
+                    } @else {
 
                     <span class="variacao" [class.variacao-positiva]="comparativo.variacaoSaldo > 0"
                         [class.variacao-negativa]="comparativo.variacaoSaldo < 0">
@@ -571,6 +631,8 @@
                         {{ comparativo.variacaoSaldo }}%
 
                     </span>
+
+                    }
 
                 </div>
 

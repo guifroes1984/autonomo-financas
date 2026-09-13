@@ -305,20 +305,25 @@ public class RelatorioServiceImpl implements RelatorioService {
         }
 
         private BigDecimal calcularVariacaoPercentual(
-                        BigDecimal valorAnterior,
-                        BigDecimal valorAtual) {
+        BigDecimal valorAnterior,
+        BigDecimal valorAtual) {
 
-                if (valorAnterior.compareTo(BigDecimal.ZERO) == 0) {
-                        return BigDecimal.ZERO.setScale(2);
+        if (valorAnterior.compareTo(BigDecimal.ZERO) == 0) {
+
+                if (valorAtual.compareTo(BigDecimal.ZERO) == 0) {
+                return BigDecimal.ZERO.setScale(2);
                 }
 
-                return valorAtual
-                                .subtract(valorAnterior)
-                                .multiply(BigDecimal.valueOf(100))
-                                .divide(
-                                                valorAnterior,
-                                                2,
-                                                RoundingMode.HALF_UP);
+                return null;
+        }
+
+        return valorAtual
+                .subtract(valorAnterior)
+                .multiply(BigDecimal.valueOf(100))
+                .divide(
+                        valorAnterior,
+                        2,
+                        RoundingMode.HALF_UP);
         }
 
 }
