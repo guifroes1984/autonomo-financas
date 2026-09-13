@@ -2,6 +2,7 @@ package com.autonomofinancas.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,12 @@ import com.autonomofinancas.security.JwtAuthenticationEntryPoint;
 
 @Configuration
 public class SecurityConfig {
+
+        private final String frontendUrl;
+
+        public SecurityConfig(@Value ("${app.frontend.url}") String frontendUrl) {
+                this.frontendUrl = frontendUrl;
+        }
 
         @Bean
         public PasswordEncoder passwordEncoder() {
@@ -77,7 +84,7 @@ public class SecurityConfig {
                 CorsConfiguration configuration = new CorsConfiguration();
 
                 configuration.setAllowedOrigins(
-                                List.of("http://localhost:4200"));
+                                List.of(frontendUrl));
 
                 configuration.setAllowedMethods(
                                 List.of(
