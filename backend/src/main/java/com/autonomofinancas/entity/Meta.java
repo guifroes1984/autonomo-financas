@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,6 +39,19 @@ public class Meta {
     private OffsetDateTime dataAtualizacao;
 
     public Meta() {
+    }
+
+    @PrePersist 
+    public void antesDeSalvar() {
+        OffsetDateTime agora = OffsetDateTime.now();
+
+        this.dataCriacao = agora;
+        this.dataAtualizacao = agora;
+    }
+
+    @PreUpdate 
+    public void antesDeAtualizar() {
+        this.dataAtualizacao = OffsetDateTime.now();
     }
 
     public Long getId() {
