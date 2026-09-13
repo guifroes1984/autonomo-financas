@@ -2,6 +2,8 @@ package com.autonomofinancas.exception;
 
 import java.time.OffsetDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,6 +19,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+        private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
         @ExceptionHandler(EmailJaCadastradoException.class)
         public ResponseEntity<ErroResponse> tratarEmailJaCadastrado(
@@ -162,6 +166,12 @@ public class GlobalExceptionHandler {
                         HttpServletRequest request) {
 
                 HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+                log.error(
+                "Erro inesperado ao processar {} {}",
+                        request.getMethod(),
+                        request.getRequestURI(),
+                        exception);
 
                 ErroResponse erro = new ErroResponse(
                                 OffsetDateTime.now(),
