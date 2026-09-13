@@ -34,3 +34,8 @@ build/
 
 ### Configurações locais ###
 src/main/resources/application-local.properties
+
+### Variáveis de ambiente ###
+.env
+.env.*
+!.env.example
