@@ -21,10 +21,10 @@ public class TokenRecuperacaoSenha {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @Column(nullable = false, length = 36, unique = true)
+    @Column(nullable = false, length = 100, unique = true)
     private String token;
 
     @Column(nullable = false)
