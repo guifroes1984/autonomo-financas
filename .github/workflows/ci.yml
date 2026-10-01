@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - main
+
   push:
     branches:
       - develop
@@ -14,6 +15,21 @@ jobs:
   backend:
     name: Backend CI
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: autonomo_financas
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d autonomo_financas"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     defaults:
       run:
@@ -35,6 +51,14 @@ jobs:
 
       - name: Executar testes do backend
         run: ./mvnw clean test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/autonomo_financas
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: postgres
+          JWT_SECRET: ci-test-secret-key-with-at-least-32-characters
+          MAIL_USERNAME: ci@example.com
+          MAIL_PASSWORD: ci-test-password
+          FRONTEND_URL: http://localhost:4200
 
   frontend:
     name: Frontend CI
