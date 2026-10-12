@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    image: autonomo-financas-backend:local
+    container_name: autonomo_financas_backend
+    restart: unless-stopped
+
+    ports:
+      - "127.0.0.1:8191:8080"
+
+    env_file:
+      - ./backend/.env.production
+
+    environment:
+      TZ: America/Sao_Paulo
+      JAVA_TOOL_OPTIONS: "-Duser.timezone=America/Sao_Paulo"
