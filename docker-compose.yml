@@ -17,3 +17,11 @@ services:
     environment:
       TZ: America/Sao_Paulo
       JAVA_TOOL_OPTIONS: "-Duser.timezone=America/Sao_Paulo"
+
+    networks:
+      - autonomo_financas
+
+networks:
+  autonomo_financas:
+    external: true
+    name: autonomo-financas_default
